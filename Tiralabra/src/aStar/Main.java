@@ -1,4 +1,4 @@
-package a_star;
+package aStar;
 
 /*
  * To change this template, choose Tools | Templates

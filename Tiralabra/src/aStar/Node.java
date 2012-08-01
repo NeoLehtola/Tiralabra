@@ -1,5 +1,5 @@
 
-package a_star;
+package aStar;
 
 /**
  *
@@ -12,17 +12,19 @@ public class Node {
     private int f;
     private int g;
     private int h;
+    private int taulukonPituus;
     
     // tarviiko noden tietää parent ja successor?
     public Node(int[] currentState, int g, int h) {
         this.currentState = currentState;
+        this.taulukonPituus = currentState.length;
         this.g = g;
         this.h = h;
         this.f = g + h;
     }
     
     // currentState sisältää tiedon nykyisestä pelitilanteesta taulukkomuodossa
-    public int[] getCurrentState() {
+    public int[] getTilanne() {
         return currentState;
     }
     
@@ -52,7 +54,10 @@ public class Node {
     public int getH() {
         return h;
     }
-    
+
+    public int getPituus() {
+        return taulukonPituus;
+    }
     
     
     
