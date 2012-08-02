@@ -1,4 +1,4 @@
-package aStar;
+package idaStar;
 
 /**
  * A* -algoritmilla toteutettava haku verkosta, jossa solmut ovat pelitilanteita
@@ -6,13 +6,13 @@ package aStar;
  * 
  * 
  */
-public class aStarHaku {
+public class IDAStarHaku {
 
     private Node startNode;
     private Node goalNode;
     private int pituus;
 
-    public aStarHaku(Node startNode, Node goalNode) {
+    public IDAStarHaku(Node startNode, Node goalNode) {
         this.startNode = startNode;
         this.goalNode = goalNode;
         // koska kaikissa tiloissa pelilaudan koko on sama, kaikkien nodejen 

@@ -1,5 +1,5 @@
 
-package aStar;
+package idaStar;
 
 /**
  *
@@ -23,22 +23,33 @@ public class Node {
         this.f = g + h;
     }
     
-    // currentState sisältää tiedon nykyisestä pelitilanteesta taulukkomuodossa
+    /** currentState sisältää tiedon nykyisestä pelitilanteesta taulukkomuodossa
+     * 
+     * @return tilanne
+     */
     public int[] getTilanne() {
         return currentState;
     }
     
-    // f = g + h
+    /**
+     * f = g + h, eli tämänhetkinen "cost" + arvio
+     * @param f 
+     */
     public void setF(int f) {
         this.f = f;
     }
     
-    //  'g' is the sum of all the costs it took to get here
+    /**  
+     * 'g' = summa kaikista tämänastisista costeista
+     */
     public void setG(int g) {
         this.g = g;
     }
     
-    //  'h' is our heuristic function, the estimate of what it will take to get to the goal.
+    /**
+     * heuristiikkafunktio, arvio siitä paljonko siirtoja vielä tarvitaan
+     * @param h 
+     */
     public void setH(int h) {
         this.h = h;
     }
@@ -55,6 +66,10 @@ public class Node {
         return h;
     }
 
+    /**
+     * Noden kapseloiman taulukon pituus; tietoa tarvitaan haussa
+     * @return taulukon pituus
+     */
     public int getPituus() {
         return taulukonPituus;
     }

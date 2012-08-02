@@ -1,9 +1,8 @@
-package aStarTest;
-
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+package idaStarTest;
 
 import org.junit.*;
 import static org.junit.Assert.*;
@@ -12,9 +11,9 @@ import static org.junit.Assert.*;
  *
  * @author neom
  */
-public class NodeTest {
+public class IDAStarHakuTest {
     
-    public NodeTest() {
+    public IDAStarHakuTest() {
     }
 
     @BeforeClass

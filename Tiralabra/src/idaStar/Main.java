@@ -1,4 +1,4 @@
-package aStar;
+package idaStar;
 
 /*
  * To change this template, choose Tools | Templates
