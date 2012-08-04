@@ -5,3 +5,4 @@
 *.war
 *.ear
 /Tiralabra/nbproject/private/
+/Tiralabra/build/

@@ -7,6 +7,9 @@ package idaStarTest;
 
 import org.junit.*;
 import static org.junit.Assert.*;
+import sovelluslogiikka.Pelitapahtuma;
+import sovelluslogiikka.SiirtavaPelilauta;
+import idaStar.Node;
 
 /**
  *
@@ -32,9 +35,27 @@ public class NodeTest {
     @After
     public void tearDown() {
     }
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
+    
+    @Test
+    public void konstruktoriLuoUudenNodenJollaPelitilanneTaulukkona() {
+        Pelitapahtuma peli = new Pelitapahtuma(3, 3, 1000);
+        
+        int[] syote = new int[9];
+        int syoteIndeksi = 0;
+        
+        for (int i = 0; i < peli.getPelilauta().getKorkeus(); i++) {
+            for (int j = 0; j < peli.getPelilauta().getLeveys(); j++) {
+                syote[syoteIndeksi] = peli.getPelilauta().getNappula(i, j).getTunniste();
+                syoteIndeksi++;
+            }      
+        }
+        
+        Node node = new Node(syote, 0, 0);
+        
+        for (int i = 0; i < node.getPituus(); i++) {
+            String nro = node.getTilanne()[i] + "";
+            assertTrue(nro.matches("[1-8]") || nro.equals("-1"));
+  
+        }
+    }
 }

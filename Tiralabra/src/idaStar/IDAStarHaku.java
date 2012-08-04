@@ -24,23 +24,18 @@ public class IDAStarHaku {
         // taulukon pituus on sama.
         this.pituus = goalNode.getPituus();
     }
-
-    /**
-     * arvio siitä, kuinka monta siirtoa vielä tarvitaan. Kaava: ....
-     * @param node 
-     */
-    public void heuristiikka(Node node) {
-        int arvo = 0; 
+    
+    public void depthLimitedSearch(int startCost, int costLimit ) {
         
-        for (int i = 0; i < pituus; i++) {
-            
-        }
+        
     }
+
+
     
     /**
      * Metodi tarkistaa, onko käsiteltävä node maali, eli onko pelilauta järjestyksessä ja peli loppunut
      * @param current
-     * @return 
+     * @return true jos peli loppunut 
      */
     public boolean isGoal(Node current) {
         
@@ -52,4 +47,17 @@ public class IDAStarHaku {
         
         return true;
     }
+    
+    
+    //    /**
+//     * arvio siitä, kuinka monta siirtoa vielä tarvitaan. Kaava: ....
+//     * @param node 
+//     */
+//    public void heuristiikka(Node node) {
+//        int arvo = 0; 
+//        
+//        for (int i = 0; i < pituus; i++) {
+//            
+//        }
+//    }
 }
