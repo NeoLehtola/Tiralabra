@@ -1,5 +1,7 @@
 package idaStar;
 
+import java.util.Stack;
+
 /**
  * IDA* -algoritmilla toteutettava haku verkosta, jossa solmut ovat pelitilanteita
  * aina seuraavan siirron jälkeen.
@@ -11,6 +13,7 @@ public class IDAStarHaku {
     private Node startNode;
     private Node goalNode;
     private int pituus;
+    private Stack<Node> pino;
 
     /**
      * 
@@ -25,8 +28,23 @@ public class IDAStarHaku {
         this.pituus = goalNode.getPituus();
     }
     
-    public void depthLimitedSearch(int startCost, int costLimit ) {
+    /**
+     * KESKEN! 
+     * @param startNode
+     * @param goalNode
+     * @param depth 
+     */
+    public Node depthLimitedSearch(Node node, Node goalNode, int depth) {
+        if (depth >= 0) {
+            if (node == goalNode) {
+                return node;
+            }
+        }
+        return null;
         
+    }
+    
+    public void expand(Node current) {
         
     }
 
