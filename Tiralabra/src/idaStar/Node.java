@@ -14,7 +14,6 @@ public class Node {
     private int h;
     private int taulukonPituus;
     
-    // tarviiko noden tietää parent ja successor?
     
     /**
      * 
@@ -62,14 +61,26 @@ public class Node {
         this.h = h;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public int getF() {
         return f;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public int getG() {
         return g;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public int getH() {
         return h;
     }
