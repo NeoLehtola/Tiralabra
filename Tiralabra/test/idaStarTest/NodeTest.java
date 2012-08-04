@@ -17,7 +17,10 @@ import idaStar.Node;
  */
 public class NodeTest {
     
+    int[] syote;
+    
     public NodeTest() {
+            
     }
 
     @BeforeClass
@@ -30,17 +33,9 @@ public class NodeTest {
     
     @Before
     public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
-    
-    @Test
-    public void konstruktoriLuoUudenNodenJollaPelitilanneTaulukkona() {
         Pelitapahtuma peli = new Pelitapahtuma(3, 3, 1000);
         
-        int[] syote = new int[9];
+        this.syote = new int[9];
         int syoteIndeksi = 0;
         
         for (int i = 0; i < peli.getPelilauta().getKorkeus(); i++) {
@@ -49,7 +44,15 @@ public class NodeTest {
                 syoteIndeksi++;
             }      
         }
-        
+    }
+    
+    @After
+    public void tearDown() {
+    }
+    
+    @Test
+    public void konstruktoriLuoUudenNodenJollaPelitilanneTaulukkona() {
+ 
         Node node = new Node(syote, 0, 0);
         
         for (int i = 0; i < node.getPituus(); i++) {
@@ -57,5 +60,14 @@ public class NodeTest {
             assertTrue(nro.matches("[1-8]") || nro.equals("-1"));
   
         }
+    }
+    
+    @Test
+    public void pelitilanneTaulukkoOnOikeanMittainen() {
+        
+         Node node = new Node(syote, 0, 0);  
+         
+         assertTrue(node.getPituus() == 9);
+             
     }
 }
