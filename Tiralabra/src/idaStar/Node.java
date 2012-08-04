@@ -15,6 +15,13 @@ public class Node {
     private int taulukonPituus;
     
     // tarviiko noden tietää parent ja successor?
+    
+    /**
+     * 
+     * @param currentState
+     * @param g
+     * @param h 
+     */
     public Node(int[] currentState, int g, int h) {
         this.currentState = currentState;
         this.taulukonPituus = currentState.length;
@@ -41,6 +48,7 @@ public class Node {
     
     /**  
      * 'g' = summa kaikista tämänastisista costeista
+     * @param g
      */
     public void setG(int g) {
         this.g = g;

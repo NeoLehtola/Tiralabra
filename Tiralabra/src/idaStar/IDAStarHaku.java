@@ -1,7 +1,7 @@
 package idaStar;
 
 /**
- * A* -algoritmilla toteutettava haku verkosta, jossa solmut ovat pelitilanteita
+ * IDA* -algoritmilla toteutettava haku verkosta, jossa solmut ovat pelitilanteita
  * aina seuraavan siirron jälkeen.
  * 
  * 
@@ -12,6 +12,11 @@ public class IDAStarHaku {
     private Node goalNode;
     private int pituus;
 
+    /**
+     * 
+     * @param startNode
+     * @param goalNode 
+     */
     public IDAStarHaku(Node startNode, Node goalNode) {
         this.startNode = startNode;
         this.goalNode = goalNode;
@@ -22,6 +27,7 @@ public class IDAStarHaku {
 
     /**
      * arvio siitä, kuinka monta siirtoa vielä tarvitaan. Kaava: ....
+     * @param node 
      */
     public void heuristiikka(Node node) {
         int arvo = 0; 
