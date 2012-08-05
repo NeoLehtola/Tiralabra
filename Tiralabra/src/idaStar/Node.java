@@ -14,9 +14,16 @@ public class Node {
     private int h;
     private int taulukonPituus;
     
+    /**
+     * Noden luominen ilman heuristiikkafunktiota
+     * @param currentState 
+     */
+    public Node(int[] currentState) {
+        this.currentState = currentState;
+    }
     
     /**
-     * 
+     * Noden luominen heuristiikalla
      * @param currentState
      * @param g
      * @param h 
