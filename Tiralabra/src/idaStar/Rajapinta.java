@@ -4,6 +4,7 @@ package idaStar;
 import sovelluslogiikka.Pelitapahtuma;
 
 /**
+ * Luokka käsittelee toistaiseksi vain nodeja, joihin ei ole liitetty mitään heuristiikkaa
  * Rajapinta on työnimi, kehitän jotain parempaa
  */
 public class Rajapinta {
@@ -35,7 +36,7 @@ public class Rajapinta {
     }
     
     /**
-     * apumetodi
+     * apumetodi startNoden luomista varten
      * @return taulukko jossa pelitilanne numeroina alkusekoituksen jälkeen
      */
     private int[] otaAlkuArvotTalteenPelilaudalta() {
@@ -52,7 +53,7 @@ public class Rajapinta {
     }
     
     /**
-     * apumetodi
+     * apumetodi goalNoden luomista varten
      * @return taulukko jossa numerot järjestyksessä ja viimeisenä tyhjä (-1);
      */
     private int[] luoGoalNodenArvot() {
@@ -66,14 +67,17 @@ public class Rajapinta {
     }
     
     
-    public Node luoNodeIlmanHeuristiikkaa() {
+    public Node luoSeuraavaNode() {
+        // pitänee ottaa edelliset muistiin??? missä ja miten?
+        
+        
         return null;
     }
     
 
     /**
-     * 
-     * @return 
+     * palauttaa noden luomiseen käytetyn pelitilannetaulukon pituuden
+     * @return taulukon pituus
      */
     public int getNodeTaulukonPituus() {
         return nodeTaulukonPituus;
