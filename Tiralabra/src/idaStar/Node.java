@@ -51,6 +51,14 @@ public class Node {
     }
     
     /**
+     * tilanne matriisina
+     * @return currentStateMatrix
+     */
+    public int[][] getTilanneMatriisina() {
+        return currentStateMatrix;
+    }
+    
+    /**
      * f = g + h, eli tämänhetkinen "cost" + arvio
      * @param f 
      */

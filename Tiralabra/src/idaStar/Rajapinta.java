@@ -1,6 +1,7 @@
 
 package idaStar;
 
+import java.util.PriorityQueue;
 import sovelluslogiikka.Pelitapahtuma;
 
 /**
@@ -67,7 +68,8 @@ public class Rajapinta {
     }
     
     
-            /**
+    // pitääkös tää metodi nyt olla erikseen alkutilanteelle ja muille 
+    /**
      * Node tietää pelitilanteen myös matriisimuodossa, siirtojen tekemisen helpottamiseksi
      * @return matriisi
      */
@@ -94,16 +96,23 @@ public class Rajapinta {
     }
     
     /**
-     * generoi uuden noden joka vastaa seuraavaa siirtoa
-     * @param current Node jolle halutaan lapsi
-     * @return palauttaa uuden noden
+     * tekee priority queueen nykyistä nodea seuraavat siirrot
+     * @param current Node jolle halutaan lapset
+     * @return palauttaa noden lapset priority queuena.
      */
-    public Node luoSeuraavaNode(Node current) {
+    public PriorityQueue luoNodelleLapset(Node current) {
+        int[][] nykyinen = current.getTilanneMatriisina();
         
-        
+        for (int i = 0; i < nykyinen.length; i++) {
+            for (int j = 0; j < nykyinen[i].length; j++) {
+                
+            }
+        }
         
         return null;
     }
+    
+    
     
 
     /**
