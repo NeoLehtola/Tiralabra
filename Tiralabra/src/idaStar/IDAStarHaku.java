@@ -1,6 +1,5 @@
 package idaStar;
 
-import java.util.Stack;
 
 /**
  * IDA* -algoritmilla toteutettava haku verkosta, jossa solmut ovat
@@ -14,7 +13,7 @@ public class IDAStarHaku {
     private Node startNode;
     private Node goalNode;
     private int pituus;
-    private Stack<Node> pino;
+
 
     /**
      *Konstruktori
@@ -70,7 +69,8 @@ public class IDAStarHaku {
      * luonnostelma. voi olla että solmun laajentaminen ei tapahdu tällaisella metodilla
      * @param current käsiteltävä solmu josta laajennetaan seuraaviin siirtoihin
      */
-    public void expand(Node current) {
+    public void expand(Node current, Rajapinta r) {
+        
     }
 
     /**

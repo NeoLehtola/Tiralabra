@@ -17,7 +17,7 @@ public class Rajapinta {
     /**
      * konstruktori
      *
-     * @param peli luodaan uusi Pelitapahtuma-olio
+     * @param peli pelitapahtuma-olio
      */
     public Rajapinta(Pelitapahtuma peli) {
         this.peli = peli;
@@ -70,14 +70,6 @@ public class Rajapinta {
         return arvot;
     }
 
-    /**
-     * en ole varma tarviiko tätä erikseen
-     *
-     * @return
-     */
-    private int[][] maalitilanneMatriisina() {
-        return null;
-    }
 
     // seuraava megametodi pitää ehdottomasti pilkkoa pienemmäksi. eihän tota lue erkkikään.
     /**

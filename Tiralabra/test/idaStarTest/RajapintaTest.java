@@ -57,4 +57,35 @@ public class RajapintaTest {
         assertArrayEquals(maalitilanne, r.getGoalNode().getTilanne());
     }
     
+    @Test
+    public void lapsiaJonossaKaksiKunOllaanNurkassa() {
+        
+    }
+    
+    @Test
+    public void lapsiaJonossaKolmeKunOllaanReunassa() {
+        
+    }
+    
+    @Test
+    public void lapsiaJonossaNeljaKunOllaanKeskella() {
+        
+    }
+    
+    
+    
+    @Test
+    public void lapsetOikeinKunNiitaKaksi() {
+        
+    }
+    
+    @Test
+    public void lapsetOikeinKunNiitaKolme() {
+        
+    }
+    
+    @Test
+    public void lapsetOikeinKunNiitaNelja() {
+        
+    }
 }
