@@ -87,4 +87,20 @@ public class Rajapinta {
         return nodeTaulukonPituus;
     }
     
+    /**
+     * palauttaa aloitussolmun
+     * @return startNode 
+     */
+    public Node getStartNode() {
+        return startNode;
+    }
+    
+    /**
+     * palauttaa maalisolmun, jossa napit ovat järjestyksessä
+     * @return goalNode
+     */
+    public Node getGoalNode() {
+        return goalNode;
+    }
+    
 }
