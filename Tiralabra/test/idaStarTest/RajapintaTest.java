@@ -56,4 +56,12 @@ public class RajapintaTest {
         
         assertArrayEquals(maalitilanne, r.getGoalNode().getTilanne());
     }
+    
+    @Test
+    public void tilanneMatriisinaAntaaOikeanTilanteen() {
+        
+        Pelitapahtuma testiPeli = new Pelitapahtuma(4, 4, 10000);
+        Rajapinta r = new Rajapinta(testiPeli);    
+        
+    }
 }

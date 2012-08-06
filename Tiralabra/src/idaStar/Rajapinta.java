@@ -21,8 +21,8 @@ public class Rajapinta {
     public Rajapinta(Pelitapahtuma peli) {
         this.peli = peli;
         this.nodeTaulukonPituus = laskeNodeTaulukonPituus();
-        this.startNode = new Node(otaAlkuArvotTalteenPelilaudalta());
-        this.goalNode = new Node(luoGoalNodenArvot());
+        this.startNode = new Node(otaAlkuArvotTalteenPelilaudalta(), tilanneMatriisina());
+        this.goalNode = new Node(luoGoalNodenArvot(), maalitilanneMatriisina());
     }
     
     /**
@@ -66,13 +66,40 @@ public class Rajapinta {
         return arvot;
     }
     
+    
+            /**
+     * Node tietää pelitilanteen myös matriisimuodossa, siirtojen tekemisen helpottamiseksi
+     * @return matriisi
+     */
+    private int[][] tilanneMatriisina() {
+        int leveys = peli.getPelilauta().getLeveys();
+        int korkeus = peli.getPelilauta().getKorkeus();
+        int[][] matriisi = new int[korkeus][leveys];
+        
+        for (int i = 0; i < korkeus; i++) {
+            for (int j = 0; j < leveys; j++) {
+                matriisi[i][j] = peli.getPelilauta().getNappula(i, j).getTunniste();
+            }
+        }
+        
+        return matriisi;
+    }
+    
+    /**
+     * en ole varma tarviiko tätä erikseen
+     * @return 
+     */
+    private int[][] maalitilanneMatriisina() {
+        return null;
+    }
+    
     /**
      * generoi uuden noden joka vastaa seuraavaa siirtoa
      * @param current Node jolle halutaan lapsi
      * @return palauttaa uuden noden
      */
     public Node luoSeuraavaNode(Node current) {
-        // pitänee ottaa edelliset muistiin??? missä ja miten?
+        
         
         
         return null;
