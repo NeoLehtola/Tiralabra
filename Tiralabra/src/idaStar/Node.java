@@ -9,7 +9,7 @@ package idaStar;
 public class Node {
     
     private int[] currentState;
-    private int[][] currentStateMatrix;
+    
     private int f;
     private int g;
     private int h;
@@ -19,9 +19,9 @@ public class Node {
      * Noden luominen ilman heuristiikkafunktiota
      * @param currentState 
      */
-    public Node(int[] currentState, int[][] currentStateMatrix) {
+    public Node(int[] currentState) {
         this.currentState = currentState;
-        this.currentStateMatrix = currentStateMatrix;
+        
     }
     
     /**
@@ -30,10 +30,10 @@ public class Node {
      * @param g
      * @param h 
      */
-    public Node(int[] currentState, int[][] currentStateMatrix, int g, int h) {
+    public Node(int[] currentState, int g, int h) {
         this.currentState = currentState;
         this.taulukonPituus = currentState.length;
-        this.currentStateMatrix = currentStateMatrix;
+        
         this.g = g;
         this.h = h;
         this.f = g + h;
@@ -50,13 +50,6 @@ public class Node {
         return currentState;
     }
     
-    /**
-     * tilanne matriisina
-     * @return currentStateMatrix
-     */
-    public int[][] getTilanneMatriisina() {
-        return currentStateMatrix;
-    }
     
     /**
      * f = g + h, eli tämänhetkinen "cost" + arvio

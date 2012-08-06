@@ -22,8 +22,8 @@ public class Rajapinta {
     public Rajapinta(Pelitapahtuma peli) {
         this.peli = peli;
         this.nodeTaulukonPituus = laskeNodeTaulukonPituus();
-        this.startNode = new Node(otaAlkuArvotTalteenPelilaudalta(), tilanneMatriisina());
-        this.goalNode = new Node(luoGoalNodenArvot(), maalitilanneMatriisina());
+        this.startNode = new Node(otaAlkuArvotTalteenPelilaudalta());
+        this.goalNode = new Node(luoGoalNodenArvot());
     }
     
     /**
@@ -68,24 +68,6 @@ public class Rajapinta {
     }
     
     
-    // pitääkös tää metodi nyt olla erikseen alkutilanteelle ja muille 
-    /**
-     * Node tietää pelitilanteen myös matriisimuodossa, siirtojen tekemisen helpottamiseksi
-     * @return matriisi
-     */
-    private int[][] tilanneMatriisina() {
-        int leveys = peli.getPelilauta().getLeveys();
-        int korkeus = peli.getPelilauta().getKorkeus();
-        int[][] matriisi = new int[korkeus][leveys];
-        
-        for (int i = 0; i < korkeus; i++) {
-            for (int j = 0; j < leveys; j++) {
-                matriisi[i][j] = peli.getPelilauta().getNappula(i, j).getTunniste();
-            }
-        }
-        
-        return matriisi;
-    }
     
     /**
      * en ole varma tarviiko tätä erikseen
@@ -101,13 +83,8 @@ public class Rajapinta {
      * @return palauttaa noden lapset priority queuena.
      */
     public PriorityQueue luoNodelleLapset(Node current) {
-        int[][] nykyinen = current.getTilanneMatriisina();
         
-        for (int i = 0; i < nykyinen.length; i++) {
-            for (int j = 0; j < nykyinen[i].length; j++) {
-                
-            }
-        }
+  
         
         return null;
     }
