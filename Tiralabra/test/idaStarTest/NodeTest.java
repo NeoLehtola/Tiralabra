@@ -66,7 +66,6 @@ public class NodeTest {
     public void pelitilanneTaulukkoOnOikeanMittainen() {
         
          Node node = new Node(syote, 0, 0);  
-         
          assertTrue(node.getPituus() == 9);
              
     }
