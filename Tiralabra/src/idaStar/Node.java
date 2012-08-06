@@ -69,24 +69,24 @@ public class Node {
     }
 
     /**
-     * 
-     * @return 
+     * palauttaa tähän mennessä tehtyjen siirtojen kustannukset + arvioidut kustannukset eli f = g+f
+     * @return f
      */
     public int getF() {
         return f;
     }
 
     /**
-     * 
-     * @return 
+     * Palauttaa tähän mennessä tehtyjen siirtojen kustannukset
+     * @return g
      */
     public int getG() {
         return g;
     }
 
     /**
-     * 
-     * @return 
+     * Palauttaa arvion siitä, paljonko vielä tekemättömät siirrot maksavat
+     * @return h
      */
     public int getH() {
         return h;

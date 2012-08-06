@@ -15,8 +15,8 @@ public class Rajapinta {
     private Node goalNode;
     
     /**
-     * 
-     * @param peli 
+     * konstruktori
+     * @param peli luodaan uusi Pelitapahtuma-olio
      */
     public Rajapinta(Pelitapahtuma peli) {
         this.peli = peli;
@@ -26,7 +26,7 @@ public class Rajapinta {
     }
     
     /**
-     * apumetodi
+     * apumetodi konstruktorille
      * @return pelilaudan nappuloiden määrä, joka on taulukon pituus
      */
     private int laskeNodeTaulukonPituus() {
@@ -36,7 +36,7 @@ public class Rajapinta {
     }
     
     /**
-     * apumetodi startNoden luomista varten
+     * apumetodi konstruktorille startNoden luomista varten
      * @return taulukko jossa pelitilanne numeroina alkusekoituksen jälkeen
      */
     private int[] otaAlkuArvotTalteenPelilaudalta() {
@@ -53,7 +53,7 @@ public class Rajapinta {
     }
     
     /**
-     * apumetodi goalNoden luomista varten
+     * apumetodi konstruktorille goalNoden luomista varten
      * @return taulukko jossa numerot järjestyksessä ja viimeisenä tyhjä (-1);
      */
     private int[] luoGoalNodenArvot() {
@@ -66,8 +66,12 @@ public class Rajapinta {
         return arvot;
     }
     
-    
-    public Node luoSeuraavaNode() {
+    /**
+     * generoi uuden noden joka vastaa seuraavaa siirtoa
+     * @param current Node jolle halutaan lapsi
+     * @return palauttaa uuden noden
+     */
+    public Node luoSeuraavaNode(Node current) {
         // pitänee ottaa edelliset muistiin??? missä ja miten?
         
         

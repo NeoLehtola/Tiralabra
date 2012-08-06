@@ -6,7 +6,8 @@ import java.util.Stack;
  * IDA* -algoritmilla toteutettava haku verkosta, jossa solmut ovat
  * pelitilanteita aina seuraavan siirron jälkeen.
  *
- *
+ * Voi olla että tämä jakautuu vielä useampaan luokkaan. ehkä IDDFS ilman heuristiikkaa
+ * menee omaan luokkaansa
  */
 public class IDAStarHaku {
 
@@ -16,9 +17,9 @@ public class IDAStarHaku {
     private Stack<Node> pino;
 
     /**
-     *
-     * @param startNode
-     * @param goalNode
+     *Konstruktori
+     * @param startNode pelin sekoitettu alkutilanne
+     * @param goalNode haluttu lopputilanne, eli järjestetty taulukko jossa lopussa tyhjää tarkoittava -1
      */
     public IDAStarHaku(Node startNode, Node goalNode) {
         this.startNode = startNode;
@@ -30,7 +31,7 @@ public class IDAStarHaku {
 
     /**
      * KESKEN!
-     *
+     * Hahmotelma rajatusta syvyyshausta, rekursiivinen
      * @param startNode
      * @param goalNode
      * @param depth
@@ -45,10 +46,10 @@ public class IDAStarHaku {
     }
 
     /**
-     * 
+     * Iteratiivinen syvyyshaku, joka kutsuu DLS:ää
      * @param root
      * @param goalNode
-     * @return 
+     * @return loppusolmun eli maalin
      */
     public Node iterativeDeepeningSearch(Node root, Node goalNode) {
         int depth = 0;
@@ -65,6 +66,10 @@ public class IDAStarHaku {
     // tämä ei tule olemaan void, vaan ehkä Stack?
     // miten expand-operaatio käytännössä toteutetaan?
     // rajapinta kytketään tähän luokkaan, ja annetaan expandille syötteeksi generoidut nodet?
+    /**
+     * luonnostelma. voi olla että solmun laajentaminen ei tapahdu tällaisella metodilla
+     * @param current käsiteltävä solmu josta laajennetaan seuraaviin siirtoihin
+     */
     public void expand(Node current) {
     }
 
@@ -72,7 +77,7 @@ public class IDAStarHaku {
      * Metodi tarkistaa, onko käsiteltävä node maali, eli onko pelilauta
      * järjestyksessä ja peli loppunut
      *
-     * @param current
+     * @param current käsiteltävä solmu
      * @return true jos peli loppunut
      */
     public boolean isGoal(Node current) {
