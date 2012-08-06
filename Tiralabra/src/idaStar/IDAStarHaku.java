@@ -1,6 +1,6 @@
 package idaStar;
 
-
+import java.util.PriorityQueue;
 /**
  * IDA* -algoritmilla toteutettava haku verkosta, jossa solmut ovat
  * pelitilanteita aina seuraavan siirron jälkeen.
@@ -39,7 +39,8 @@ public class IDAStarHaku {
         if (depth >= 0 && node == goalNode) {
             return node;
         } else if (depth > 0) {
-            
+            // tähän nyt expand-metodin palauttama PriorityQueue
+            // 
         }
         return null;
     }
@@ -62,15 +63,16 @@ public class IDAStarHaku {
         }      
     }
     
-    // tämä ei tule olemaan void, vaan ehkä Stack?
+    // tämä ei tule olemaan void, vaan ehkä PriorityQueue?
     // miten expand-operaatio käytännössä toteutetaan?
     // rajapinta kytketään tähän luokkaan, ja annetaan expandille syötteeksi generoidut nodet?
     /**
      * luonnostelma. voi olla että solmun laajentaminen ei tapahdu tällaisella metodilla
      * @param current käsiteltävä solmu josta laajennetaan seuraaviin siirtoihin
      */
-    public void expand(Node current, Rajapinta r) {
-        
+    public PriorityQueue<Node> expand(Node current, Rajapinta r) {
+        PriorityQueue<Node> lapsiJono = r.luoNodelleLapset(current);
+        return lapsiJono;
     }
 
     /**
