@@ -113,6 +113,12 @@ public class Rajapinta {
             // tarkista että indeksit menee oikein!!!!!
             if (i == tyhjanIndeksi - 1 && i+1%pelilaudanLeveys != 0) {
             }
+            
+            if (i == tyhjanIndeksi + 1 )
+            
+            if (i == tyhjanIndeksi + pelilaudanLeveys) {
+                vaihdaKeskenaan(uusiSiirto, i, tyhjanIndeksi);
+            }
         }
 
 

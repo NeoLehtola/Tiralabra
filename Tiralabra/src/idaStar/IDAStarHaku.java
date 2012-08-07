@@ -85,16 +85,14 @@ public class IDAStarHaku {
      * @return true jos peli loppunut
      */
     public boolean isGoal(Node current) {
-
+        
         for (int i = 0; i < pituus; i++) {
             if (current.getTilanne()[i] != goalNode.getTilanne()[i]) {
                 return false;
-            }
+            }     
         }
-
         return true;
-        
-        
+              
     }
     //    /**
 //     * arvio siitä, kuinka monta siirtoa vielä tarvitaan. Kaava: ....

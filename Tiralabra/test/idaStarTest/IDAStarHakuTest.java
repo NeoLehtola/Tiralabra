@@ -5,6 +5,7 @@
 package idaStarTest;
 
 import idaStar.IDAStarHaku;
+import idaStar.Node;
 import idaStar.Rajapinta;
 import org.junit.*;
 import static org.junit.Assert.*;
@@ -39,6 +40,13 @@ public class IDAStarHakuTest {
     @After
     public void tearDown() {
     }
+    
+    @Test
+    public void goalNodenSisaltoOnOikea() {
+        int[] maali = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, -1};
+        
+        assertArrayEquals(maali, haku.getGoalNode().getTilanne());
+    }
 
     @Test
     public void isGoalTunnistaaMaalisolmun() {
@@ -46,10 +54,12 @@ public class IDAStarHakuTest {
         assertTrue(haku.isGoal(haku.getGoalNode()));
     }
 
-    // tämä ei toimi, tarkista miksi!!!!
+
     @Test
     public void isGoalPalauttaaFalseJosSolmuOnVaara() {
+        int[] arvot = {1, 2, 4, 3, 5, 6, 7, 8, 10, 9, 11, 12, 13, 15, 15, -1};
+        Node random = new Node(arvot);
         // siis väärä, ei vaara
-        assertFalse(haku.isGoal(haku.getStartNode()));
+        assertFalse(haku.isGoal(random));
     }
 }
