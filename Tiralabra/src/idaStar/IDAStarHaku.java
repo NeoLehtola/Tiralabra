@@ -13,6 +13,7 @@ public class IDAStarHaku {
     private Node startNode;
     private Node goalNode;
     private int pituus;
+    private PriorityQueue<Node> lapsijono;
 
 
     /**
@@ -34,13 +35,15 @@ public class IDAStarHaku {
      * @param startNode
      * @param goalNode
      * @param depth
+     * @return öö. katotaan mitäs tän pitikään palauttaa.
      */
     public Node depthLimitedSearch(Node node, Node goalNode, int depth) {
         if (depth >= 0 && node == goalNode) {
             return node;
         } else if (depth > 0) {
             // tähän nyt expand-metodin palauttama PriorityQueue
-            // 
+            depthLimitedSearch(lapsijono.poll(), goalNode, depth-1); 
+            
         }
         return null;
     }
@@ -63,16 +66,15 @@ public class IDAStarHaku {
         }      
     }
     
-    // tämä ei tule olemaan void, vaan ehkä PriorityQueue?
-    // miten expand-operaatio käytännössä toteutetaan?
-    // rajapinta kytketään tähän luokkaan, ja annetaan expandille syötteeksi generoidut nodet?
+   
     /**
-     * luonnostelma. voi olla että solmun laajentaminen ei tapahdu tällaisella metodilla
+     * expand-metodi on tekemisissä rajapinnan kanssa
      * @param current käsiteltävä solmu josta laajennetaan seuraaviin siirtoihin
+     * @param r Rajapinta joka tuntee sekä pelin että haun
      */
-    public PriorityQueue<Node> expand(Node current, Rajapinta r) {
-        PriorityQueue<Node> lapsiJono = r.luoNodelleLapset(current);
-        return lapsiJono;
+    public void expand(Node current, Rajapinta r) {
+        this.lapsijono = r.luoNodelleLapset(current);
+        
     }
 
     /**
@@ -91,6 +93,8 @@ public class IDAStarHaku {
         }
 
         return true;
+        
+        
     }
     //    /**
 //     * arvio siitä, kuinka monta siirtoa vielä tarvitaan. Kaava: ....
@@ -103,4 +107,20 @@ public class IDAStarHaku {
 //            
 //        }
 //    }
+
+    /**
+     * palauttaa maalisolmun
+     * @return goalNode
+     */
+    public Node getGoalNode() {
+        return goalNode;
+    }
+
+    /**
+     * palauttaa lähtötilanteen solmun
+     * @return startNode
+     */
+    public Node getStartNode() {
+        return startNode;
+    }
 }
