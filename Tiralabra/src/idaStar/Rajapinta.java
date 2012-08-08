@@ -84,15 +84,11 @@ public class Rajapinta {
         int pelilaudanLeveys = peli.getPelilauta().getLeveys();
         int pelilaudanKorkeus = peli.getPelilauta().getKorkeus();
 
-        int[] uusiSiirto = new int[current.getPituus()];
-
-        for (int i = 0; i < uusiSiirto.length; i++) {
-            uusiSiirto[i] = current.getTilanne()[i];
-        }
+        int[] uusiSiirto = kopioiTaulukko(current.getTilanne());
 
         int tyhjanIndeksi = -1;
 
-        // järkevöitä silmukkaa. while?
+        // järkevöitä silmukkaa. while? vai binäärihaku?
         for (int i = 0; i < current.getPituus(); i++) {
             if (current.getTilanne()[i] == -1) {
                 tyhjanIndeksi = i;
@@ -100,43 +96,78 @@ public class Rajapinta {
             }
         }
 
+        while (true) {
+             
+            
+            break;
+        }
+        
 
 
 
         // tämä pitää nyt testata huolellisesti, toimiiko ensinkään
-        for (int i = 0; i < current.getPituus(); i++) {
-            if (i == tyhjanIndeksi - pelilaudanLeveys) {
-                vaihdaKeskenaan(uusiSiirto, i, tyhjanIndeksi);
-                //jono.add(new Node());
-            }
-
-            // jos i+1%pelilaudanLeveys == 0, nappula on vasemmassa reunassa
-            // tarkista että indeksit menee oikein!!!!!
-            if (i == tyhjanIndeksi - 1 && i+1%pelilaudanLeveys != 0) {
-            }
-            
-            if (i == tyhjanIndeksi + 1 )
-            
-            if (i == tyhjanIndeksi + pelilaudanLeveys) {
-                vaihdaKeskenaan(uusiSiirto, i, tyhjanIndeksi);
-            }
-        }
+        // ja copy-pastet pois. mieti ehdot ja rakenne!
+//        for (int i = 0; i < current.getPituus(); i++) {
+//            if (i == tyhjanIndeksi - pelilaudanLeveys) {
+//                jono.add(new Node(vaihdaKeskenaan(uusiSiirto, i, tyhjanIndeksi)));
+//                
+//            }
+//
+//            // jos tyhjanIndeksi%pelilaudanLeveys == 0, nappula on vasemmassa reunassa
+//            // tarkista että indeksit menee oikein!!!!!
+//            if (i == tyhjanIndeksi - 1 && tyhjanIndeksi%pelilaudanLeveys != 0) {
+//                jono.add(new Node(vaihdaKeskenaan(uusiSiirto, i, tyhjanIndeksi)));
+//            }
+//            
+//            if (i == tyhjanIndeksi+1  && tyhjanIndeksi+1%pelilaudanLeveys != 0) {
+//                jono.add(new Node(vaihdaKeskenaan(uusiSiirto, i, tyhjanIndeksi)));
+//            }
+//            
+//            if (i == tyhjanIndeksi + pelilaudanLeveys) {
+//                jono.add(new Node(vaihdaKeskenaan(uusiSiirto, i, tyhjanIndeksi)));
+//            }
+//        }
 
 
 
         return jono;
+    }
+    
+    /**
+     * manuaalinen System.arraycopy
+     * @param alkup
+     * @return uusi taulukko, joka on kopio
+     */
+    
+    private int[] kopioiTaulukko(int[] alkup) {
+        int[] uusi = new int[alkup.length];
+
+        for (int i = 0; i < uusi.length; i++) {
+            uusi[i] = alkup[i];
+        }
+        return uusi;
+    }
+    
+    /**
+     * apumetodi
+     * @return 
+     */
+    private int binäärihaku() {
+        return -1;
     }
 
     /**
      * apumetodi nodejonon luovalle metodille
      *
      * @param taulukko jossa pelitilanteen vaihto tehdään
+     * @return muutettu taulukko
      */
-    // tämän pitää itse asiassa palauttaa uusi taulukko, jonka voi suoraan syöttää nodelle parametrina
-    private void vaihdaKeskenaan(int[] taulukko, int i , int tyhjanIndeksi) {
+    // en nyt ole ihan varma että tapahtuuko muutos oikeaan taulukkoon... let's see.
+    private int[] vaihdaKeskenaan(int[] taulukko, int i , int tyhjanIndeksi) {
         int apu = taulukko[i];
         taulukko[i] = taulukko[tyhjanIndeksi];
         taulukko[tyhjanIndeksi] = apu;
+        return taulukko;
     }
 
     /**
