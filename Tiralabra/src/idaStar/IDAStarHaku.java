@@ -70,10 +70,10 @@ public class IDAStarHaku {
     /**
      * expand-metodi on tekemisissä rajapinnan kanssa
      * @param current käsiteltävä solmu josta laajennetaan seuraaviin siirtoihin
-     * @param r Rajapinta joka tuntee sekä pelin että haun
+     * @param r IDDFSRajapinta joka tuntee sekä pelin että haun
      */
-    public void expand(Node current, Rajapinta r) {
-        this.lapsijono = r.luoNodelleLapset(current);
+    public void expand(Node current, IDDFSRajapinta r) {
+//        this.lapsijono = r.luoNodelleLapsetJonoon(current);
         
     }
 

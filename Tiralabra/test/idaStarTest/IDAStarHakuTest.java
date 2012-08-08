@@ -6,7 +6,7 @@ package idaStarTest;
 
 import idaStar.IDAStarHaku;
 import idaStar.Node;
-import idaStar.Rajapinta;
+import idaStar.IDDFSRajapinta;
 import org.junit.*;
 import static org.junit.Assert.*;
 import sovelluslogiikka.Pelitapahtuma;
@@ -17,7 +17,7 @@ import sovelluslogiikka.Pelitapahtuma;
  */
 public class IDAStarHakuTest {
     
-    private Rajapinta r;
+    private IDDFSRajapinta r;
     private IDAStarHaku haku;
 
     public IDAStarHakuTest() {
@@ -33,7 +33,7 @@ public class IDAStarHakuTest {
 
     @Before
     public void setUp() {
-        r = new Rajapinta(new Pelitapahtuma(4, 4, 10000));
+        r = new IDDFSRajapinta(new Pelitapahtuma(4, 4, 10000));
         haku = new IDAStarHaku(r.getStartNode(), r.getGoalNode());
     }
 

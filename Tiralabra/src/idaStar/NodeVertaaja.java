@@ -4,15 +4,19 @@
  */
 package idaStar;
 
+import java.util.Comparator;
+
 /**
  *
  * @author neom
  */
-public class NodeVertaaja implements Comparable<Node> {
+public class NodeVertaaja implements Comparator<Node> {
 
     @Override
-    public int compareTo(Node o) {
+    public int compare(Node o1, Node o2) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+
     
 }

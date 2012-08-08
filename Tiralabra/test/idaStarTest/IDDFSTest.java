@@ -11,9 +11,9 @@ import static org.junit.Assert.*;
  *
  * @author neom
  */
-public class RajapintaTest {
+public class IDDFSTest {
     
-    public RajapintaTest() {
+    public IDDFSTest() {
     }
 
     @BeforeClass

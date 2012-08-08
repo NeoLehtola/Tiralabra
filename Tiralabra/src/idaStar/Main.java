@@ -10,7 +10,7 @@ public class Main {
 
     public static void main(String[] args) {
         
-        Rajapinta r = new Rajapinta(new Pelitapahtuma(4, 4, 10000));
+        IDDFSRajapinta r = new IDDFSRajapinta(new Pelitapahtuma(4, 4, 10000));
         IDAStarHaku haku = new IDAStarHaku(r.getStartNode(), r.getGoalNode());
         
         boolean joo = haku.isGoal(r.getStartNode());

@@ -5,8 +5,6 @@ package idaStar;
  *
  * @author neom
  */
-public abstract class Rajapinta {
-    
-    
+public class IDDFS {
     
 }
