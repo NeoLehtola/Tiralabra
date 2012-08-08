@@ -4,8 +4,9 @@ import java.util.PriorityQueue;
 import sovelluslogiikka.Pelitapahtuma;
 
 /**
+ * Tämä luokka yhdistää toisiinsa 15-pelin toteutuksen ja hakualgoritmin luomalla algoritmille oikean malliset syötteet.
  * Luokka käsittelee toistaiseksi vain nodeja, joihin ei ole liitetty mitään
- * heuristiikkaa Rajapinta on työnimi, kehitän jotain parempaa
+ * heuristiikkaa. 
  */
 public class Rajapinta {
 
@@ -70,7 +71,7 @@ public class Rajapinta {
         return arvot;
     }
 
-    // seuraava megametodi pitää ehdottomasti pilkkoa pienemmäksi. eihän tota lue erkkikään.
+ 
     /**
      * tekee priority queueen nykyistä nodea seuraavat siirrot
      *
@@ -79,51 +80,100 @@ public class Rajapinta {
      */
     public PriorityQueue luoNodelleLapset(Node current) {
         PriorityQueue<Node> jono = new PriorityQueue<Node>();
-
-        int pelilaudanLeveys = peli.getPelilauta().getLeveys();
-        int pelilaudanKorkeus = peli.getPelilauta().getKorkeus();
-
-        int[] uusiSiirto = kopioiTaulukko(current.getTilanne());
-        int tyhjanIndeksi = perakkaisHaku(current.getTilanne());
-
+        int[] tilanne = current.getTilanne();
+        int laudanLeveys = peli.getPelilauta().getLeveys();        
+        int tyhjanIndeksi = perakkaisHaku(tilanne);
         
-        while (true) {
-
-
-            break;
-        }
-
-
-
-
-        // tämä pitää nyt testata huolellisesti, toimiiko ensinkään
-        // ja copy-pastet pois. mieti ehdot ja rakenne!
-//        for (int i = 0; i < current.getPituus(); i++) {
-//            if (i == tyhjanIndeksi - pelilaudanLeveys) {
-//                jono.add(new Node(vaihdaKeskenaan(uusiSiirto, i, tyhjanIndeksi)));
-//                
-//            }
-//
-//            // jos tyhjanIndeksi%pelilaudanLeveys == 0, nappula on vasemmassa reunassa
-//            // tarkista että indeksit menee oikein!!!!!
-//            if (i == tyhjanIndeksi - 1 && tyhjanIndeksi%pelilaudanLeveys != 0) {
-//                jono.add(new Node(vaihdaKeskenaan(uusiSiirto, i, tyhjanIndeksi)));
-//            }
-//            
-//            if (i == tyhjanIndeksi+1  && tyhjanIndeksi+1%pelilaudanLeveys != 0) {
-//                jono.add(new Node(vaihdaKeskenaan(uusiSiirto, i, tyhjanIndeksi)));
-//            }
-//            
-//            if (i == tyhjanIndeksi + pelilaudanLeveys) {
-//                jono.add(new Node(vaihdaKeskenaan(uusiSiirto, i, tyhjanIndeksi)));
-//            }
-//        }
-
-
+        // PriorityQueuen ei pitäisi hyväksyä nulleja, joten jonoon menevät todelliset nodet
+        jono.add(vaihdaOikeanpuolimmaiseen(tilanne, laudanLeveys, tyhjanIndeksi));
+        jono.add(vaihdaVasemmanpuolimmaiseen(tilanne, laudanLeveys, tyhjanIndeksi));
+        jono.add(vaihdaYlapuoliseen(tilanne, laudanLeveys, tyhjanIndeksi));
+        jono.add(vaihdaAlapuoliseen(tilanne, laudanLeveys, tyhjanIndeksi));
 
         return jono;
     }
+
     
+    /**
+     * 
+     * @param tilanne
+     * @param laudanLeveys 
+     * @param tyhjanIndeksi
+     * @return 
+     */
+    private Node vaihdaOikeanpuolimmaiseen(int[] tilanne, int laudanLeveys, int tyhjanIndeksi) {
+        
+        int i = tyhjanIndeksi+1;
+        
+        // ollaanko oikeassa reunassa
+        if (i == tilanne.length || i%laudanLeveys == 0) {
+            return null;
+        }
+        
+        Node node = new Node(teeUusiSiirtotilanne(tilanne, i, tyhjanIndeksi));
+        return node;
+    }
+    
+    /**
+     * 
+     * @param tilanne
+     * @param laudanLeveys 
+     * @param tyhjanIndeksi
+     * @return 
+     */
+    private Node vaihdaVasemmanpuolimmaiseen(int[] tilanne, int laudanLeveys, int tyhjanIndeksi) {
+        
+        int i = tyhjanIndeksi-1;
+        
+        // ollaanko vasemmassa reunassa
+        if (i < 0 || tyhjanIndeksi%laudanLeveys == 0) {
+            return null;
+        }
+        
+        Node node = new Node(teeUusiSiirtotilanne(tilanne, i, tyhjanIndeksi));
+        return node;
+    }
+    
+    /**
+     * 
+     * @param tilanne
+     * @param laudanLeveys
+     * @param tyhjanIndeksi
+     * @return 
+     */
+    private Node vaihdaYlapuoliseen(int[] tilanne, int laudanLeveys, int tyhjanIndeksi) {
+        
+        int i = tyhjanIndeksi-laudanLeveys;
+        
+        // ollaanko yläreunassa
+        if (i < 0) {
+            return null;
+        }
+        
+        Node node = new Node(teeUusiSiirtotilanne(tilanne, i, tyhjanIndeksi));
+        return node;
+    } 
+    
+    /**
+     * 
+     * @param tilanne
+     * @param laudanLeveys
+     * @param tyhjanIndeksi
+     * @return 
+     */
+    private Node vaihdaAlapuoliseen(int[] tilanne, int laudanLeveys, int tyhjanIndeksi) {
+        
+        int i = tyhjanIndeksi+laudanLeveys;
+        
+        if (i >= tilanne.length) {
+            return null;
+        }
+        
+        Node node = new Node(teeUusiSiirtotilanne(tilanne, i, tyhjanIndeksi));
+        return node;
+    }
+    
+     
     /**
      * apumetodi tyhjän napin (-1) löytämiseksi
      * @param taulukko
@@ -140,7 +190,7 @@ public class Rajapinta {
     }
 
     /**
-     * manuaalinen System.arraycopy
+     * kopion muodostaminen taulukosta
      *
      * @param alkup
      * @return uusi taulukko, joka on kopio
@@ -155,19 +205,19 @@ public class Rajapinta {
     }
 
 
-
     /**
      * apumetodi nodejonon luovalle metodille
      *
      * @param taulukko jossa pelitilanteen vaihto tehdään
      * @return muutettu taulukko
      */
-    // en nyt ole ihan varma että tapahtuuko muutos oikeaan taulukkoon... let's see.
-    private int[] vaihdaKeskenaan(int[] taulukko, int i, int tyhjanIndeksi) {
-        int apu = taulukko[i];
-        taulukko[i] = taulukko[tyhjanIndeksi];
-        taulukko[tyhjanIndeksi] = apu;
-        return taulukko;
+
+    private int[] teeUusiSiirtotilanne(int[] taulukko, int i, int tyhjanIndeksi) {
+        int[] uusiTilanne = kopioiTaulukko(taulukko);
+        int apu = uusiTilanne[i];
+        uusiTilanne[i] = uusiTilanne[tyhjanIndeksi];
+        uusiTilanne[tyhjanIndeksi] = apu;
+        return uusiTilanne;
     }
 
     /**
