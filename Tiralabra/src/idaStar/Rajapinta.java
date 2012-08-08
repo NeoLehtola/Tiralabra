@@ -4,9 +4,9 @@ import java.util.PriorityQueue;
 import sovelluslogiikka.Pelitapahtuma;
 
 /**
- * Tämä luokka yhdistää toisiinsa 15-pelin toteutuksen ja hakualgoritmin luomalla algoritmille oikean malliset syötteet.
- * Luokka käsittelee toistaiseksi vain nodeja, joihin ei ole liitetty mitään
- * heuristiikkaa. 
+ * Tämä luokka yhdistää toisiinsa 15-pelin toteutuksen ja hakualgoritmin
+ * luomalla algoritmille oikean malliset syötteet. Luokka käsittelee
+ * toistaiseksi vain nodeja, joihin ei ole liitetty mitään heuristiikkaa.
  */
 public class Rajapinta {
 
@@ -71,9 +71,9 @@ public class Rajapinta {
         return arvot;
     }
 
- 
     /**
-     * tekee priority queueen nykyistä nodea seuraavat siirrot
+     * tekee priority queueen nykyistä nodea seuraavat siirrot Huom. priority
+     * queuen käyttö johtuu siitä että myöhemmin nodeihin lisätään heuristiikat.
      *
      * @param current Node jolle halutaan lapset
      * @return palauttaa noden lapset priority queuena.
@@ -81,10 +81,10 @@ public class Rajapinta {
     public PriorityQueue luoNodelleLapset(Node current) {
         PriorityQueue<Node> jono = new PriorityQueue<Node>();
         int[] tilanne = current.getTilanne();
-        int laudanLeveys = peli.getPelilauta().getLeveys();        
+        int laudanLeveys = peli.getPelilauta().getLeveys();
         int tyhjanIndeksi = perakkaisHaku(tilanne);
-        
-        // PriorityQueuen ei pitäisi hyväksyä nulleja, joten jonoon menevät todelliset nodet
+
+
         jono.add(vaihdaOikeanpuolimmaiseen(tilanne, laudanLeveys, tyhjanIndeksi));
         jono.add(vaihdaVasemmanpuolimmaiseen(tilanne, laudanLeveys, tyhjanIndeksi));
         jono.add(vaihdaYlapuoliseen(tilanne, laudanLeveys, tyhjanIndeksi));
@@ -93,99 +93,98 @@ public class Rajapinta {
         return jono;
     }
 
-    
     /**
-     * 
-     * @param tilanne
-     * @param laudanLeveys 
-     * @param tyhjanIndeksi
-     * @return 
-     */
-    private Node vaihdaOikeanpuolimmaiseen(int[] tilanne, int laudanLeveys, int tyhjanIndeksi) {
-        
-        int i = tyhjanIndeksi+1;
-        
-        // ollaanko oikeassa reunassa
-        if (i == tilanne.length || i%laudanLeveys == 0) {
-            return null;
-        }
-        
-        Node node = new Node(teeUusiSiirtotilanne(tilanne, i, tyhjanIndeksi));
-        return node;
-    }
-    
-    /**
-     * 
-     * @param tilanne
-     * @param laudanLeveys 
-     * @param tyhjanIndeksi
-     * @return 
-     */
-    private Node vaihdaVasemmanpuolimmaiseen(int[] tilanne, int laudanLeveys, int tyhjanIndeksi) {
-        
-        int i = tyhjanIndeksi-1;
-        
-        // ollaanko vasemmassa reunassa
-        if (i < 0 || tyhjanIndeksi%laudanLeveys == 0) {
-            return null;
-        }
-        
-        Node node = new Node(teeUusiSiirtotilanne(tilanne, i, tyhjanIndeksi));
-        return node;
-    }
-    
-    /**
-     * 
+     *
      * @param tilanne
      * @param laudanLeveys
      * @param tyhjanIndeksi
-     * @return 
+     * @return
+     */
+    private Node vaihdaOikeanpuolimmaiseen(int[] tilanne, int laudanLeveys, int tyhjanIndeksi) {
+
+        int i = tyhjanIndeksi + 1;
+
+        // ollaanko oikeassa reunassa
+        if (i == tilanne.length || i % laudanLeveys == 0) {
+            return null;
+        }
+
+        Node node = new Node(teeUusiSiirtotilanne(tilanne, i, tyhjanIndeksi));
+        return node;
+    }
+
+    /**
+     *
+     * @param tilanne
+     * @param laudanLeveys
+     * @param tyhjanIndeksi
+     * @return
+     */
+    private Node vaihdaVasemmanpuolimmaiseen(int[] tilanne, int laudanLeveys, int tyhjanIndeksi) {
+
+        int i = tyhjanIndeksi - 1;
+
+        // ollaanko vasemmassa reunassa
+        if (i < 0 || tyhjanIndeksi % laudanLeveys == 0) {
+            return null;
+        }
+
+        Node node = new Node(teeUusiSiirtotilanne(tilanne, i, tyhjanIndeksi));
+        return node;
+    }
+
+    /**
+     *
+     * @param tilanne
+     * @param laudanLeveys
+     * @param tyhjanIndeksi
+     * @return
      */
     private Node vaihdaYlapuoliseen(int[] tilanne, int laudanLeveys, int tyhjanIndeksi) {
-        
-        int i = tyhjanIndeksi-laudanLeveys;
-        
+
+        int i = tyhjanIndeksi - laudanLeveys;
+
         // ollaanko yläreunassa
         if (i < 0) {
             return null;
         }
-        
-        Node node = new Node(teeUusiSiirtotilanne(tilanne, i, tyhjanIndeksi));
-        return node;
-    } 
-    
-    /**
-     * 
-     * @param tilanne
-     * @param laudanLeveys
-     * @param tyhjanIndeksi
-     * @return 
-     */
-    private Node vaihdaAlapuoliseen(int[] tilanne, int laudanLeveys, int tyhjanIndeksi) {
-        
-        int i = tyhjanIndeksi+laudanLeveys;
-        
-        if (i >= tilanne.length) {
-            return null;
-        }
-        
+
         Node node = new Node(teeUusiSiirtotilanne(tilanne, i, tyhjanIndeksi));
         return node;
     }
-    
-     
+
+    /**
+     *
+     * @param tilanne
+     * @param laudanLeveys
+     * @param tyhjanIndeksi
+     * @return
+     */
+    private Node vaihdaAlapuoliseen(int[] tilanne, int laudanLeveys, int tyhjanIndeksi) {
+
+        int i = tyhjanIndeksi + laudanLeveys;
+
+        if (i >= tilanne.length) {
+            return null;
+        }
+
+        Node node = new Node(teeUusiSiirtotilanne(tilanne, i, tyhjanIndeksi));
+        return node;
+    }
+
     /**
      * apumetodi tyhjän napin (-1) löytämiseksi
+     *
      * @param taulukko
-     * @return tyhjän kohdan indeksi 
+     * @return tyhjän kohdan indeksi
      */
     private int perakkaisHaku(int[] taulukko) {
-         for (int i = 0; i < taulukko.length; i++) {
+        for (int i = 0; i < taulukko.length; i++) {
             if (taulukko[i] == -1) {
                 return i;
             }
         }
-         // jos päästään tänne, jossain on jokin virhe
+        // jos päästään tänne, jossain on jokin virhe
         return -100;
     }
 
@@ -204,14 +203,12 @@ public class Rajapinta {
         return uusi;
     }
 
-
     /**
      * apumetodi nodejonon luovalle metodille
      *
      * @param taulukko jossa pelitilanteen vaihto tehdään
      * @return muutettu taulukko
      */
-
     private int[] teeUusiSiirtotilanne(int[] taulukko, int i, int tyhjanIndeksi) {
         int[] uusiTilanne = kopioiTaulukko(taulukko);
         int apu = uusiTilanne[i];
@@ -245,5 +242,13 @@ public class Rajapinta {
      */
     public Node getGoalNode() {
         return goalNode;
+    }
+
+    /**
+     * aloitussolmun manuaalinen asetus, lähinnä testausta varten
+     * @param startNode 
+     */
+    public void setStartNode(Node startNode) {
+        this.startNode = startNode;
     }
 }

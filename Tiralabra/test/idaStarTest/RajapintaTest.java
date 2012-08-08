@@ -4,6 +4,7 @@
  */
 package idaStarTest;
 
+import idaStar.Node;
 import org.junit.*;
 import static org.junit.Assert.*;
 import idaStar.Rajapinta;
@@ -14,6 +15,9 @@ import sovelluslogiikka.Pelitapahtuma;
  * @author neom
  */
 public class RajapintaTest {
+    
+    private Pelitapahtuma testiPeli;
+    private Rajapinta r;
 
     public RajapintaTest() {
     }
@@ -28,6 +32,9 @@ public class RajapintaTest {
 
     @Before
     public void setUp() {
+        testiPeli = new Pelitapahtuma(3, 3, 1000);
+        r = new Rajapinta(testiPeli);
+        
     }
 
     @After
@@ -37,9 +44,10 @@ public class RajapintaTest {
     @Test
     public void nodeTaulukonPituusOnOikea() {
 
-        Pelitapahtuma testiPeli = new Pelitapahtuma(5, 6, 10000);
-        Rajapinta r = new Rajapinta(testiPeli);
-        assertEquals(30, r.getNodeTaulukonPituus());
+       testiPeli = new Pelitapahtuma(5, 6, 10000);
+       r = new Rajapinta(testiPeli);
+
+       assertEquals(30, r.getNodeTaulukonPituus());
     }
     
     @Test 
@@ -50,26 +58,31 @@ public class RajapintaTest {
     @Test
     public void goalNodenArvotOvatJarjestyksessa() {
 
-        Pelitapahtuma testiPeli = new Pelitapahtuma(3, 3, 1000);
-        Rajapinta r = new Rajapinta(testiPeli);
         int[] maalitilanne = {1, 2, 3, 4, 5, 6, 7, 8, -1};
         
         assertArrayEquals(maalitilanne, r.getGoalNode().getTilanne());
     }
     
-    @Test
-    public void lapsiaJonossaKaksiKunOllaanNurkassa() {
-        
-    }
+//    @Test
+//    public void lapsiaJonossaKaksiKunOllaanNurkassa() {
+//        int[] testi = {-1, 3, 4, 8, 2, 6, 7, 5, 1};
+//        r.setStartNode(new Node(testi));
+//        
+//        assertEquals(2, r.luoNodelleLapset(r.getStartNode()).size());
+//        
+//    }
     
     @Test
     public void lapsiaJonossaKolmeKunOllaanReunassa() {
         
     }
-    
+   
     @Test
     public void lapsiaJonossaNeljaKunOllaanKeskella() {
+        int[] testi = {4, 3, 2, 1, -1, 8, 7, 6, 5};
+        r.setStartNode(new Node(testi));
         
+        assertEquals(4, r.luoNodelleLapset(r.getStartNode()).size());
     }
     
     
