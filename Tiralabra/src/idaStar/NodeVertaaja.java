@@ -8,6 +8,11 @@ package idaStar;
  *
  * @author neom
  */
-public class NodeVertaaja {
+public class NodeVertaaja implements Comparable<Node> {
+
+    @Override
+    public int compareTo(Node o) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     
 }
