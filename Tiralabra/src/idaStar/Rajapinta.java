@@ -70,7 +70,6 @@ public class Rajapinta {
         return arvot;
     }
 
-
     // seuraava megametodi pitää ehdottomasti pilkkoa pienemmäksi. eihän tota lue erkkikään.
     /**
      * tekee priority queueen nykyistä nodea seuraavat siirrot
@@ -85,23 +84,15 @@ public class Rajapinta {
         int pelilaudanKorkeus = peli.getPelilauta().getKorkeus();
 
         int[] uusiSiirto = kopioiTaulukko(current.getTilanne());
+        int tyhjanIndeksi = perakkaisHaku(current.getTilanne());
 
-        int tyhjanIndeksi = -1;
-
-        // järkevöitä silmukkaa. while? vai binäärihaku?
-        for (int i = 0; i < current.getPituus(); i++) {
-            if (current.getTilanne()[i] == -1) {
-                tyhjanIndeksi = i;
-                break;
-            }
-        }
-
+        
         while (true) {
-             
-            
+
+
             break;
         }
-        
+
 
 
 
@@ -134,11 +125,26 @@ public class Rajapinta {
     }
     
     /**
+     * apumetodi tyhjän napin (-1) löytämiseksi
+     * @param taulukko
+     * @return tyhjän kohdan indeksi 
+     */
+    private int perakkaisHaku(int[] taulukko) {
+         for (int i = 0; i < taulukko.length; i++) {
+            if (taulukko[i] == -1) {
+                return i;
+            }
+        }
+         // jos päästään tänne, jossain on jokin virhe
+        return -100;
+    }
+
+    /**
      * manuaalinen System.arraycopy
+     *
      * @param alkup
      * @return uusi taulukko, joka on kopio
      */
-    
     private int[] kopioiTaulukko(int[] alkup) {
         int[] uusi = new int[alkup.length];
 
@@ -147,14 +153,8 @@ public class Rajapinta {
         }
         return uusi;
     }
-    
-    /**
-     * apumetodi
-     * @return 
-     */
-    private int binäärihaku() {
-        return -1;
-    }
+
+
 
     /**
      * apumetodi nodejonon luovalle metodille
@@ -163,7 +163,7 @@ public class Rajapinta {
      * @return muutettu taulukko
      */
     // en nyt ole ihan varma että tapahtuuko muutos oikeaan taulukkoon... let's see.
-    private int[] vaihdaKeskenaan(int[] taulukko, int i , int tyhjanIndeksi) {
+    private int[] vaihdaKeskenaan(int[] taulukko, int i, int tyhjanIndeksi) {
         int apu = taulukko[i];
         taulukko[i] = taulukko[tyhjanIndeksi];
         taulukko[tyhjanIndeksi] = apu;
