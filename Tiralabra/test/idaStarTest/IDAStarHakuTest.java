@@ -57,7 +57,7 @@ public class IDAStarHakuTest {
 
     @Test
     public void isGoalPalauttaaFalseJosSolmuOnVaara() {
-        int[] arvot = {1, 2, 4, 3, 5, 6, 7, 8, 10, 9, 11, 12, 13, 15, 15, -1};
+        int[] arvot = {1, 2, 4, 3, 5, 6, 7, 8, 10, 9, 11, 12, 13, 15, 14, -1};
         Node random = new Node(arvot);
         // siis väärä, ei vaara
         assertFalse(haku.isGoal(random));

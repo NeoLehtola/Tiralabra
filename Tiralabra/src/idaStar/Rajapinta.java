@@ -107,6 +107,7 @@ public class Rajapinta {
         for (int i = 0; i < current.getPituus(); i++) {
             if (i == tyhjanIndeksi - pelilaudanLeveys) {
                 vaihdaKeskenaan(uusiSiirto, i, tyhjanIndeksi);
+                //jono.add(new Node());
             }
 
             // jos i+1%pelilaudanLeveys == 0, nappula on vasemmassa reunassa
@@ -123,7 +124,7 @@ public class Rajapinta {
 
 
 
-        return null;
+        return jono;
     }
 
     /**
@@ -131,6 +132,7 @@ public class Rajapinta {
      *
      * @param taulukko jossa pelitilanteen vaihto tehdään
      */
+    // tämän pitää itse asiassa palauttaa uusi taulukko, jonka voi suoraan syöttää nodelle parametrina
     private void vaihdaKeskenaan(int[] taulukko, int i , int tyhjanIndeksi) {
         int apu = taulukko[i];
         taulukko[i] = taulukko[tyhjanIndeksi];

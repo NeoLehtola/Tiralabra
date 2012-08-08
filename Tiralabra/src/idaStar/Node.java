@@ -21,7 +21,7 @@ public class Node {
      */
     public Node(int[] currentState) {
         this.currentState = currentState;
-        
+        this.taulukonPituus = currentState.length;
     }
     
     /**
@@ -31,8 +31,8 @@ public class Node {
      * @param h 
      */
     public Node(int[] currentState, int g, int h) {
-        this.currentState = currentState;
-        this.taulukonPituus = currentState.length;
+        // toimiiko? 
+        this(currentState);
         
         this.g = g;
         this.h = h;
