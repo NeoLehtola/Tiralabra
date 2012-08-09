@@ -29,6 +29,29 @@ public class IDDFS {
         this.pituus = goalNode.getPituus();
     }
     
+//    // tämä ei jää lopulliseen ohjelmaan! on testausta varten.
+//    private void tulostaTaulukko(Node n) {
+//        for (int i = 0; i < n.getPituus(); i++) {
+//            System.out.print(n.getTilanne()[i]);    
+//        }
+//        System.out.println("");
+//    }
+    
+    /**
+     * nodejen taulukkoarvojen vertailu
+     * @param eka
+     * @param toka
+     * @return true jos pelitilanne taulukossa on sama
+     */
+    private boolean vertaaNodeja(Node eka, Node toka) {
+        for (int i = 0; i < eka.getTilanne().length; i++) {
+            if (eka.getTilanne()[i] != toka.getTilanne()[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
     /**
      * 
      * Hahmotelma rajatusta syvyyshausta, rekursiivinen
@@ -41,7 +64,10 @@ public class IDDFS {
         if (depth >= 0 && node == goalNode) {
             return node;
         } else if (depth > 0) {
+            //tulostaTaulukko(node);
             expand(node, r);
+            //System.out.print("*");
+           // tulostaTaulukko(lapsiPino.peek());
             depthLimitedSearch(lapsiPino.pop(), goalNode, depth-1);       
         }
         return null;
@@ -49,20 +75,22 @@ public class IDDFS {
     
     /**
      * Iteratiivinen syvyyshaku, joka kutsuu DLS:ää
-     * @param root
+     * @param node
      * @param goalNode
-     * @return loppusolmun eli maalin
+     * @return loppusolmu eli maali
      */
-    public Node iterativeDeepeningSearch(Node root, Node goalNode) {
+    public Node iterativeDeepeningSearch(Node node, Node goalNode) {
         int depth = 0;
-        // tämä näyttää nyt hieman riskialttiilta!!!
-        while (true) {
-            Node result = depthLimitedSearch(root, goalNode, depth);
-            if (result == goalNode) {
-                return result;
-            }
+        Node result = null;
+        
+        while (result == null) {
+            result = depthLimitedSearch(node, goalNode, depth);
+//            if (result == goalNode) {
+//                return result;
+//            }
             depth++;
-        }      
+        } 
+        return result;
     }
     
     /**

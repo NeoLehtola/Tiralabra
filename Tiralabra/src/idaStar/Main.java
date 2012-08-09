@@ -11,10 +11,12 @@ public class Main {
 
     public static void main(String[] args) {
         
-        IDDFSRajapinta r = new IDDFSRajapinta(new Pelitapahtuma(3, 3, 5000));
+        IDDFSRajapinta r = new IDDFSRajapinta(new Pelitapahtuma(3, 3, 10));
 //        IDAStarHaku haku = new IDAStarHaku(r.getStartNode(), r.getGoalNode());
         IDDFS haku = new IDDFS(r);
-        Node n = haku.depthLimitedSearch(r.getStartNode(), r.getGoalNode(), 1);
+        int[] testi = {1, 2, 3, 4, 5, 6, 7, -1, 8};
+        Node n = haku.iterativeDeepeningSearch(new Node(testi), r.getGoalNode());
+        
 
         
     }
