@@ -8,8 +8,9 @@ import org.junit.*;
 import static org.junit.Assert.*;
 
 /**
- *
- * @author neom
+ * Tätä luokkaa ei ole vielä toteutettu, testit kopioitu ajalta jolloin luokat oli järjestelty eri tavoin
+ * ja siksi niitä pitää muuttaa
+ * 
  */
 public class IDAStarRajapintaTest {
     

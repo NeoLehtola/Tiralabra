@@ -5,8 +5,9 @@ import java.util.PriorityQueue;
  * IDA* -algoritmilla toteutettava haku verkosta, jossa solmut ovat
  * pelitilanteita aina seuraavan siirron jälkeen.
  *
- * Voi olla että tämä jakautuu vielä useampaan luokkaan. ehkä IDDFS ilman heuristiikkaa
- * menee omaan luokkaansa
+ * Huom. Tämä luokka on pahasti vaiheessa! Pois kommentoidut metodit on siirretty IDDFS-luokkaan.
+ * Näiden välinen työnjako ja yhteydet eivät ole vielä ihan selvillä.
+ * 
  */
 public class IDAStarHaku {
 

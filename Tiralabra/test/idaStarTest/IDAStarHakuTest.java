@@ -12,8 +12,8 @@ import static org.junit.Assert.*;
 import sovelluslogiikka.Pelitapahtuma;
 
 /**
- *
- * @author neom
+ * IDAStarHaku-luokka on niin pahasti vaiheessa, ettei sitä voi vielä paljon testailla.
+ * 
  */
 public class IDAStarHakuTest {
     
@@ -48,18 +48,5 @@ public class IDAStarHakuTest {
         assertArrayEquals(maali, haku.getGoalNode().getTilanne());
     }
 
-//    @Test
-//    public void isGoalTunnistaaMaalisolmun() {
-//
-//        assertTrue(haku.isGoal(haku.getGoalNode()));
-//    }
-//
-//
-//    @Test
-//    public void isGoalPalauttaaFalseJosSolmuOnVaara() {
-//        int[] arvot = {1, 2, 4, 3, 5, 6, 7, 8, 10, 9, 11, 12, 13, 15, 14, -1};
-//        Node random = new Node(arvot);
-//        // siis väärä, ei vaara
-//        assertFalse(haku.isGoal(random));
-//    }
+
 }

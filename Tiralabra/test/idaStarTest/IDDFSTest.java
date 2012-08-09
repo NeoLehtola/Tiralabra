@@ -11,9 +11,9 @@ import static org.junit.Assert.*;
 import org.junit.*;
 import sovelluslogiikka.Pelitapahtuma;
 
-/**
- *
- * @author neom
+/*
+ *  Hakumetodeille ei toistaiseksi ole Junit-testejä, vaan olen testannut niitä mainissa. 
+ *  
  */
 public class IDDFSTest {
 

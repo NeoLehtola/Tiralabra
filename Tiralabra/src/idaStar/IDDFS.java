@@ -9,12 +9,12 @@ import java.util.Stack;
  */
 public class IDDFS {
     
-    // startia ja goalia voi käyttää r:n kautta?
+    
     private Node startNode;
     private Node goalNode;
     private int pituus;
     private IDDFSRajapinta r;
-//    private Stack<Node> lapsiPino;
+
     
     /**
      *Konstruktori
@@ -55,18 +55,18 @@ public class IDDFS {
     /**
      * 
      * Hahmotelma rajatusta syvyyshausta, rekursiivinen
-     * @param startNode
+     * @param current
      * @param goalNode
-     * @param depth
+     * @param depth haun suurin syvyys, sitä pidemmälle ei jatketa
      * @return node tai null
      */
-    public Node depthLimitedSearch(Node node, Node goalNode, int depth) {
-        if (depth >= 0 && vertaaNodeja(node, goalNode)) {
-            return node;
+    public Node depthLimitedSearch(Node current, Node goalNode, int depth) {
+        if (depth >= 0 && vertaaNodeja(current, goalNode)) {
+            return current;
         } else if (depth > 0) {
 //            tulostaTaulukko(node);
             
-            Stack<Node> lapsiPino = expand(node, r);
+            Stack<Node> lapsiPino = expand(current, r);
            //System.out.print("*");
            // tulostaTaulukko(lapsiPino.peek());
             while (!lapsiPino.isEmpty())
@@ -76,17 +76,17 @@ public class IDDFS {
     }
     
     /**
-     * Iteratiivinen syvyyshaku, joka kutsuu DLS:ää
-     * @param node
+     * Iteratiivinen syvyyshaku, joka kutsuu DLS:ää (ei toimi vielä oikein)
+     * @param current tämänhetkinen käsiteltävä node
      * @param goalNode
      * @return loppusolmu eli maali
      */
-    public Node iterativeDeepeningSearch(Node node, Node goalNode) {
+    public Node iterativeDeepeningSearch(Node current, Node goalNode) {
         int depth = 0;
         Node result = null;
         
         while (result == null) {
-            result = depthLimitedSearch(node, goalNode, depth);
+            result = depthLimitedSearch(current, goalNode, depth);
 
 //            System.out.print("*");
             depth++;

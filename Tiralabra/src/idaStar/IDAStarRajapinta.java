@@ -1,12 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package idaStar;
 
 /**
- *
- * @author neom
+ * Tästä tulee samantyyppinen kuin IDDFS-rajapinnasta, mutta nodeille tulee heuristiikat.
+ * Työnjaot luokkien välillä, ja näiden kahden mahd. yhteinen yliluokka tms. vielä harkinnassa
+ * 
  */
 public class IDAStarRajapinta {
     

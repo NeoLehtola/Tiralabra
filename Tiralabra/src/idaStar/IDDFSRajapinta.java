@@ -159,7 +159,8 @@ public class IDDFSRajapinta {
     }
 
     /**
-     * kopion muodostaminen taulukosta
+     * kopion muodostaminen taulukosta 
+     * (manuaalinen System.arraycopy)
      *
      * @param alkup
      * @return uusi taulukko, joka on kopio

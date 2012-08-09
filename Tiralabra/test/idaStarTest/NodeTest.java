@@ -11,9 +11,9 @@ import sovelluslogiikka.Pelitapahtuma;
 import sovelluslogiikka.SiirtavaPelilauta;
 import idaStar.Node;
 
-/**
- *
- * @author neom
+/*
+ *  Heuristiikkoja ei ole vielä testattu, koska en ole vielä käyttänyt niitä missään.
+ * 
  */
 public class NodeTest {
     
