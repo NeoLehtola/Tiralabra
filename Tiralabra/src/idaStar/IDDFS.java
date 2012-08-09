@@ -14,7 +14,7 @@ public class IDDFS {
     private Node goalNode;
     private int pituus;
     private IDDFSRajapinta r;
-    private Stack<Node> lapsiPino;
+//    private Stack<Node> lapsiPino;
     
     /**
      *Konstruktori
@@ -58,17 +58,19 @@ public class IDDFS {
      * @param startNode
      * @param goalNode
      * @param depth
-     * @return öö. katotaan mitäs tän pitikään palauttaa.
+     * @return node tai null
      */
     public Node depthLimitedSearch(Node node, Node goalNode, int depth) {
-        if (depth >= 0 && node == goalNode) {
+        if (depth >= 0 && vertaaNodeja(node, goalNode)) {
             return node;
         } else if (depth > 0) {
-            //tulostaTaulukko(node);
-            expand(node, r);
-            //System.out.print("*");
+//            tulostaTaulukko(node);
+            
+            Stack<Node> lapsiPino = expand(node, r);
+           //System.out.print("*");
            // tulostaTaulukko(lapsiPino.peek());
-            depthLimitedSearch(lapsiPino.pop(), goalNode, depth-1);       
+            while (!lapsiPino.isEmpty())
+                depthLimitedSearch(lapsiPino.pop(), goalNode, depth-1);       
         }
         return null;
     }
@@ -85,9 +87,8 @@ public class IDDFS {
         
         while (result == null) {
             result = depthLimitedSearch(node, goalNode, depth);
-//            if (result == goalNode) {
-//                return result;
-//            }
+
+//            System.out.print("*");
             depth++;
         } 
         return result;
@@ -98,8 +99,8 @@ public class IDDFS {
      * @param current käsiteltävä solmu josta laajennetaan seuraaviin siirtoihin
      * @param r IDDFSRajapinta joka tuntee sekä pelin että haun
      */
-    public void expand(Node current, IDDFSRajapinta r) {
-        this.lapsiPino = r.luoNodelleLapsetPinoon(current);
+    public Stack<Node> expand(Node current, IDDFSRajapinta r) {
+         return r.luoNodelleLapsetPinoon(current);
  
         
     }
