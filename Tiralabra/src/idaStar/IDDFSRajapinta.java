@@ -99,42 +99,41 @@ public class IDDFSRajapinta {
         int[] tilanne = current.getTilanne();
         int laudanLeveys = peli.getPelilauta().getLeveys();
         int tyhjanIndeksi = perakkaisHaku(tilanne);
-
-        pino.push(seuraavaSiirto(tilanne, tyhjanIndeksi+1, laudanLeveys, tyhjanIndeksi));
-        
+        // indeksit: oikealle, vasemmalle, ylös, alas
+        int[] siirtoIndeksit = {tyhjanIndeksi+1, tyhjanIndeksi-1, tyhjanIndeksi-laudanLeveys, tyhjanIndeksi+laudanLeveys};
+ 
+        for (int i : siirtoIndeksit) {
+            // ei voida siirtää sellaiseen suuntaan, joka ei ole pelilaudalla
+            if (i < 0) {
+                continue;
+            }
+            
+            if (!laitonSiirto(tilanne, i, laudanLeveys, tyhjanIndeksi)) {
+                pino.push(new Node(teeUusiSiirtotilanne(tilanne, i, tyhjanIndeksi)));
+            }
+        }
+                
         return pino;
     }
     
+
+    
     /**
-     * ei toimi vielä oikein. korjaamme.
+     *
      * @param tilanne
      * @param i
      * @param laudanLeveys
      * @param tyhjanIndeksi
      * @return 
      */
-    private Node seuraavaSiirto(int[] tilanne, int i, int laudanLeveys, int tyhjanIndeksi) {
-        // ollaanko oikeassa reunassa
-        if (i == tilanne.length || i % laudanLeveys == 0) {
-            return seuraavaSiirto(tilanne, tyhjanIndeksi-1, laudanLeveys, tyhjanIndeksi);
+    private boolean laitonSiirto(int[] tilanne, int vaihdettava, int laudanLeveys, int tyhjanIndeksi) {
+               
+        if (tyhjanIndeksi != 0) {
+            return vaihdettava >= tilanne.length || vaihdettava % laudanLeveys == 0 || tyhjanIndeksi % laudanLeveys == 0;
+        } else {
+            // ei ole laiton siirto, koska nollaindeksillä kaikki laittomat ovat negatiivisia ja karsittu aiemmin
+            return false;
         }
-        
-        // ollaanko vasemmassa reunassa
-        if (i < 0 || tyhjanIndeksi % laudanLeveys == 0) {
-            return seuraavaSiirto(tilanne, tyhjanIndeksi-laudanLeveys, laudanLeveys, tyhjanIndeksi);
-        }
-        
-        // ollaanko yläreunassa
-        if (i < 0) {
-            return seuraavaSiirto(tilanne, tyhjanIndeksi+laudanLeveys, laudanLeveys, tyhjanIndeksi);
-        }
-        
-        // ollaanko alareunassa
-        if (i >= tilanne.length) {
-            return seuraavaSiirto(tilanne, tyhjanIndeksi+1, laudanLeveys, tyhjanIndeksi);
-        }
-        
-        return new Node(teeUusiSiirtotilanne(tilanne, i, tyhjanIndeksi));
     }
     
      /**
