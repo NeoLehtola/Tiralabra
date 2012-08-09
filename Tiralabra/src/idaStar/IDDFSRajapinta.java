@@ -1,12 +1,13 @@
 package idaStar;
 
-import java.util.PriorityQueue;
+
 import java.util.Stack;
 import sovelluslogiikka.Pelitapahtuma;
 
 /**
  * Tämä luokka yhdistää toisiinsa 15-pelin toteutuksen ja IDDFS-hakualgoritmin
- * luomalla algoritmille oikean malliset syötteet. Tämä luokka ei siis luo nodeja joilla on heuristiikka.
+ * luomalla algoritmille oikean malliset syötteet. Tämä luokka ei siis luo
+ * nodeja joilla on heuristiikka.
  */
 public class IDDFSRajapinta {
 
@@ -71,26 +72,10 @@ public class IDDFSRajapinta {
         return arvot;
     }
 
-//    /**
-//     * tekee priority queueen nykyistä nodea seuraavat siirrot Huom. tätä pitää muokata,
-//     * priority queue tulee käyttöön vasta sitten heuristiikan kanssa, joten tämä luo nyt vääriä nodeja.
-//     * voi olla että tämä siirtyy eri luokkaan!!!
-//     * 
-//     * @param current Node jolle halutaan lapset
-//     * @return palauttaa noden lapset priority queuena.
-//     */
-//    public PriorityQueue luoNodelleLapsetJonoon(Node current) {
-//        PriorityQueue<Node> jono = new PriorityQueue<Node>();
-//        int[] tilanne = current.getTilanne();
-//        int laudanLeveys = peli.getPelilauta().getLeveys();
-//        int tyhjanIndeksi = perakkaisHaku(tilanne);
-//
-//
-//        return jono;
-//    }
-    
+
     /**
      * tehdään seuraavat pelitilanteet ja laitetaan ne nodeina pinoon
+     *
      * @param current
      * @return pino jossa noden lapset
      */
@@ -100,43 +85,50 @@ public class IDDFSRajapinta {
         int laudanLeveys = peli.getPelilauta().getLeveys();
         int tyhjanIndeksi = perakkaisHaku(tilanne);
         // indeksit: oikealle, vasemmalle, ylös, alas
-        int[] siirtoIndeksit = {tyhjanIndeksi+1, tyhjanIndeksi-1, tyhjanIndeksi-laudanLeveys, tyhjanIndeksi+laudanLeveys};
- 
+        int[] siirtoIndeksit = {tyhjanIndeksi + 1, tyhjanIndeksi - 1, tyhjanIndeksi - laudanLeveys, tyhjanIndeksi + laudanLeveys};
+
         for (int i : siirtoIndeksit) {
             // ei voida siirtää sellaiseen suuntaan, joka ei ole pelilaudalla
             if (i < 0) {
                 continue;
             }
-            
+
             if (!laitonSiirto(tilanne, i, laudanLeveys, tyhjanIndeksi)) {
                 pino.push(new Node(teeUusiSiirtotilanne(tilanne, i, tyhjanIndeksi)));
             }
         }
-                
+
         return pino;
     }
-    
 
-    
     /**
-     *
-     * @param tilanne
-     * @param i
-     * @param laudanLeveys
-     * @param tyhjanIndeksi
-     * @return 
+     * metodi testaa, voiko kysyttyä siirtoa tehdä. tällä estetään virheellisten nodejen päätyminen pinoon.
+     * @param tilanne nykytilanne, jonka seuraavat halutaan
+     * @param vaihdettava vaihdettavan pelinappulan indeksi taulukossa
+     * @param laudanLeveys 
+     * @param tyhjanIndeksi tyhjän napin indeksi
+     * @return true jos siirto on laiton eli ei voida suorittaa, ja false jos
+     * voidaan siirtää
      */
     private boolean laitonSiirto(int[] tilanne, int vaihdettava, int laudanLeveys, int tyhjanIndeksi) {
-               
-        if (tyhjanIndeksi != 0) {
-            return vaihdettava >= tilanne.length || vaihdettava % laudanLeveys == 0 || tyhjanIndeksi % laudanLeveys == 0;
-        } else {
-            // ei ole laiton siirto, koska nollaindeksillä kaikki laittomat ovat negatiivisia ja karsittu aiemmin
+
+        // tarkistettu jo aiemmin, ettei nollaindeksillä voi tehdä vääriä siirtoja
+        if (tyhjanIndeksi == 0) {
             return false;
+        } else {
+            // vaihdettava nappi on tyhjän vasemmalla puolella
+            if (vaihdettava == tyhjanIndeksi - 1) {
+                return tyhjanIndeksi % laudanLeveys == 0;
+            // vaihdettava nappi on tyhjän oikealla puolella
+            } else if (vaihdettava == tyhjanIndeksi + 1) {
+                return vaihdettava % laudanLeveys == 0;
+            } else {
+                return vaihdettava >= tilanne.length;
+            }
         }
     }
-    
-     /**
+
+    /**
      * apumetodi nodejonon luovalle metodille
      *
      * @param taulukko jossa pelitilanteen vaihto tehdään
@@ -149,7 +141,6 @@ public class IDDFSRajapinta {
         uusiTilanne[tyhjanIndeksi] = apu;
         return uusiTilanne;
     }
-    
 
     /**
      * apumetodi tyhjän napin (-1) löytämiseksi
@@ -211,7 +202,8 @@ public class IDDFSRajapinta {
 
     /**
      * aloitussolmun manuaalinen asetus, lähinnä testausta varten
-     * @param startNode 
+     *
+     * @param startNode
      */
     public void setStartNode(Node startNode) {
         this.startNode = startNode;
