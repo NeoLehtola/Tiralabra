@@ -18,11 +18,16 @@ public class Main {
          */
          
         
-        IDDFSRajapinta r = new IDDFSRajapinta(new Pelitapahtuma(2, 2, 5));
+        IDDFSRajapinta r = new IDDFSRajapinta(new Pelitapahtuma(3, 3, 100));
 //        IDAStarHaku haku = new IDAStarHaku(r.getStartNode(), r.getGoalNode());
+
         IDDFS haku = new IDDFS(r);
-        int[] testi = {1, 2, 3, 4, 5, 6, 7, 8, -1};
+        
         Node n = haku.iterativeDeepeningSearch(r.getStartNode(), r.getGoalNode());
+        if (haku.isGoal(n)) {
+            System.out.println("Löytyi! ^_^");
+        }
+        
         
 
         

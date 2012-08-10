@@ -29,13 +29,13 @@ public class IDDFS {
         this.pituus = goalNode.getPituus();
     }
     
-//    // tämä ei jää lopulliseen ohjelmaan! on testausta varten.
-//    private void tulostaTaulukko(Node n) {
-//        for (int i = 0; i < n.getPituus(); i++) {
-//            System.out.print(n.getTilanne()[i]);    
-//        }
-//        System.out.println("");
-//    }
+    // tämä ei jää lopulliseen ohjelmaan! on testausta varten.
+    private void tulostaTaulukko(Node n) {
+        for (int i = 0; i < n.getPituus(); i++) {
+            System.out.print(n.getTilanne()[i]);    
+        }
+        System.out.println("");
+    }
     
     /**
      * nodejen taulukkoarvojen vertailu
@@ -44,6 +44,10 @@ public class IDDFS {
      * @return true jos pelitilanne taulukossa on sama
      */
     private boolean vertaaNodeja(Node eka, Node toka) {
+        if (eka == null || toka == null) {
+            return false;
+        }
+        
         for (int i = 0; i < eka.getTilanne().length; i++) {
             if (eka.getTilanne()[i] != toka.getTilanne()[i]) {
                 return false;
@@ -54,44 +58,55 @@ public class IDDFS {
     
     /**
      * 
-     * Hahmotelma rajatusta syvyyshausta, rekursiivinen
+     * rajattu syvyyshaku, apumetodi iteratiiviselle syvyyshaulle
      * @param current
      * @param goalNode
      * @param depth haun suurin syvyys, sitä pidemmälle ei jatketa
      * @return node tai null
      */
     public Node depthLimitedSearch(Node current, Node goalNode, int depth) {
+        
         if (depth >= 0 && vertaaNodeja(current, goalNode)) {
             return current;
         } else if (depth > 0) {
-//            tulostaTaulukko(node);
+            tulostaTaulukko(current);
             
             Stack<Node> lapsiPino = expand(current, r);
-           //System.out.print("*");
-           // tulostaTaulukko(lapsiPino.peek());
-            while (!lapsiPino.isEmpty())
-                depthLimitedSearch(lapsiPino.pop(), goalNode, depth-1);       
+            
+            Node result = null;
+            while (!lapsiPino.isEmpty()) {
+                result = depthLimitedSearch(lapsiPino.pop(), goalNode, depth-1);
+                if (vertaaNodeja(result, goalNode)) {
+                    break;
+                }
+            }
+            return result;
+        } else {
+            return null;
         }
-        return null;
+        
+        
+
     }
     
     /**
-     * Iteratiivinen syvyyshaku, joka kutsuu DLS:ää (ei toimi vielä oikein)
+     * Iteratiivinen syvyyshaku, joka kutsuu DLS:ää 
      * @param current tämänhetkinen käsiteltävä node
      * @param goalNode
      * @return loppusolmu eli maali
      */
     public Node iterativeDeepeningSearch(Node current, Node goalNode) {
         int depth = 0;
-        Node result = null;
+        Node result;
         
-        while (result == null) {
+        while (true) {
             result = depthLimitedSearch(current, goalNode, depth);
-
-//            System.out.print("*");
+            if (vertaaNodeja(result, goalNode)) {
+                return result;
+            }
             depth++;
         } 
-        return result;
+        
     }
     
     /**
