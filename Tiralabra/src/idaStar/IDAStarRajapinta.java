@@ -45,43 +45,59 @@ public class IDAStarRajapinta extends IDDFSRajapinta {
     /**
      *
      */
-    private void startNodenArvoH(int laudanLeveys) {
-        int[] tilanne = getStartNode().getTilanne();
+    private void laskeNodenArvoH(Node n, int laudanLeveys) {
+        int[] tilanne = n.getTilanne();
         int summa = 0;
-        int laudanKorkeus = tilanne.length/laudanLeveys;
+
         for (int i = 0; i < tilanne.length; i++) {
             if (tilanne[i] == -1) {
                 continue;
             }
             int vuorossa = tilanne[i];
             int vuorossaXKoord = xKoord(i, laudanLeveys);
+            int vuorossaYKoord = yKoord(i, laudanLeveys);
             
-            //summa += absoluteValue(goalNodenXKoordinaatit(laudanLeveys)[i]);  
+            int goalXKoord;
+            int goalYKoord;
+            
+            summa += absValue(vuorossaXKoord) + absValue(vuorossaYKoord);  
         }
         
 
     }
-    
-    
-
     /**
-     *
-     * @param n
+     * 
+     * @param haettava
+     * @return 
      */
-    public void manhattanDistance(Node n) {
-        int[] state = n.getTilanne();
-        int laudanLeveys = getPeli().getPelilauta().getLeveys();
-
-
-
+    private int haeIndeksi(int haettava) {
+        for (int i = 0; i < getGoalNode().getPituus(); i++) {
+            if (getGoalNode().getTilanne()[i] == haettava) {
+                return i;
+            }
+        }
+        
+        // tänne ei pitäisi ikinä joutua
+        return -100;
     }
+    
+    
+
+//    /**
+//     *
+//     * @param n
+//     */
+//    public void manhattanDistance(Node n) {
+//        int[] state = n.getTilanne();
+//        int laudanLeveys = getPeli().getPelilauta().getLeveys();
+//    }
 
     /**
      * apumetodi itseisarvon laskemiseksi (korvaa Math.abs:n)
      * @param k luku jonka itseisarvo halutaan
      * @return Jos luku negatiivinen, se kerrotaan -1:llä, muuten luku palautetaan sellaisenaan
      */
-    private int absoluteValue(int k) {
+    private int absValue(int k) {
         if (k < 0) {
             return k * (-1);
         } else {

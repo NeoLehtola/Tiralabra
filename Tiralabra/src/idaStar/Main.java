@@ -29,10 +29,7 @@ public class Main {
 //        }
         
         IDAStarRajapinta ir = new IDAStarRajapinta(new Pelitapahtuma(3, 4, 100));
-        int[] t = ir.goalNodenYKoordinaatit(3);
-        for (int i = 0; i < t.length; i++) {
-            System.out.print(t[i]);
-        }
+
         
         
 
