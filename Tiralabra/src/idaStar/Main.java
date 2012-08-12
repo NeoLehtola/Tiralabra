@@ -18,17 +18,17 @@ public class Main {
          */
          
         
-//        IDDFSRajapinta r = new IDDFSRajapinta(new Pelitapahtuma(3, 3, 100));
-////        IDAStarHaku haku = new IDAStarHaku(r.getStartNode(), r.getGoalNode());
-//
-//        IDDFS haku = new IDDFS(r);
-//        
-//        Node n = haku.iterativeDeepeningSearch(r.getStartNode(), r.getGoalNode());
-//        if (haku.isGoal(n)) {
-//            System.out.println("Löytyi! ^_^");
-//        }
+        IDDFSRajapinta r = new IDDFSRajapinta(new Pelitapahtuma(3, 3, 100));
+//        IDAStarHaku haku = new IDAStarHaku(r.getStartNode(), r.getGoalNode());
+
+        IDDFS haku = new IDDFS(r);
         
-        IDAStarRajapinta ir = new IDAStarRajapinta(new Pelitapahtuma(3, 3, 100));
+        Node n = haku.iterativeDeepeningSearch(r.getStartNode(), r.getGoalNode());
+        if (haku.isGoal(n)) {
+            System.out.println("Löytyi! ^_^");
+        }
+        
+//        IDAStarRajapinta ir = new IDAStarRajapinta(new Pelitapahtuma(3, 3, 100));
         
         
 

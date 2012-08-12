@@ -17,6 +17,9 @@ public class IDAStarRajapinta extends IDDFSRajapinta {
     
     public void manhattanDistance(Node n) {
         int[] state = n.getTilanne();
+        int laudanLeveys = getPeli().getPelilauta().getLeveys();
+        
+        
         
     }
     

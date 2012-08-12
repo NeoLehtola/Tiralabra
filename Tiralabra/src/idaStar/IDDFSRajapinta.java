@@ -182,6 +182,14 @@ public class IDDFSRajapinta {
     public int getNodeTaulukonPituus() {
         return nodeTaulukonPituus;
     }
+    
+    /**
+     * palauttaa pelitapahtuma-olion
+     * @return peli
+     */
+    public Pelitapahtuma getPeli() {
+        return peli;
+    }
 
     /**
      * palauttaa aloitussolmun
