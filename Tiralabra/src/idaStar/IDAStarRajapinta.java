@@ -19,12 +19,44 @@ public class IDAStarRajapinta extends IDDFSRajapinta {
         getGoalNode().setH(0);
     }
 
-    private int[] goalNodenXarvot(int laudanLeveys) {
-        return null;
+    /**
+     *
+     * @param laudanLeveys
+     * @return
+     */
+    public int[] goalNodenXArvot(int laudanLeveys) {
+        int pituus = getGoalNode().getPituus();
+        int[] xArvot = new int[pituus];
+
+        int i = 0;
+        while (i < pituus) {
+            xArvot[i] = i % laudanLeveys;
+            i++;
+        }
+        return xArvot;
     }
-    
-    private int[] goalNodenYarvot(int laudanLeveys) {
-        return null;
+
+    /**
+     *
+     * @param laudanLeveys
+     * @return
+     */
+    public int[] goalNodenYArvot(int laudanLeveys) {
+        int pituus = getGoalNode().getPituus();
+        int[] yArvot = new int[pituus];
+
+        int i = 0;
+        int lisattava = 0;
+        
+        while (i < pituus) {          
+            if (i != 0 && i%laudanLeveys == 0) {
+                lisattava++;
+            }
+            yArvot[i] = lisattava;
+            i++;
+        }
+
+        return yArvot;
     }
 
     /**
@@ -32,8 +64,15 @@ public class IDAStarRajapinta extends IDDFSRajapinta {
      */
     private void startNodenArvoH() {
         int[] tilanne = getStartNode().getTilanne();
+        
+        for (int i = 0; i < tilanne.length; i++) {
+            
+        }
+        
 
     }
+    
+    
 
     /**
      *
@@ -45,6 +84,19 @@ public class IDAStarRajapinta extends IDDFSRajapinta {
 
 
 
+    }
+
+    /**
+     * apumetodi itseisarvon laskemiseksi (korvaa Math.abs:n)
+     * @param k luku jonka itseisarvo halutaan
+     * @return Jos luku negatiivinen, se kerrotaan -1:llä, muuten luku palautetaan sellaisenaan
+     */
+    private int absoluteValue(int k) {
+        if (k < 0) {
+            return k * (-1);
+        } else {
+            return k;
+        }
     }
     //    /**
 //     * tekee priority queueen nykyistä nodea seuraavat siirrot Huom. tätä pitää muokata,
