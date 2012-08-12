@@ -19,54 +19,44 @@ public class IDAStarRajapinta extends IDDFSRajapinta {
         getGoalNode().setH(0);
     }
 
+    
     /**
-     *
+     * haetun napin x-koordinaatti
+     * @param i
      * @param laudanLeveys
-     * @return
+     * @return 
      */
-    public int[] goalNodenXArvot(int laudanLeveys) {
-        int pituus = getGoalNode().getPituus();
-        int[] xArvot = new int[pituus];
-
-        int i = 0;
-        while (i < pituus) {
-            xArvot[i] = i % laudanLeveys;
-            i++;
-        }
-        return xArvot;
+    private int xKoord(int i, int laudanLeveys) {
+        return i%laudanLeveys;
+    }
+    
+    /**
+     * haetun napin y-koordinaatti
+     * @param i
+     * @param laudanLeveys
+     * @return 
+     */
+    private int yKoord(int i, int laudanLeveys) {
+        return i/laudanLeveys;
     }
 
-    /**
-     *
-     * @param laudanLeveys
-     * @return
-     */
-    public int[] goalNodenYArvot(int laudanLeveys) {
-        int pituus = getGoalNode().getPituus();
-        int[] yArvot = new int[pituus];
 
-        int i = 0;
-        int lisattava = 0;
-        
-        while (i < pituus) {          
-            if (i != 0 && i%laudanLeveys == 0) {
-                lisattava++;
-            }
-            yArvot[i] = lisattava;
-            i++;
-        }
-
-        return yArvot;
-    }
 
     /**
      *
      */
-    private void startNodenArvoH() {
+    private void startNodenArvoH(int laudanLeveys) {
         int[] tilanne = getStartNode().getTilanne();
-        
+        int summa = 0;
+        int laudanKorkeus = tilanne.length/laudanLeveys;
         for (int i = 0; i < tilanne.length; i++) {
+            if (tilanne[i] == -1) {
+                continue;
+            }
+            int vuorossa = tilanne[i];
+            int vuorossaXKoord = xKoord(i, laudanLeveys);
             
+            //summa += absoluteValue(goalNodenXKoordinaatit(laudanLeveys)[i]);  
         }
         
 
