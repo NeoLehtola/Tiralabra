@@ -44,7 +44,9 @@ public class IDAStarRajapintaTest {
         ir.laskeNodenArvoH(ir.getStartNode(), 3);
         assertEquals(14, ir.getStartNode().getH());
     }
-    //    @Test
+    
+    
+//    @Test
 //    public void lapsiaJonossaKaksiKunOllaanNurkassa() {
 //        int[] testi = {-1, 3, 4, 8, 2, 6, 7, 5, 1};
 //        r.setStartNode(new Node(testi));
