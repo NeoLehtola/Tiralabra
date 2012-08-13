@@ -6,6 +6,7 @@ package tietorakenteetTest;
 
 import org.junit.*;
 import static org.junit.Assert.*;
+import tietorakenteet.Pino;
 
 /**
  *
@@ -26,14 +27,15 @@ public class PinoTest {
     
     @Before
     public void setUp() {
+        Pino p = new Pino();
     }
     
     @After
     public void tearDown() {
     }
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
+
+    @Test
+    public void pushToimiiOikein() {
+        
+    }
 }
