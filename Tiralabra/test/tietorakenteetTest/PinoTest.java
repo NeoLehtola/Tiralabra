@@ -14,6 +14,8 @@ import tietorakenteet.Pino;
  */
 public class PinoTest {
     
+    private Pino pino;
+    
     public PinoTest() {
     }
 
@@ -27,15 +29,30 @@ public class PinoTest {
     
     @Before
     public void setUp() {
-        Pino p = new Pino();
+        
     }
     
     @After
     public void tearDown() {
     }
 
+//    @Test
+//    public void pushLisaaOikeaanKohtaan() {
+//        
+//    }
+    
     @Test
-    public void pushToimiiOikein() {
-        
+    public void topOnPushinJalkeenOikeassaKohdassa() {
+        pino = new Pino();
+        for (int i = 0; i < 4; i++) {
+            pino.push(i);
+        }
+        assertEquals(4, pino.getTop());
     }
+    
+//    @Test
+//    public void taulukonKasvatusPushMetodinSisallaKasvattaaTaulukkoa() {
+//        
+//    }
+            
 }

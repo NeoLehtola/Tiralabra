@@ -43,9 +43,11 @@ public class IDAStarRajapinta extends IDDFSRajapinta {
 
 
     /**
-     *
+     * tästä tullee private
+     * @param n
+     * @param laudanLeveys 
      */
-    private void laskeNodenArvoH(Node n, int laudanLeveys) {
+    public void laskeNodenArvoH(Node n, int laudanLeveys) {
         int[] tilanne = n.getTilanne();
         int summa = 0;
 
@@ -57,11 +59,13 @@ public class IDAStarRajapinta extends IDDFSRajapinta {
             int vuorossaXKoord = xKoord(i, laudanLeveys);
             int vuorossaYKoord = yKoord(i, laudanLeveys);
             
-            int goalXKoord;
-            int goalYKoord;
+            int goalXKoord = xKoord(haeGoalIndeksi(vuorossa), laudanLeveys);
+            int goalYKoord = yKoord(haeGoalIndeksi(vuorossa), laudanLeveys); 
             
-            summa += absValue(vuorossaXKoord) + absValue(vuorossaYKoord);  
+            summa += absValue(vuorossaXKoord - goalXKoord) + absValue(vuorossaYKoord - goalYKoord);  
         }
+        
+        n.setH(summa);
         
 
     }
@@ -70,7 +74,7 @@ public class IDAStarRajapinta extends IDDFSRajapinta {
      * @param haettava
      * @return 
      */
-    private int haeIndeksi(int haettava) {
+    private int haeGoalIndeksi(int haettava) {
         for (int i = 0; i < getGoalNode().getPituus(); i++) {
             if (getGoalNode().getTilanne()[i] == haettava) {
                 return i;

@@ -4,8 +4,11 @@
  */
 package idaStarTest;
 
+import idaStar.IDAStarRajapinta;
+import idaStar.Node;
 import org.junit.*;
 import static org.junit.Assert.*;
+import sovelluslogiikka.Pelitapahtuma;
 
 /**
  * Tätä luokkaa ei ole vielä toteutettu, testit kopioitu ajalta jolloin luokat oli järjestelty eri tavoin
@@ -32,6 +35,15 @@ public class IDAStarRajapintaTest {
     @After
     public void tearDown() {
     }
+    
+    @Test
+    public void arvoHTuleeLaskettuaOikein() {
+        IDAStarRajapinta ir = new IDAStarRajapinta(new Pelitapahtuma(3, 3, 100));
+        int[] test = {5, 7, -1, 4, 2, 3, 8, 6, 1};
+        ir.setStartNode(new Node(test));
+        ir.laskeNodenArvoH(ir.getStartNode(), 3);
+        assertEquals(14, ir.getStartNode().getH());
+    }
     //    @Test
 //    public void lapsiaJonossaKaksiKunOllaanNurkassa() {
 //        int[] testi = {-1, 3, 4, 8, 2, 6, 7, 5, 1};
@@ -56,3 +68,4 @@ public class IDAStarRajapintaTest {
     
     
 }
+    
