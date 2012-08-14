@@ -29,13 +29,13 @@ public class IDDFS {
         this.pituus = goalNode.getPituus();
     }
     
-    // tämä ei jää lopulliseen ohjelmaan! on testausta varten.
-    private void tulostaTaulukko(Node n) {
-        for (int i = 0; i < n.getPituus(); i++) {
-            System.out.print(n.getTilanne()[i]);    
-        }
-        System.out.println("");
-    }
+//    // tämä ei jää lopulliseen ohjelmaan! on testausta varten.
+//    private void tulostaTaulukko(Node n) {
+//        for (int i = 0; i < n.getPituus(); i++) {
+//            System.out.print(n.getTilanne()[i]);    
+//        }
+//        System.out.println("");
+//    }
     
     /**
      * nodejen taulukkoarvojen vertailu
@@ -69,7 +69,7 @@ public class IDDFS {
         if (depth >= 0 && vertaaNodeja(current, goalNode)) {
             return current;
         } else if (depth > 0) {
-            tulostaTaulukko(current);
+//            tulostaTaulukko(current);
             
             Stack<Node> lapsiPino = expand(current, r);
             

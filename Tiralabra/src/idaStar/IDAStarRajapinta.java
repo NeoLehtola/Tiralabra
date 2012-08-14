@@ -43,6 +43,7 @@ public class IDAStarRajapinta extends IDDFSRajapinta {
 
 
     /**
+     * manhattan
      * tästä tullee private
      * @param n
      * @param laudanLeveys 
