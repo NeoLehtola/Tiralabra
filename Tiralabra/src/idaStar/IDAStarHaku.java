@@ -1,6 +1,5 @@
 package idaStar;
 
-import java.util.PriorityQueue;
 /**
  * IDA* -algoritmilla toteutettava haku verkosta, jossa solmut ovat
  * pelitilanteita aina seuraavan siirron jälkeen.
