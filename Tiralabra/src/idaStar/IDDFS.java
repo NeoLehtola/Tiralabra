@@ -14,6 +14,9 @@ public class IDDFS {
     private Node goalNode;
     private int pituus;
     private IDDFSRajapinta r;
+    
+    // tänne tarvii jonkin aputietorakenteen, joka tallettaa tiedon siitä mikä on seuraava siirto
+    // ei tarvitse tallettaa kokonaisia nodeja, riittää tieto siirron suunnasta
 
     
     /**
