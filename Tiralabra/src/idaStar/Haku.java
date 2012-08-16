@@ -17,7 +17,8 @@ public class Haku {
     private final int[] ALKUTILANNE;
     private final int[] LOPPUTILANNE;
     
-    private int costLimit;
+    private int funktionArvo;
+    private Manhattan m;
 
     /**
      *
@@ -29,6 +30,7 @@ public class Haku {
         this.ALKUTILANNE = alkuArvotPelilaudalta();
         this.LOPPUTILANNE = loppuTilanne();
         this.tilanne = kopioiTaulukko(ALKUTILANNE);
+        this.m = new Manhattan(peli.getPelilauta().getLeveys());
 
     }
     
@@ -195,25 +197,31 @@ public class Haku {
      *
      * rajattu syvyyshaku, apumetodi iteratiiviselle syvyyshaulle
      *
+     * @param alkuarvo heuristiikkafunktion g-arvo käsittääkseni
      * @param tilanneNyt
      * @param loppuTilanne
      * @param syvyys haun suurin syvyys, sitä pidemmälle ei jatketa
      * @return
      */
     //(heuristiikkaversiossa siis syvyys = costLimit?)
-    public int[] depthLimitedSearch(int[] tilanneNyt, int syvyys) {
+    public int[] depthLimitedSearch(int alkuarvo, int[] tilanneNyt, int syvyys) {
  
         if (syvyys >= 0 && vertaaTilanteita(tilanneNyt, LOPPUTILANNE)) {
             return tilanneNyt;
         } else if (syvyys > 0) {
 
             Stack<int[]> lapsiPino = lapsetPinoon(tilanneNyt);
-
+            this.funktionArvo = alkuarvo + m.laskeH(tilanneNyt, LOPPUTILANNE);
+            
+            if (funktionArvo > syvyys) {
+                // mitäs tämä nyt palauttaa ja miten limitit menee?
+            }
+            
             int[] tulos;
             while (!lapsiPino.isEmpty()) {
                 tilanne = lapsiPino.pop();
                                 
-                tulos = depthLimitedSearch(tilanne, syvyys - 1);
+                tulos = depthLimitedSearch(alkuarvo+1, tilanne, syvyys - 1);
                 if (vertaaTilanteita(tulos, LOPPUTILANNE)) {
                     break;
                 }
@@ -235,7 +243,7 @@ public class Haku {
     /**
      * Iteratiivinen syvyyshaku, joka kutsuu DLS:ää
      *
-     * @param loppuTilanne
+     * 
      * @return lopputilanne
      */
     public int[] iterativeDeepeningSearch() {
@@ -243,7 +251,7 @@ public class Haku {
         int[] tulos;
 
         while (true) {
-            tulos = depthLimitedSearch(ALKUTILANNE, syvyys);
+            tulos = depthLimitedSearch(0, ALKUTILANNE, syvyys);
             if (vertaaTilanteita(tulos, LOPPUTILANNE)) {
                 return tulos;
             }
