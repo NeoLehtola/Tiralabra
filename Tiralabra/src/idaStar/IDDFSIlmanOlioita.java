@@ -17,7 +17,7 @@ public class IDDFSIlmanOlioita {
     private Pelitapahtuma peli;
     private int taulukonPituus;
     private int[] alkuTilanne;
-    private int[] loppuTilanne;
+    private final int[] LOPPUTILANNE;
     
     /**
      * 
@@ -27,7 +27,7 @@ public class IDDFSIlmanOlioita {
         this.peli = peli;
         this.taulukonPituus = taulukonPituus();
         this.alkuTilanne = alkuArvotPelilaudalta();
-        this.loppuTilanne = loppuTilanne();
+        this.LOPPUTILANNE = loppuTilanne();
         
     }
     
@@ -103,13 +103,19 @@ public class IDDFSIlmanOlioita {
 //        return pino;
 //    }
     
-    public Stack<int[]> lapsetPinoon() {
+    // turha?
+    public Stack<int[]> lapsetPinoon(int[] tilanne) {
         return null;
     }
+    
+    
+    
+    
     
       
     /**
      * taulukkoarvojen vertailu sen tarkistamiseksi, ollaanko maalitilanteessa
+     * Huom. nyt ei ole erillistä isGoal()-metodia koska tällä voi tehdä saman
      * @param eka
      * @param toka
      * @return true jos pelitilanne taulukossa on sama
@@ -129,24 +135,24 @@ public class IDDFSIlmanOlioita {
     /**
      * 
      * rajattu syvyyshaku, apumetodi iteratiiviselle syvyyshaulle
-     * @param current
+     * @param tilanneNyt
      * @param loppuTilanne
-     * @param depth haun suurin syvyys, sitä pidemmälle ei jatketa
+     * @param syvyys haun suurin syvyys, sitä pidemmälle ei jatketa
      * @return 
      */
-    public int[] depthLimitedSearch(int[] tilanneNyt, int[] loppuTilanne, int depth) {
+    public int[] depthLimitedSearch(int[] tilanneNyt, int syvyys) {
         
-        if (depth >= 0 && vertaaTilanteita(tilanneNyt, loppuTilanne)) {
+        if (syvyys >= 0 && vertaaTilanteita(tilanneNyt, LOPPUTILANNE)) {
             return tilanneNyt;
-        } else if (depth > 0) {
+        } else if (syvyys > 0) {
 //            tulostaTaulukko(current);
             
-            Stack<int[]> lapsiPino = lapsetPinoon();
+            Stack<int[]> lapsiPino = lapsetPinoon(tilanneNyt);
             
             int[] tulos = null;
             while (!lapsiPino.isEmpty()) {
-                tulos = depthLimitedSearch(lapsiPino.pop(), loppuTilanne, depth-1);
-                if (vertaaTilanteita(tulos, loppuTilanne)) {
+                tulos = depthLimitedSearch(lapsiPino.pop(), syvyys-1);
+                if (vertaaTilanteita(tulos, LOPPUTILANNE)) {
                     break;
                 }
             }
@@ -163,20 +169,53 @@ public class IDDFSIlmanOlioita {
      * @param loppuTilanne
      * @return lopputilanne
      */
-    public int[] iterativeDeepeningSearch(int[] tilanneNyt, int[] loppuTilanne) {
-        int depth = 0;
-        Node result;
+    public int[] iterativeDeepeningSearch(int[] tilanneNyt) {
+        int syvyys = 0;
+        int[] tulos;
         
         while (true) {
-            result = depthLimitedSearch(current, goalNode, depth);
-            if (vertaaNodeja(result, goalNode)) {
-                return result;
+            tulos = depthLimitedSearch(tilanneNyt, syvyys);
+            if (vertaaTilanteita(tulos, LOPPUTILANNE)) {
+                return tulos;
             }
-            depth++;
+            syvyys++;
         } 
         
     }
+
+    /**
+     * 
+     * @return 
+     */
+    public int[] getAlkuTilanne() {
+        return alkuTilanne;
+    }
+
+    /**
+     * 
+     * @return 
+     */
+    public int[] getLoppuTilanne() {
+        return LOPPUTILANNE;
+    }
+
+    /**
+     * 
+     * @return 
+     */
+    public Pelitapahtuma getPeli() {
+        return peli;
+    }
+
+    /**
+     * 
+     * @return 
+     */
+    public int getTaulukonPituus() {
+        return taulukonPituus;
+    }
      
+    
     
     
 }
