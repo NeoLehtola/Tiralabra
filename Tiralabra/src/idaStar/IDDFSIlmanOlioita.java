@@ -72,6 +72,110 @@ public class IDDFSIlmanOlioita {
 
         return arvot;
     }
+    
+    
+    
+//    /**
+//     * tehdään seuraavat pelitilanteet ja laitetaan ne nodeina pinoon
+//     *
+//     * @param current
+//     * @return pino jossa noden lapset
+//     */
+//    public Stack<Node> luoNodelleLapsetPinoon(Node current) {
+//        Stack<Node> pino = new Stack<Node>();
+//        int[] tilanne = current.getTilanne();
+//        int laudanLeveys = peli.getPelilauta().getLeveys();
+//        int tyhjanIndeksi = perakkaisHaku(tilanne);
+//        // indeksit: oikealle, vasemmalle, ylös, alas
+//        int[] siirtoIndeksit = {tyhjanIndeksi + 1, tyhjanIndeksi - 1, tyhjanIndeksi - laudanLeveys, tyhjanIndeksi + laudanLeveys};
+//
+//        for (int i : siirtoIndeksit) {
+//            // ei voida siirtää sellaiseen suuntaan, joka ei ole pelilaudalla
+//            if (i < 0) {
+//                continue;
+//            }
+//
+//            if (!laitonSiirto(tilanne, i, laudanLeveys, tyhjanIndeksi)) {
+//                pino.push(new Node(teeUusiSiirtotilanne(tilanne, i, tyhjanIndeksi)));
+//            }
+//        }
+//
+//        return pino;
+//    }
+    
+    public Stack<int[]> lapsetPinoon() {
+        return null;
+    }
+    
+      
+    /**
+     * taulukkoarvojen vertailu sen tarkistamiseksi, ollaanko maalitilanteessa
+     * @param eka
+     * @param toka
+     * @return true jos pelitilanne taulukossa on sama
+     */
+    private boolean vertaaTilanteita(int[] eka, int[] toka) {
+//        if (eka == null || toka == null) {
+//            return false;
+//        }       
+        for (int i = 0; i < eka.length; i++) {
+            if (eka[i] != toka[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    /**
+     * 
+     * rajattu syvyyshaku, apumetodi iteratiiviselle syvyyshaulle
+     * @param current
+     * @param loppuTilanne
+     * @param depth haun suurin syvyys, sitä pidemmälle ei jatketa
+     * @return 
+     */
+    public int[] depthLimitedSearch(int[] tilanneNyt, int[] loppuTilanne, int depth) {
+        
+        if (depth >= 0 && vertaaTilanteita(tilanneNyt, loppuTilanne)) {
+            return tilanneNyt;
+        } else if (depth > 0) {
+//            tulostaTaulukko(current);
+            
+            Stack<int[]> lapsiPino = lapsetPinoon();
+            
+            int[] tulos = null;
+            while (!lapsiPino.isEmpty()) {
+                tulos = depthLimitedSearch(lapsiPino.pop(), loppuTilanne, depth-1);
+                if (vertaaTilanteita(tulos, loppuTilanne)) {
+                    break;
+                }
+            }
+            return tulos;
+        } else {
+            return null;
+        }
+        
+    }
+    
+    /**
+     * Iteratiivinen syvyyshaku, joka kutsuu DLS:ää 
+     * @param tilanneNyt
+     * @param loppuTilanne
+     * @return lopputilanne
+     */
+    public int[] iterativeDeepeningSearch(int[] tilanneNyt, int[] loppuTilanne) {
+        int depth = 0;
+        Node result;
+        
+        while (true) {
+            result = depthLimitedSearch(current, goalNode, depth);
+            if (vertaaNodeja(result, goalNode)) {
+                return result;
+            }
+            depth++;
+        } 
+        
+    }
      
     
     
