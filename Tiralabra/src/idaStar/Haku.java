@@ -8,7 +8,7 @@ import sovelluslogiikka.Pelitapahtuma;
  *
  * @author pklehtol
  */
-public class IDDFSIlmanOlioita {
+public class Haku {
 
     /*
      * kokeilen nyt alkuun sellaista, että yhdistän IDDFS- ja
@@ -17,19 +17,27 @@ public class IDDFSIlmanOlioita {
     private Pelitapahtuma peli;
     private int taulukonPituus;
     private int[] tilanne;
-    private int[] muisti;
+    private final int[] ALKUTILANNE;
     private final int[] LOPPUTILANNE;
+    
+    private int costLimit;
+    
 
     /**
      *
      * @param peli
      */
-    public IDDFSIlmanOlioita(Pelitapahtuma peli) {
+    public Haku(Pelitapahtuma peli) {
         this.peli = peli;
         this.taulukonPituus = taulukonPituus();
-        this.tilanne = alkuArvotPelilaudalta();
+        this.ALKUTILANNE = alkuArvotPelilaudalta();
         this.LOPPUTILANNE = loppuTilanne();
+        this.tilanne = kopioiTaulukko(ALKUTILANNE);
 
+    }
+    
+    public void kaynnista() {
+        
     }
 
     /**
@@ -75,6 +83,11 @@ public class IDDFSIlmanOlioita {
         return arvot;
     }
 
+    /**
+     * 
+     * @param tilanne
+     * @return 
+     */
     public Stack<int[]> lapsetPinoon(int[] tilanne) {
         Stack<int[]> pino = new Stack<int[]>();
         int laudanLeveys = peli.getPelilauta().getLeveys();
@@ -197,7 +210,7 @@ public class IDDFSIlmanOlioita {
      * @return
      */
     public int[] depthLimitedSearch(int[] tilanneNyt, int syvyys) {
-
+ 
         if (syvyys >= 0 && vertaaTilanteita(tilanneNyt, LOPPUTILANNE)) {
             return tilanneNyt;
         } else if (syvyys > 0) {
@@ -206,17 +219,24 @@ public class IDDFSIlmanOlioita {
 
             int[] tulos = null;
             while (!lapsiPino.isEmpty()) {
-                tulos = depthLimitedSearch(lapsiPino.pop(), syvyys - 1);
+                tilanne = lapsiPino.pop();
+                                
+                tulos = depthLimitedSearch(tilanne, syvyys - 1);
                 if (vertaaTilanteita(tulos, LOPPUTILANNE)) {
                     break;
                 }
             }
-            return tulos;
+            return tilanne;
         } else {
             return null;
         }
 
     }
+    
+    public void tallennaReitti() {
+        
+    }
+    
 
     /**
      * Iteratiivinen syvyyshaku, joka kutsuu DLS:ää
@@ -229,7 +249,7 @@ public class IDDFSIlmanOlioita {
         int[] tulos;
 
         while (true) {
-            tulos = depthLimitedSearch(tilanne, syvyys);
+            tulos = depthLimitedSearch(ALKUTILANNE, syvyys);
             if (vertaaTilanteita(tulos, LOPPUTILANNE)) {
                 return tulos;
             }
@@ -237,6 +257,7 @@ public class IDDFSIlmanOlioita {
         }
 
     }
+    
 
     /**
      *

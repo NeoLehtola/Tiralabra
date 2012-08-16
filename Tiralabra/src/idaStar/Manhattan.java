@@ -3,20 +3,17 @@ package idaStar;
 import sovelluslogiikka.Pelitapahtuma;
 
 /**
- * Tästä tulee samantyyppinen kuin IDDFS-rajapinnasta, mutta nodeille tulee
- * heuristiikat. Työnjaot luokkien välillä, ja näiden kahden mahd. yhteinen
- * yliluokka tms. vielä harkinnassa
+ * 
  *
  */
-public class IDAStarRajapinta extends IDDFSRajapinta {
+public class Manhattan {
 
-    /**
-     *
-     * @param peli
-     */
-    public IDAStarRajapinta(Pelitapahtuma peli) {
-        super(peli);
-        getGoalNode().setH(0);
+    private int[] tilanne;
+    private int laudanLeveys;
+    
+    public Manhattan(int[] tilanne, int laudanLeveys) {
+        this.tilanne = tilanne;
+        this.laudanLeveys = laudanLeveys;
     }
 
     
@@ -26,7 +23,7 @@ public class IDAStarRajapinta extends IDDFSRajapinta {
      * @param laudanLeveys
      * @return 
      */
-    private int xKoord(int i, int laudanLeveys) {
+    private int xKoord(int i) {
         return i%laudanLeveys;
     }
     
@@ -36,7 +33,7 @@ public class IDAStarRajapinta extends IDDFSRajapinta {
      * @param laudanLeveys
      * @return 
      */
-    private int yKoord(int i, int laudanLeveys) {
+    private int yKoord(int i) {
         return i/laudanLeveys;
     }
 
@@ -45,11 +42,10 @@ public class IDAStarRajapinta extends IDDFSRajapinta {
     /**
      * manhattan
      * tästä tullee private
-     * @param n
-     * @param laudanLeveys 
+
      */
-    public void laskeNodenArvoH(Node n, int laudanLeveys) {
-        int[] tilanne = n.getTilanne();
+    public int laskeH(int[] lopputilanne) {
+        
         int summa = 0;
 
         for (int i = 0; i < tilanne.length; i++) {
@@ -57,16 +53,16 @@ public class IDAStarRajapinta extends IDDFSRajapinta {
                 continue;
             }
             int vuorossa = tilanne[i];
-            int vuorossaXKoord = xKoord(i, laudanLeveys);
-            int vuorossaYKoord = yKoord(i, laudanLeveys);
+            int vuorossaXKoord = xKoord(i);
+            int vuorossaYKoord = yKoord(i);
             
-            int goalXKoord = xKoord(haeGoalIndeksi(vuorossa), laudanLeveys);
-            int goalYKoord = yKoord(haeGoalIndeksi(vuorossa), laudanLeveys); 
+            int goalXKoord = xKoord(haeGoalIndeksi(vuorossa, lopputilanne));
+            int goalYKoord = yKoord(haeGoalIndeksi(vuorossa, lopputilanne)); 
             
             summa += absValue(vuorossaXKoord - goalXKoord) + absValue(vuorossaYKoord - goalYKoord);  
         }
-        
-        n.setH(summa);
+        return summa;
+
         
 
     }
@@ -75,27 +71,18 @@ public class IDAStarRajapinta extends IDDFSRajapinta {
      * @param haettava
      * @return 
      */
-    private int haeGoalIndeksi(int haettava) {
-        for (int i = 0; i < getGoalNode().getPituus(); i++) {
-            if (getGoalNode().getTilanne()[i] == haettava) {
+    private int haeGoalIndeksi(int haettava, int[] lopputilanne) {
+        for (int i = 0; i < lopputilanne.length; i++) {
+            if (lopputilanne[i] == haettava) {
                 return i;
             }
         }
-        
+       
         // tänne ei pitäisi ikinä joutua
         return -100;
     }
     
-    
 
-//    /**
-//     *
-//     * @param n
-//     */
-//    public void manhattanDistance(Node n) {
-//        int[] state = n.getTilanne();
-//        int laudanLeveys = getPeli().getPelilauta().getLeveys();
-//    }
 
     /**
      * apumetodi itseisarvon laskemiseksi (korvaa Math.abs:n)

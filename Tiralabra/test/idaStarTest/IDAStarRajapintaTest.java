@@ -4,7 +4,7 @@
  */
 package idaStarTest;
 
-import idaStar.IDAStarRajapinta;
+import idaStar.Manhattan;
 import idaStar.Node;
 import org.junit.*;
 import static org.junit.Assert.*;
@@ -38,7 +38,7 @@ public class IDAStarRajapintaTest {
     
     @Test
     public void arvoHTuleeLaskettuaOikein() {
-        IDAStarRajapinta ir = new IDAStarRajapinta(new Pelitapahtuma(3, 3, 100));
+        Manhattan ir = new Manhattan(new Pelitapahtuma(3, 3, 100));
         int[] test = {5, 7, -1, 4, 2, 3, 8, 6, 1};
         ir.setStartNode(new Node(test));
         ir.laskeNodenArvoH(ir.getStartNode(), 3);

@@ -34,8 +34,19 @@ public class Main {
 //        ir.laskeNodenArvoH(ir.getStartNode(), 3);
 //        System.out.println(ir.getStartNode().getH());
         
-        IDDFSIlmanOlioita iddfs = new IDDFSIlmanOlioita(new Pelitapahtuma(3, 3, 100));
-        iddfs.iterativeDeepeningSearch();
+        Haku haku = new Haku(new Pelitapahtuma(3, 3, 100));
+        
+        for (int i = 0; i < haku.getTaulukonPituus(); i++) {
+            System.out.print(haku.getTilanne()[i]);          
+        }
+        System.out.println("");
+        
+        int[] tulos = haku.iterativeDeepeningSearch();
+        
+        for (int i = 0; i < tulos.length; i++) {
+            System.out.print(tulos[i]);
+        }
+//        haku.kaynnista();
         
 
         
