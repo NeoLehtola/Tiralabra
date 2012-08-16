@@ -4,16 +4,13 @@ import java.util.Stack;
 import sovelluslogiikka.Pelitapahtuma;
 
 /**
- * tämä on niinku luonnos. en tiedä vielä mihin tässä päädytään.
+ *  IDDFS-haku, toistaiseksi ilman mitään heuristiikkoja.
+ * (Aika kamala megaluokka toistaiseksi.)
  *
  * @author pklehtol
  */
 public class Haku {
 
-    /*
-     * kokeilen nyt alkuun sellaista, että yhdistän IDDFS- ja
-     * IDDFSRajapinta-luokat, jotta saisin koodista tiiviimpää.
-     */
     private Pelitapahtuma peli;
     private int taulukonPituus;
     private int[] tilanne;
@@ -21,7 +18,6 @@ public class Haku {
     private final int[] LOPPUTILANNE;
     
     private int costLimit;
-    
 
     /**
      *
@@ -36,10 +32,6 @@ public class Haku {
 
     }
     
-    public void kaynnista() {
-        
-    }
-
     /**
      * peli tuntee laudan matriisina, minä haluan sen taulukkona.
      *
@@ -79,14 +71,13 @@ public class Haku {
             arvot[i] = i + 1;
         }
         arvot[taulukonPituus - 1] = -1;
-
         return arvot;
     }
 
     /**
-     * 
+     * luodaan nykytilannetta seuraavat siirrot ja laitetaan ne pinoon hakua varten
      * @param tilanne
-     * @return 
+     * @return pino jossa seuraavat siirrot
      */
     public Stack<int[]> lapsetPinoon(int[] tilanne) {
         Stack<int[]> pino = new Stack<int[]>();
@@ -209,6 +200,7 @@ public class Haku {
      * @param syvyys haun suurin syvyys, sitä pidemmälle ei jatketa
      * @return
      */
+    //(heuristiikkaversiossa siis syvyys = costLimit?)
     public int[] depthLimitedSearch(int[] tilanneNyt, int syvyys) {
  
         if (syvyys >= 0 && vertaaTilanteita(tilanneNyt, LOPPUTILANNE)) {
@@ -217,7 +209,7 @@ public class Haku {
 
             Stack<int[]> lapsiPino = lapsetPinoon(tilanneNyt);
 
-            int[] tulos = null;
+            int[] tulos;
             while (!lapsiPino.isEmpty()) {
                 tilanne = lapsiPino.pop();
                                 
@@ -230,9 +222,11 @@ public class Haku {
         } else {
             return null;
         }
-
     }
     
+    /**
+     * graafista sovellusta varten tarvitaan tieto siitä, mikä oli lyhin reitti maalitilanteeseen
+     */
     public void tallennaReitti() {
         
     }
@@ -255,37 +249,36 @@ public class Haku {
             }
             syvyys++;
         }
-
     }
     
 
     /**
-     *
-     * @return
+     * palauttaa nykytilanteen
+     * @return this.tilanne
      */
     public int[] getTilanne() {
         return tilanne;
     }
 
     /**
-     *
-     * @return
+     * palauttaa maalitilanteen
+     * @return this.LOPPUTILANNE
      */
     public int[] getLoppuTilanne() {
         return LOPPUTILANNE;
     }
 
     /**
-     *
-     * @return
+     * palauttaa pelitapahtuman jossa haku tehdään 
+     * @return this.peli
      */
     public Pelitapahtuma getPeli() {
         return peli;
     }
 
     /**
-     *
-     * @return
+     * palauttaa pelitaulukon pituuden
+     * @return this.taulukonPituus
      */
     public int getTaulukonPituus() {
         return taulukonPituus;

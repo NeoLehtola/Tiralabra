@@ -35,6 +35,14 @@ public class PinoTest {
     @After
     public void tearDown() {
     }
+    
+    @Test
+    public void pinoonVoiLisataIntLukuja() {
+        pino = new Pino();
+        pino.push(3);
+        pino.push(-100);
+        assertEquals(pino.pop(), -100);
+    }
 
 //    @Test
 //    public void pushLisaaOikeaanKohtaan() {

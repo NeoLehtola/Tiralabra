@@ -1,18 +1,16 @@
 package idaStar;
 
-import sovelluslogiikka.Pelitapahtuma;
-
 /**
- * 
+ * Ehkä lisään tähän luokkaan myös Linear Conflict -tilanteen
  *
  */
 public class Manhattan {
 
-    private int[] tilanne;
     private int laudanLeveys;
     
-    public Manhattan(int[] tilanne, int laudanLeveys) {
-        this.tilanne = tilanne;
+    // ei mitää järkee että laudanleveys on oliomuuttuja. korjaan
+    public Manhattan(int laudanLeveys) {
+
         this.laudanLeveys = laudanLeveys;
     }
 
@@ -37,14 +35,12 @@ public class Manhattan {
         return i/laudanLeveys;
     }
 
-
-
-    /**
-     * manhattan
-     * tästä tullee private
-
-     */
-    public int laskeH(int[] lopputilanne) {
+  /**
+   * Tämä laskee Manhattan Distancen, ja etsii sitä varten jokaisen luvun koordinaatit nykyisessä tilanteessa sekä maalitilanteessa
+   * @param lopputilanne
+   * @return summa eli haluttu h-arvo
+   */
+    public int laskeH(int[] tilanne, int[] lopputilanne) {
         
         int summa = 0;
 
@@ -56,33 +52,29 @@ public class Manhattan {
             int vuorossaXKoord = xKoord(i);
             int vuorossaYKoord = yKoord(i);
             
-            int goalXKoord = xKoord(haeGoalIndeksi(vuorossa, lopputilanne));
-            int goalYKoord = yKoord(haeGoalIndeksi(vuorossa, lopputilanne)); 
+            int maaliXKoord = xKoord(maalinIndeksi(vuorossa, lopputilanne));
+            int maaliYKoord = yKoord(maalinIndeksi(vuorossa, lopputilanne)); 
             
-            summa += absValue(vuorossaXKoord - goalXKoord) + absValue(vuorossaYKoord - goalYKoord);  
+            summa += absValue(vuorossaXKoord - maaliXKoord) + absValue(vuorossaYKoord - maaliYKoord);  
         }
         return summa;
-
-        
-
     }
+    
     /**
-     * 
+     * haetaan se indeksi, jossa maalitaulukossa sijaitsee kysytty luku
      * @param haettava
      * @return 
      */
-    private int haeGoalIndeksi(int haettava, int[] lopputilanne) {
+    private int maalinIndeksi(int haettava, int[] lopputilanne) {
         for (int i = 0; i < lopputilanne.length; i++) {
             if (lopputilanne[i] == haettava) {
                 return i;
             }
-        }
-       
+        }      
         // tänne ei pitäisi ikinä joutua
         return -100;
     }
     
-
 
     /**
      * apumetodi itseisarvon laskemiseksi (korvaa Math.abs:n)
