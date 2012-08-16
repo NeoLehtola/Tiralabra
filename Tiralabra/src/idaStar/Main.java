@@ -28,11 +28,15 @@ public class Main {
 //            System.out.println("Löytyi! ^_^");
 //        }
         
-        IDAStarRajapinta ir = new IDAStarRajapinta(new Pelitapahtuma(3, 3, 100));
-        int[] test = {5, 7, -1, 4, 2, 3, 8, 6, 1};
-        ir.setStartNode(new Node(test));
-        ir.laskeNodenArvoH(ir.getStartNode(), 3);
-        System.out.println(ir.getStartNode().getH());
+//        IDAStarRajapinta ir = new IDAStarRajapinta(new Pelitapahtuma(3, 3, 100));
+//        int[] test = {5, 7, -1, 4, 2, 3, 8, 6, 1};
+//        ir.setStartNode(new Node(test));
+//        ir.laskeNodenArvoH(ir.getStartNode(), 3);
+//        System.out.println(ir.getStartNode().getH());
+        
+        IDDFSIlmanOlioita iddfs = new IDDFSIlmanOlioita(new Pelitapahtuma(3, 3, 100));
+        iddfs.iterativeDeepeningSearch();
+        
 
         
         

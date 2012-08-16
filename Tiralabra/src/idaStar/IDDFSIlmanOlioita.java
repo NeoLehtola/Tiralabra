@@ -1,4 +1,3 @@
-
 package idaStar;
 
 import java.util.Stack;
@@ -6,39 +5,42 @@ import sovelluslogiikka.Pelitapahtuma;
 
 /**
  * tämä on niinku luonnos. en tiedä vielä mihin tässä päädytään.
+ *
  * @author pklehtol
  */
-public class IDDFSIlmanOlioita { 
-    
-    /* kokeilen nyt alkuun sellaista, että yhdistän IDDFS- ja IDDFSRajapinta-luokat, jotta
-     * saisin koodista tiiviimpää. 
-    */ 
-    
+public class IDDFSIlmanOlioita {
+
+    /*
+     * kokeilen nyt alkuun sellaista, että yhdistän IDDFS- ja
+     * IDDFSRajapinta-luokat, jotta saisin koodista tiiviimpää.
+     */
     private Pelitapahtuma peli;
     private int taulukonPituus;
-    private int[] alkuTilanne;
+    private int[] tilanne;
+    private int[] muisti;
     private final int[] LOPPUTILANNE;
-    
+
     /**
-     * 
-     * @param peli 
+     *
+     * @param peli
      */
     public IDDFSIlmanOlioita(Pelitapahtuma peli) {
         this.peli = peli;
         this.taulukonPituus = taulukonPituus();
-        this.alkuTilanne = alkuArvotPelilaudalta();
+        this.tilanne = alkuArvotPelilaudalta();
         this.LOPPUTILANNE = loppuTilanne();
-        
+
     }
-    
+
     /**
      * peli tuntee laudan matriisina, minä haluan sen taulukkona.
+     *
      * @return taulukon pituus
      */
     private int taulukonPituus() {
-        return peli.getPelilauta().getKorkeus()*peli.getPelilauta().getLeveys();
+        return peli.getPelilauta().getKorkeus() * peli.getPelilauta().getLeveys();
     }
-    
+
     /**
      * apumetodi konstruktorille alkutilannetaulukon luomista varten
      *
@@ -55,9 +57,9 @@ public class IDDFSIlmanOlioita {
             }
         }
         return arvot;
-        
+
     }
-    
+
     /**
      * apumetodi konstruktorille maalitilannetaulukon varten
      *
@@ -72,58 +74,111 @@ public class IDDFSIlmanOlioita {
 
         return arvot;
     }
-    
-    
-    
-//    /**
-//     * tehdään seuraavat pelitilanteet ja laitetaan ne nodeina pinoon
-//     *
-//     * @param current
-//     * @return pino jossa noden lapset
-//     */
-//    public Stack<Node> luoNodelleLapsetPinoon(Node current) {
-//        Stack<Node> pino = new Stack<Node>();
-//        int[] tilanne = current.getTilanne();
-//        int laudanLeveys = peli.getPelilauta().getLeveys();
-//        int tyhjanIndeksi = perakkaisHaku(tilanne);
-//        // indeksit: oikealle, vasemmalle, ylös, alas
-//        int[] siirtoIndeksit = {tyhjanIndeksi + 1, tyhjanIndeksi - 1, tyhjanIndeksi - laudanLeveys, tyhjanIndeksi + laudanLeveys};
-//
-//        for (int i : siirtoIndeksit) {
-//            // ei voida siirtää sellaiseen suuntaan, joka ei ole pelilaudalla
-//            if (i < 0) {
-//                continue;
-//            }
-//
-//            if (!laitonSiirto(tilanne, i, laudanLeveys, tyhjanIndeksi)) {
-//                pino.push(new Node(teeUusiSiirtotilanne(tilanne, i, tyhjanIndeksi)));
-//            }
-//        }
-//
-//        return pino;
-//    }
-    
-    // turha?
+
     public Stack<int[]> lapsetPinoon(int[] tilanne) {
-        return null;
+        Stack<int[]> pino = new Stack<int[]>();
+        int laudanLeveys = peli.getPelilauta().getLeveys();
+        int tyhjanIndeksi = perakkaisHaku(tilanne);
+
+        // indeksit: oikealle, vasemmalle, ylös, alas
+        int[] siirtoIndeksit = {tyhjanIndeksi + 1, tyhjanIndeksi - 1, tyhjanIndeksi - laudanLeveys, tyhjanIndeksi + laudanLeveys};
+
+        for (int i : siirtoIndeksit) {
+            // ei voida siirtää sellaiseen suuntaan, joka ei ole pelilaudalla
+            if (i < 0) {
+                continue;
+            }
+            if (!laitonSiirto(i, laudanLeveys, tyhjanIndeksi)) {
+                pino.push(teeUusiSiirtotilanne(i, tyhjanIndeksi));
+            }
+        }
+        return pino;
     }
-    
-    
-    
-    
-    
-      
+
+    /**
+     * metodi testaa, voiko kysyttyä siirtoa tehdä.
+     *
+     * @param vaihdettava vaihdettavan pelinappulan indeksi taulukossa
+     * @param laudanLeveys
+     * @param tyhjanIndeksi tyhjän napin indeksi
+     * @return true jos siirto on laiton eli ei voida suorittaa, ja false jos
+     * voidaan siirtää
+     */
+    private boolean laitonSiirto(int vaihdettava, int laudanLeveys, int tyhjanIndeksi) {
+
+        // tarkistettu jo aiemmin, ettei nollaindeksillä voi tehdä vääriä siirtoja
+        if (tyhjanIndeksi == 0) {
+            return false;
+        } else {
+            // vaihdettava nappi on tyhjän vasemmalla puolella
+            if (vaihdettava == tyhjanIndeksi - 1) {
+                return tyhjanIndeksi % laudanLeveys == 0;
+                // vaihdettava nappi on tyhjän oikealla puolella
+            } else if (vaihdettava == tyhjanIndeksi + 1) {
+                return vaihdettava % laudanLeveys == 0;
+            } else {
+                return vaihdettava >= taulukonPituus;
+            }
+        }
+    }
+
+    /**
+     * apumetodi joka muodostaa seuraavan siirron
+     *
+     * @param taulukko jossa pelitilanteen vaihto tehdään
+     * @return muutettu taulukko
+     */
+    private int[] teeUusiSiirtotilanne(int i, int tyhjanIndeksi) {
+        int[] seuraavaSiirto = kopioiTaulukko(tilanne);
+        int apu = seuraavaSiirto[i];
+        seuraavaSiirto[i] = seuraavaSiirto[tyhjanIndeksi];
+        seuraavaSiirto[tyhjanIndeksi] = apu;
+        return seuraavaSiirto;
+    }
+
+    /**
+     * kopion muodostaminen taulukosta (manuaalinen System.arraycopy)
+     *
+     * @param alkup
+     * @return uusi taulukko, joka on kopio
+     */
+    private int[] kopioiTaulukko(int[] alkup) {
+        int[] uusi = new int[alkup.length];
+
+        for (int i = 0; i < uusi.length; i++) {
+            uusi[i] = alkup[i];
+        }
+        return uusi;
+    }
+
+    /**
+     * apumetodi tyhjän napin (-1) löytämiseksi
+     *
+     * @param taulukko
+     * @return tyhjän kohdan indeksi
+     */
+    private int perakkaisHaku(int[] taulukko) {
+        for (int i = 0; i < taulukko.length; i++) {
+            if (taulukko[i] == -1) {
+                return i;
+            }
+        }
+//        // jos päästään tänne, jossain on jokin virhe
+        return -100;
+    }
+
     /**
      * taulukkoarvojen vertailu sen tarkistamiseksi, ollaanko maalitilanteessa
      * Huom. nyt ei ole erillistä isGoal()-metodia koska tällä voi tehdä saman
+     *
      * @param eka
      * @param toka
      * @return true jos pelitilanne taulukossa on sama
      */
     private boolean vertaaTilanteita(int[] eka, int[] toka) {
-//        if (eka == null || toka == null) {
-//            return false;
-//        }       
+        if (eka == null || toka == null) {
+            return false;
+        }       
         for (int i = 0; i < eka.length; i++) {
             if (eka[i] != toka[i]) {
                 return false;
@@ -131,27 +186,27 @@ public class IDDFSIlmanOlioita {
         }
         return true;
     }
-    
+
     /**
-     * 
+     *
      * rajattu syvyyshaku, apumetodi iteratiiviselle syvyyshaulle
+     *
      * @param tilanneNyt
      * @param loppuTilanne
      * @param syvyys haun suurin syvyys, sitä pidemmälle ei jatketa
-     * @return 
+     * @return
      */
     public int[] depthLimitedSearch(int[] tilanneNyt, int syvyys) {
-        
+
         if (syvyys >= 0 && vertaaTilanteita(tilanneNyt, LOPPUTILANNE)) {
             return tilanneNyt;
         } else if (syvyys > 0) {
-//            tulostaTaulukko(current);
-            
+
             Stack<int[]> lapsiPino = lapsetPinoon(tilanneNyt);
-            
+
             int[] tulos = null;
             while (!lapsiPino.isEmpty()) {
-                tulos = depthLimitedSearch(lapsiPino.pop(), syvyys-1);
+                tulos = depthLimitedSearch(lapsiPino.pop(), syvyys - 1);
                 if (vertaaTilanteita(tulos, LOPPUTILANNE)) {
                     break;
                 }
@@ -160,62 +215,58 @@ public class IDDFSIlmanOlioita {
         } else {
             return null;
         }
-        
+
     }
-    
+
     /**
-     * Iteratiivinen syvyyshaku, joka kutsuu DLS:ää 
-     * @param tilanneNyt
+     * Iteratiivinen syvyyshaku, joka kutsuu DLS:ää
+     *
      * @param loppuTilanne
      * @return lopputilanne
      */
-    public int[] iterativeDeepeningSearch(int[] tilanneNyt) {
+    public int[] iterativeDeepeningSearch() {
         int syvyys = 0;
         int[] tulos;
-        
+
         while (true) {
-            tulos = depthLimitedSearch(tilanneNyt, syvyys);
+            tulos = depthLimitedSearch(tilanne, syvyys);
             if (vertaaTilanteita(tulos, LOPPUTILANNE)) {
                 return tulos;
             }
             syvyys++;
-        } 
-        
+        }
+
     }
 
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
-    public int[] getAlkuTilanne() {
-        return alkuTilanne;
+    public int[] getTilanne() {
+        return tilanne;
     }
 
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     public int[] getLoppuTilanne() {
         return LOPPUTILANNE;
     }
 
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     public Pelitapahtuma getPeli() {
         return peli;
     }
 
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     public int getTaulukonPituus() {
         return taulukonPituus;
     }
-     
-    
-    
-    
 }
