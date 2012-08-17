@@ -6,41 +6,13 @@ package idaStar;
  */
 public class Manhattan {
 
-    private int laudanLeveys;
-    
-    // ei mitää järkee että laudanleveys on oliomuuttuja. korjaan
-    public Manhattan(int laudanLeveys) {
-
-        this.laudanLeveys = laudanLeveys;
-    }
-
-    
-    /**
-     * haetun napin x-koordinaatti
-     * @param i
-     * @param laudanLeveys
-     * @return 
-     */
-    private int xKoord(int i) {
-        return i%laudanLeveys;
-    }
-    
-    /**
-     * haetun napin y-koordinaatti
-     * @param i
-     * @param laudanLeveys
-     * @return 
-     */
-    private int yKoord(int i) {
-        return i/laudanLeveys;
-    }
 
   /**
    * Tämä laskee Manhattan Distancen, ja etsii sitä varten jokaisen luvun koordinaatit nykyisessä tilanteessa sekä maalitilanteessa
    * @param lopputilanne
    * @return summa eli haluttu h-arvo
    */
-    public int laskeH(int[] tilanne, int[] lopputilanne) {
+    public int laskeH(int[] tilanne, int laudanLeveys) {
         
         int summa = 0;
 
@@ -49,33 +21,18 @@ public class Manhattan {
                 continue;
             }
             int vuorossa = tilanne[i];
-            int vuorossaXKoord = xKoord(i);
-            int vuorossaYKoord = yKoord(i);
+            int vuorossaXKoord = i%laudanLeveys;
+            int vuorossaYKoord = i/laudanLeveys;
             
-            int maaliXKoord = xKoord(maalinIndeksi(vuorossa, lopputilanne));
-            int maaliYKoord = yKoord(maalinIndeksi(vuorossa, lopputilanne)); 
+            int maaliXKoord = (vuorossa-1)%laudanLeveys;
+            int maaliYKoord = (vuorossa-1)/laudanLeveys; 
             
             summa += absValue(vuorossaXKoord - maaliXKoord) + absValue(vuorossaYKoord - maaliYKoord);  
         }
         return summa;
     }
     
-    /**
-     * haetaan se indeksi, jossa maalitaulukossa sijaitsee kysytty luku
-     * @param haettava
-     * @return 
-     */
-    private int maalinIndeksi(int haettava, int[] lopputilanne) {
-        for (int i = 0; i < lopputilanne.length; i++) {
-            if (lopputilanne[i] == haettava) {
-                return i;
-            }
-        }      
-        // tänne ei pitäisi ikinä joutua
-        return -100;
-    }
     
-
     /**
      * apumetodi itseisarvon laskemiseksi (korvaa Math.abs:n)
      * @param k luku jonka itseisarvo halutaan
@@ -83,7 +40,7 @@ public class Manhattan {
      */
     private int absValue(int k) {
         if (k < 0) {
-            return k * (-1);
+            return -k;
         } else {
             return k;
         }

@@ -4,7 +4,7 @@ import java.util.Stack;
 import sovelluslogiikka.Pelitapahtuma;
 
 /**
- *  IDDFS-haku, toistaiseksi ilman mitään heuristiikkoja.
+ *  IDDFS-haku.
  * (Aika kamala megaluokka toistaiseksi.)
  *
  * @author pklehtol
@@ -15,7 +15,6 @@ public class Haku {
     private int taulukonPituus;
     private int[] tilanne;
     private final int[] ALKUTILANNE;
-    private final int[] LOPPUTILANNE;
     
     private int funktionArvo;
     private Manhattan m;
@@ -28,9 +27,8 @@ public class Haku {
         this.peli = peli;
         this.taulukonPituus = taulukonPituus();
         this.ALKUTILANNE = alkuArvotPelilaudalta();
-        this.LOPPUTILANNE = loppuTilanne();
         this.tilanne = kopioiTaulukko(ALKUTILANNE);
-        this.m = new Manhattan(peli.getPelilauta().getLeveys());
+        this.m = new Manhattan();
 
     }
     
@@ -60,20 +58,6 @@ public class Haku {
         }
         return arvot;
 
-    }
-
-    /**
-     * apumetodi konstruktorille maalitilannetaulukon varten
-     *
-     * @return taulukko jossa numerot järjestyksessä ja viimeisenä tyhjä (-1);
-     */
-    private int[] loppuTilanne() {
-        int[] arvot = new int[taulukonPituus];
-        for (int i = 0; i < taulukonPituus - 1; i++) {
-            arvot[i] = i + 1;
-        }
-        arvot[taulukonPituus - 1] = -1;
-        return arvot;
     }
 
     /**
@@ -173,25 +157,26 @@ public class Haku {
         return -100;
     }
 
+    
     /**
-     * taulukkoarvojen vertailu sen tarkistamiseksi, ollaanko maalitilanteessa
-     * Huom. nyt ei ole erillistä isGoal()-metodia koska tällä voi tehdä saman
-     *
-     * @param eka
-     * @param toka
-     * @return true jos pelitilanne taulukossa on sama
+     * 
+     * @param tilanne
+     * @return 
      */
-    private boolean vertaaTilanteita(int[] eka, int[] toka) {
-        if (eka == null || toka == null) {
+    private boolean onMaali(int[] tilanne) {
+       if (tilanne == null) {
             return false;
-        }       
-        for (int i = 0; i < eka.length; i++) {
-            if (eka[i] != toka[i]) {
-                return false;
-            }
-        }
+       }
+       // tarkistetaan vain toiseksi viimeiseen indeksiin, viimeinen on -1
+       for (int i = 0; i < tilanne.length-1; i++) {         
+           if (tilanne[i] != i+1) {
+               return false;
+           }
+       }
+        
         return true;
     }
+    
 
     /**
      *
@@ -206,12 +191,12 @@ public class Haku {
     //(heuristiikkaversiossa siis syvyys = costLimit?)
     public int[] depthLimitedSearch(int alkuarvo, int[] tilanneNyt, int syvyys) {
  
-        if (syvyys >= 0 && vertaaTilanteita(tilanneNyt, LOPPUTILANNE)) {
+        if (syvyys >= 0 && onMaali(tilanneNyt)) {
             return tilanneNyt;
         } else if (syvyys > 0) {
 
             Stack<int[]> lapsiPino = lapsetPinoon(tilanneNyt);
-            this.funktionArvo = alkuarvo + m.laskeH(tilanneNyt, LOPPUTILANNE);
+            this.funktionArvo = alkuarvo + m.laskeH(tilanneNyt, peli.getPelilauta().getLeveys());
             
             if (funktionArvo > syvyys) {
                 // mitäs tämä nyt palauttaa ja miten limitit menee?
@@ -222,7 +207,7 @@ public class Haku {
                 tilanne = lapsiPino.pop();
                                 
                 tulos = depthLimitedSearch(alkuarvo+1, tilanne, syvyys - 1);
-                if (vertaaTilanteita(tulos, LOPPUTILANNE)) {
+                if (onMaali(tulos)) {
                     break;
                 }
             }
@@ -242,8 +227,6 @@ public class Haku {
 
     /**
      * Iteratiivinen syvyyshaku, joka kutsuu DLS:ää
-     *
-     * 
      * @return lopputilanne
      */
     public int[] iterativeDeepeningSearch() {
@@ -252,28 +235,19 @@ public class Haku {
 
         while (true) {
             tulos = depthLimitedSearch(0, ALKUTILANNE, syvyys);
-            if (vertaaTilanteita(tulos, LOPPUTILANNE)) {
+            if (onMaali(tulos)) {
                 return tulos;
             }
             syvyys++;
         }
     }
     
-
     /**
      * palauttaa nykytilanteen
      * @return this.tilanne
      */
     public int[] getTilanne() {
         return tilanne;
-    }
-
-    /**
-     * palauttaa maalitilanteen
-     * @return this.LOPPUTILANNE
-     */
-    public int[] getLoppuTilanne() {
-        return LOPPUTILANNE;
     }
 
     /**

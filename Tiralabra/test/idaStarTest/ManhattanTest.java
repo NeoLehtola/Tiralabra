@@ -16,7 +16,7 @@ import sovelluslogiikka.Pelitapahtuma;
  */
 public class ManhattanTest {
     
-    private final int[] lopputilanne = {1, 2, 3, 4, 5, 6, 7, 8, -1};
+    
     
     public ManhattanTest() {
     }
@@ -41,8 +41,8 @@ public class ManhattanTest {
     @Test
     public void arvoHTuleeLaskettuaOikein() {     
         int[] test = {5, 7, -1, 4, 2, 3, 8, 6, 1};
-        Manhattan m = new Manhattan(3);
-        assertEquals(14, m.laskeH(test, lopputilanne));
+        Manhattan m = new Manhattan();
+        assertEquals(14, m.laskeH(test, 3));
     }
     
     
