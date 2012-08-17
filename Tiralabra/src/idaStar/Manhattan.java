@@ -27,19 +27,24 @@ public class Manhattan {
             }
             int vuorossa = tilanne[i];
 
-            if (laskeKonflikti && i > 0) {
-                //ensin tarkistetaan onko kaksi nappia "väärinpäin" ja sitten ovatko ne samalla rivillä
-                if (tilanne[i] == tilanne[i - 1] - 1 && i%laudanLeveys != 0) {
-                    summa += 2;
-                }
-            }
-
             int vuorossaXKoord = i % laudanLeveys;
             int vuorossaYKoord = i / laudanLeveys;
 
             int maaliXKoord = (vuorossa - 1) % laudanLeveys;
             int maaliYKoord = (vuorossa - 1) / laudanLeveys;
 
+            /* linear conflict
+             * toistaiseksi ottaa huomioon vain vierekkäiset napit leveyssuunnassa
+             */
+            if (laskeKonflikti && i > 0) {
+
+                //ensin tarkistetaan onko kaksi nappia "väärinpäin" ja sitten ovatko ne samalla rivillä
+                if (vuorossaYKoord == maaliYKoord && tilanne[i] == tilanne[i - 1] - 1 && i % laudanLeveys != 0) {
+                    summa += 2;
+                }
+            }
+
+            // h-arvon laskeminen
             summa += Math.abs(vuorossaXKoord - maaliXKoord) + Math.abs(vuorossaYKoord - maaliYKoord);
         }
         return summa;
