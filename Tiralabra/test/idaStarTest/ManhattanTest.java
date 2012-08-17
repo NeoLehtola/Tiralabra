@@ -42,13 +42,24 @@ public class ManhattanTest {
     @Test
     public void arvoHTuleeLaskettuaOikein() {     
         int[] test = {5, 7, -1, 4, 2, 3, 8, 6, 1};
-        assertEquals(14, m.laskeH(test, 3));
+        assertEquals(14, m.laskeH(test, 3, false));
+    }
+    
+    @Test
+    public void arvoOikeinJosLinearConflictHuomioidaan() {
+        int[] test = {1, 3, 2, 4, 5, 6, 7, 8, -1};
+        assertEquals(4, m.laskeH(test, 3, true));
+    }
+    
+    @Test
+    public void arvoOikeinJosUseitaLinearConflictTilanteita() {
+        
     }
     
     @Test
     public void hooOnNollaJosParametrinaMaalitilanne() {
         int[] test = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, -1};
-        assertEquals(0, m.laskeH(test, 4));
+        assertEquals(0, m.laskeH(test, 4, false));
     }
     
     @Test

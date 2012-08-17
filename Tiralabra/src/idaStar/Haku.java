@@ -200,7 +200,7 @@ public class Haku {
         } else if (haunRaja > 0) {
 
             Stack<int[]> lapsiPino = lapsetPinoon(tilanneNyt);
-            this.funktionArvo = alkuarvo + m.laskeH(tilanneNyt, peli.getPelilauta().getLeveys());
+            this.funktionArvo = alkuarvo + m.laskeH(tilanneNyt, peli.getPelilauta().getLeveys(), false);
             
             if (funktionArvo > haunRaja) {
                 // mitäs tämä nyt palauttaa ja miten limitit menee?
