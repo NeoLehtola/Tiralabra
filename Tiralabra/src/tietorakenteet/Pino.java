@@ -13,9 +13,10 @@ public class Pino {
     /**
      * 
      */
-    public Pino() {
+    public Pino(Class tyyppi) {
         this.taulukko = new Object[10];
         this.top = 0;
+        
     }
     
     /**
@@ -53,7 +54,7 @@ public class Pino {
      */
     public Object pop() {
         Object palautettava = taulukko[top-1];
-        taulukko[top] = null;
+        taulukko[top-1] = null;
         top--;
         return palautettava;
         

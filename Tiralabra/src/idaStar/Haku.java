@@ -2,6 +2,7 @@ package idaStar;
 
 import java.util.Stack;
 import sovelluslogiikka.Pelitapahtuma;
+import tietorakenteet.Pino;
 
 /**
  *  IDDFS-haku.
@@ -16,6 +17,7 @@ public class Haku {
     private int[] tilanne;
     private final int[] ALKUTILANNE;
     
+    private int costLimit;
     private int funktionArvo;
     private Manhattan m;
 
@@ -29,6 +31,7 @@ public class Haku {
         this.ALKUTILANNE = alkuArvotPelilaudalta();
         this.tilanne = kopioiTaulukko(ALKUTILANNE);
         this.m = new Manhattan();
+//        this.costLimit = m.laskeH(ALKUTILANNE, peli.getPelilauta().getLeveys());
 
     }
     
@@ -66,6 +69,7 @@ public class Haku {
      * @return pino jossa seuraavat siirrot
      */
     public Stack<int[]> lapsetPinoon(int[] tilanne) {
+        
         Stack<int[]> pino = new Stack<int[]>();
         int laudanLeveys = peli.getPelilauta().getLeveys();
         int tyhjanIndeksi = perakkaisHaku(tilanne);
@@ -185,28 +189,29 @@ public class Haku {
      * @param alkuarvo heuristiikkafunktion g-arvo käsittääkseni
      * @param tilanneNyt
      * @param loppuTilanne
-     * @param syvyys haun suurin syvyys, sitä pidemmälle ei jatketa
+     * @param haunRaja haun suurin syvyys, sitä pidemmälle ei jatketa
      * @return
      */
     //(heuristiikkaversiossa siis syvyys = costLimit?)
-    public int[] depthLimitedSearch(int alkuarvo, int[] tilanneNyt, int syvyys) {
+    public int[] depthLimitedSearch(int alkuarvo, int[] tilanneNyt, int haunRaja) {
  
-        if (syvyys >= 0 && onMaali(tilanneNyt)) {
+        if (haunRaja >= 0 && onMaali(tilanneNyt)) {
             return tilanneNyt;
-        } else if (syvyys > 0) {
+        } else if (haunRaja > 0) {
 
             Stack<int[]> lapsiPino = lapsetPinoon(tilanneNyt);
             this.funktionArvo = alkuarvo + m.laskeH(tilanneNyt, peli.getPelilauta().getLeveys());
             
-            if (funktionArvo > syvyys) {
+            if (funktionArvo > haunRaja) {
                 // mitäs tämä nyt palauttaa ja miten limitit menee?
+                
             }
             
             int[] tulos;
             while (!lapsiPino.isEmpty()) {
                 tilanne = lapsiPino.pop();
                                 
-                tulos = depthLimitedSearch(alkuarvo+1, tilanne, syvyys - 1);
+                tulos = depthLimitedSearch(alkuarvo+1, tilanne, haunRaja - 1);
                 if (onMaali(tulos)) {
                     break;
                 }

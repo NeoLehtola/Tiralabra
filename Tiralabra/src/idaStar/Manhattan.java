@@ -21,6 +21,13 @@ public class Manhattan {
                 continue;
             }
             int vuorossa = tilanne[i];
+            
+//            // jos linear conflict olisikin tässä
+              // ensin tarkistetaan onko kaksi nappia "väärinpäin" ja sitten ovatko ne samalla rivillä
+//            if (tilanne[i] == tilanne[i-1]-1 && tilanne[i] != i) {
+//                summa += 2;
+//            }
+            
             int vuorossaXKoord = i%laudanLeveys;
             int vuorossaYKoord = i/laudanLeveys;
             
@@ -31,5 +38,7 @@ public class Manhattan {
         }
         return summa;
     }
+    
+ 
     
 }
