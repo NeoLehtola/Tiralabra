@@ -27,23 +27,9 @@ public class Manhattan {
             int maaliXKoord = (vuorossa-1)%laudanLeveys;
             int maaliYKoord = (vuorossa-1)/laudanLeveys; 
             
-            summa += absValue(vuorossaXKoord - maaliXKoord) + absValue(vuorossaYKoord - maaliYKoord);  
+            summa += Math.abs(vuorossaXKoord - maaliXKoord) + Math.abs(vuorossaYKoord - maaliYKoord);  
         }
         return summa;
     }
     
-    
-    /**
-     * apumetodi itseisarvon laskemiseksi (korvaa Math.abs:n)
-     * @param k luku jonka itseisarvo halutaan
-     * @return Jos luku negatiivinen, se kerrotaan -1:llä, muuten luku palautetaan sellaisenaan
-     */
-    private int absValue(int k) {
-        if (k < 0) {
-            return -k;
-        } else {
-            return k;
-        }
-    }
-
 }
