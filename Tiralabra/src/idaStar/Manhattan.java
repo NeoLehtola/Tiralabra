@@ -34,7 +34,8 @@ public class Manhattan {
             int maaliYKoord = (vuorossa - 1) / laudanLeveys;
 
             /* linear conflict
-             * toistaiseksi ottaa huomioon vain vierekkäiset napit leveyssuunnassa
+             * toistaiseksi ottaa huomioon vain vierekkäiset napit leveyssuunnassa,
+             * seuraavaksi muutan niin ettei tarvitse olla vierekkäin
              */
             if (laskeKonflikti && i > 0) {
 

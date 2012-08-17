@@ -46,9 +46,16 @@ public class ManhattanTest {
     }
     
     @Test
+    // nimeä tämä paremmin
     public void arvoOikeinJosLinearConflictHuomioidaan() {
         int[] test = {1, 3, 2, 4, 5, 6, 7, 8, -1};
         assertEquals(4, m.laskeH(test, 3, true));
+    }
+    
+    @Test
+    public void konfliktiHuomioidaanVainJosSeOnLopullisellaRivillä() {
+        int[] test = {1, 2, 3, 8, 7, -1, 4, 5, 6};
+        assertEquals(7, m.laskeH(test, 3, true));
     }
     
     @Test
