@@ -5,8 +5,7 @@ import sovelluslogiikka.Pelitapahtuma;
 import tietorakenteet.Pino;
 
 /**
- *  IDDFS-haku.
- * (Aika kamala megaluokka toistaiseksi.)
+ * IDDFS-haku. (Aika kamala megaluokka toistaiseksi.)
  *
  * @author pklehtol
  */
@@ -16,10 +15,10 @@ public class Haku {
     private int taulukonPituus;
     private int[] tilanne;
     private final int[] ALKUTILANNE;
-    
-    private int costLimit;
     private int funktionArvo;
+    private int costLimit;
     private Manhattan m;
+    private Stack<int[]> pathSoFar;
 
     /**
      *
@@ -30,11 +29,14 @@ public class Haku {
         this.taulukonPituus = taulukonPituus();
         this.ALKUTILANNE = alkuArvotPelilaudalta();
         this.tilanne = kopioiTaulukko(ALKUTILANNE);
+        this.pathSoFar = new Stack<int[]>();
+        this.pathSoFar.push(ALKUTILANNE);
+        this.costLimit = 0 + m.laskeH(ALKUTILANNE, peli.getPelilauta().getLeveys(), false);
         this.m = new Manhattan();
-//        this.costLimit = m.laskeH(ALKUTILANNE, peli.getPelilauta().getLeveys());
+
 
     }
-    
+
     /**
      * peli tuntee laudan matriisina, minä haluan sen taulukkona.
      *
@@ -64,12 +66,14 @@ public class Haku {
     }
 
     /**
-     * luodaan nykytilannetta seuraavat siirrot ja laitetaan ne pinoon hakua varten
+     * luodaan nykytilannetta seuraavat siirrot ja laitetaan ne pinoon hakua
+     * varten
+     *
      * @param tilanne
      * @return pino jossa seuraavat siirrot
      */
     public Stack<int[]> lapsetPinoon(int[] tilanne) {
-        
+
         Stack<int[]> pino = new Stack<int[]>();
         int laudanLeveys = peli.getPelilauta().getLeveys();
         int tyhjanIndeksi = perakkaisHaku(tilanne);
@@ -161,94 +165,92 @@ public class Haku {
         return -100;
     }
 
-    
     /**
-     * 
+     *
      * @param tilanne
-     * @return 
-     */
-    private boolean onMaali(int[] tilanne) {
-       if (tilanne == null) {
-            return false;
-       }
-       // tarkistetaan vain toiseksi viimeiseen indeksiin, viimeinen on -1
-       for (int i = 0; i < tilanne.length-1; i++) {         
-           if (tilanne[i] != i+1) {
-               return false;
-           }
-       }
-        
-        return true;
-    }
-    
-
-    /**
-     *
-     * rajattu syvyyshaku, apumetodi iteratiiviselle syvyyshaulle
-     *
-     * @param alkuarvo heuristiikkafunktion g-arvo käsittääkseni
-     * @param tilanneNyt
-     * @param loppuTilanne
-     * @param haunRaja haun suurin syvyys, sitä pidemmälle ei jatketa
      * @return
      */
-    //(heuristiikkaversiossa siis syvyys = costLimit?)
-    public int[] depthLimitedSearch(int alkuarvo, int[] tilanneNyt, int haunRaja) {
- 
-        if (haunRaja >= 0 && onMaali(tilanneNyt)) {
-            return tilanneNyt;
-        } else if (haunRaja > 0) {
-
-            Stack<int[]> lapsiPino = lapsetPinoon(tilanneNyt);
-            this.funktionArvo = alkuarvo + m.laskeH(tilanneNyt, peli.getPelilauta().getLeveys(), false);
-            
-            if (funktionArvo > haunRaja) {
-                // mitäs tämä nyt palauttaa ja miten limitit menee?
-                
-            }
-            
-            int[] tulos;
-            while (!lapsiPino.isEmpty()) {
-                tilanne = lapsiPino.pop();
-                                
-                tulos = depthLimitedSearch(alkuarvo+1, tilanne, haunRaja - 1);
-                if (onMaali(tulos)) {
-                    break;
-                }
-            }
-            return tilanne;
-        } else {
-            return null;
+    private boolean onMaali(int[] tilanne) {
+        if (tilanne == null) {
+            return false;
         }
+        // tarkistetaan vain toiseksi viimeiseen indeksiin, viimeinen on -1
+        for (int i = 0; i < tilanne.length - 1; i++) {
+            if (tilanne[i] != i + 1) {
+                return false;
+            }
+        }
+
+        return true;
     }
-    
+
     /**
-     * graafista sovellusta varten tarvitaan tieto siitä, mikä oli lyhin reitti maalitilanteeseen
+     * haku on tällä hetkellä täysin rikki ja palasina, sitä ei kannata katsoa koska sen ei ole
+     * tarkoituskaan jäädä tuollaiseksi.
+     * rajattu syvyyshaku, apumetodi iteratiiviselle syvyyshaulle
+     *
+     * @param startCost heuristiikkafunktion g-arvo käsittääkseni
+     * @return
+     */
+    public int depthLimitedSearch(int startCost) {
+
+        int[] node = pathSoFar.pop(); // vai pop?
+        int minimumCost = startCost + m.laskeH(node, startCost, true);
+
+        if (minimumCost > costLimit) {
+            costLimit = minimumCost;
+//        if (costLimit >= 0 && onMaali(tilanneNyt)) {
+//            return tilanneNyt;
+        }
+
+        if (onMaali(node)) {
+        }
+        
+        int nextCostLimit = Integer.MAX_VALUE;
+
+        Stack<int[]> lapsiPino = lapsetPinoon(node);
+
+        while (!lapsiPino.isEmpty()) {
+            int newStartCost = startCost + 1;
+            pathSoFar.push(lapsiPino.pop());
+
+            int newCostLimit = depthLimitedSearch(startCost + 1);
+
+        }
+        return nextCostLimit;
+
+    }
+
+    /**
+     * graafista sovellusta varten tarvitaan tieto siitä, mikä oli lyhin reitti
+     * maalitilanteeseen
      */
     public void tallennaReitti() {
-        
     }
-    
 
     /**
      * Iteratiivinen syvyyshaku, joka kutsuu DLS:ää
+     *
      * @return lopputilanne
      */
     public int[] iterativeDeepeningSearch() {
-        int syvyys = 0;
-        int[] tulos;
+
+        //int syvyys = 0;
+
 
         while (true) {
-            tulos = depthLimitedSearch(0, ALKUTILANNE, syvyys);
-            if (onMaali(tulos)) {
-                return tulos;
-            }
-            syvyys++;
+            // pinossa on vain alkutilanne
+//            tulos = depthLimitedSearch(0);
+//            if (onMaali(tulos)) {
+//                return tulos;
+//            }
+            //syvyys++;
         }
     }
-    
+
     /**
      * palauttaa nykytilanteen
+     *
      * @return this.tilanne
      */
     public int[] getTilanne() {
@@ -256,7 +258,8 @@ public class Haku {
     }
 
     /**
-     * palauttaa pelitapahtuman jossa haku tehdään 
+     * palauttaa pelitapahtuman jossa haku tehdään
+     *
      * @return this.peli
      */
     public Pelitapahtuma getPeli() {
@@ -265,6 +268,7 @@ public class Haku {
 
     /**
      * palauttaa pelitaulukon pituuden
+     *
      * @return this.taulukonPituus
      */
     public int getTaulukonPituus() {
