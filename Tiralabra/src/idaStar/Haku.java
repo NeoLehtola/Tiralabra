@@ -2,26 +2,19 @@ package idaStar;
 
 import java.util.Stack;
 import sovelluslogiikka.Pelitapahtuma;
+import tietorakenteet.Pino;
 
 /**
- * tämä on niinku luonnos. en tiedä vielä mihin tässä päädytään.
+ * IDDFS-haku. (Aika kamala megaluokka toistaiseksi.)
  *
  * @author pklehtol
  */
 public class Haku {
 
-    /*
-     * kokeilen nyt alkuun sellaista, että yhdistän IDDFS- ja
-     * IDDFSRajapinta-luokat, jotta saisin koodista tiiviimpää.
-     */
     private Pelitapahtuma peli;
     private int taulukonPituus;
-    private int[] tilanne;
     private final int[] ALKUTILANNE;
-    private final int[] LOPPUTILANNE;
-    
-    private int costLimit;
-    
+    private Manhattan m;
 
     /**
      *
@@ -31,13 +24,13 @@ public class Haku {
         this.peli = peli;
         this.taulukonPituus = taulukonPituus();
         this.ALKUTILANNE = alkuArvotPelilaudalta();
-        this.LOPPUTILANNE = loppuTilanne();
-        this.tilanne = kopioiTaulukko(ALKUTILANNE);
-
-    }
-    
-    public void kaynnista() {
         
+        this.m = new Manhattan();
+
+
+
+
+
     }
 
     /**
@@ -69,26 +62,14 @@ public class Haku {
     }
 
     /**
-     * apumetodi konstruktorille maalitilannetaulukon varten
+     * luodaan nykytilannetta seuraavat siirrot ja laitetaan ne pinoon hakua
+     * varten
      *
-     * @return taulukko jossa numerot järjestyksessä ja viimeisenä tyhjä (-1);
-     */
-    private int[] loppuTilanne() {
-        int[] arvot = new int[taulukonPituus];
-        for (int i = 0; i < taulukonPituus - 1; i++) {
-            arvot[i] = i + 1;
-        }
-        arvot[taulukonPituus - 1] = -1;
-
-        return arvot;
-    }
-
-    /**
-     * 
      * @param tilanne
-     * @return 
+     * @return pino jossa seuraavat siirrot
      */
     public Stack<int[]> lapsetPinoon(int[] tilanne) {
+
         Stack<int[]> pino = new Stack<int[]>();
         int laudanLeveys = peli.getPelilauta().getLeveys();
         int tyhjanIndeksi = perakkaisHaku(tilanne);
@@ -102,10 +83,17 @@ public class Haku {
                 continue;
             }
             if (!laitonSiirto(i, laudanLeveys, tyhjanIndeksi)) {
-                pino.push(teeUusiSiirtotilanne(i, tyhjanIndeksi));
+                pino.push(teeUusiSiirtotilanne(tilanne, i, tyhjanIndeksi));
             }
         }
         return pino;
+    }
+    
+    /**
+     * graafista sovellusta varten tarvitaan tieto siitä, mikä oli lyhin reitti
+     * maalitilanteeseen
+     */
+    public void tallennaSiirtoindeksit() {
     }
 
     /**
@@ -141,7 +129,7 @@ public class Haku {
      * @param taulukko jossa pelitilanteen vaihto tehdään
      * @return muutettu taulukko
      */
-    private int[] teeUusiSiirtotilanne(int i, int tyhjanIndeksi) {
+    private int[] teeUusiSiirtotilanne(int[] tilanne, int i, int tyhjanIndeksi) {
         int[] seuraavaSiirto = kopioiTaulukko(tilanne);
         int apu = seuraavaSiirto[i];
         seuraavaSiirto[i] = seuraavaSiirto[tyhjanIndeksi];
@@ -181,111 +169,106 @@ public class Haku {
     }
 
     /**
-     * taulukkoarvojen vertailu sen tarkistamiseksi, ollaanko maalitilanteessa
-     * Huom. nyt ei ole erillistä isGoal()-metodia koska tällä voi tehdä saman
      *
-     * @param eka
-     * @param toka
-     * @return true jos pelitilanne taulukossa on sama
+     * @param tilanne
+     * @return
      */
-    private boolean vertaaTilanteita(int[] eka, int[] toka) {
-        if (eka == null || toka == null) {
+    private boolean onMaali(int[] tilanne) {
+        if (tilanne == null) {
             return false;
-        }       
-        for (int i = 0; i < eka.length; i++) {
-            if (eka[i] != toka[i]) {
+        }
+        // tarkistetaan vain toiseksi viimeiseen indeksiin, viimeinen on -1
+        for (int i = 0; i < tilanne.length - 1; i++) {
+            if (tilanne[i] != i + 1) {
                 return false;
             }
         }
+
         return true;
     }
 
+
     /**
+     * haku on tällä hetkellä täysin rikki ja palasina, sitä ei kannata katsoa
+     * koska sen ei ole tarkoituskaan jäädä tuollaiseksi. rajattu syvyyshaku,
+     * apumetodi iteratiiviselle syvyyshaulle
      *
-     * rajattu syvyyshaku, apumetodi iteratiiviselle syvyyshaulle
-     *
-     * @param tilanneNyt
-     * @param loppuTilanne
-     * @param syvyys haun suurin syvyys, sitä pidemmälle ei jatketa
+     * @param gArvo (startcost)
+     * @param
+     * @param costLimit 0+laskeH(alkutilanne)
      * @return
      */
-    public int[] depthLimitedSearch(int[] tilanneNyt, int syvyys) {
- 
-        if (syvyys >= 0 && vertaaTilanteita(tilanneNyt, LOPPUTILANNE)) {
-            return tilanneNyt;
-        } else if (syvyys > 0) {
+    public int depthLimitedSearch(int gArvo, int[] tilanne, int costLimit) {
+        int leveys = peli.getPelilauta().getLeveys();
+    
+        int fArvo = gArvo + m.laskeH(tilanne, leveys, false);
 
-            Stack<int[]> lapsiPino = lapsetPinoon(tilanneNyt);
+        if (fArvo > costLimit) {
 
-            int[] tulos = null;
-            while (!lapsiPino.isEmpty()) {
-                tilanne = lapsiPino.pop();
-                                
-                tulos = depthLimitedSearch(tilanne, syvyys - 1);
-                if (vertaaTilanteita(tulos, LOPPUTILANNE)) {
-                    break;
-                }
-            }
-            return tilanne;
-        } else {
-            return null;
+            return fArvo;
         }
 
+        if (onMaali(tilanne)) {
+            // return pathSoFar
+            return costLimit;
+        }
+
+        int nextCostLimit = Integer.MAX_VALUE;
+
+        Stack<int[]> lapsiPino = lapsetPinoon(tilanne);
+
+        while (!lapsiPino.isEmpty()) {
+
+            int[] seurTilanne = lapsiPino.pop();
+            int uusiG = gArvo + 1;
+            int newCostLimit = depthLimitedSearch(uusiG, seurTilanne, costLimit);
+
+            // tää ehto on ny huono koska tilanne ei mee nulliksi
+            if (tilanne != null) {
+                return newCostLimit;
+            }
+
+            nextCostLimit = Math.min(nextCostLimit, newCostLimit);
+
+        }
+        return nextCostLimit;
+
     }
-    
-    public void tallennaReitti() {
-        
-    }
-    
+
+
 
     /**
+     * Totaalisen kesken. ei mitää järkeä just ny
      * Iteratiivinen syvyyshaku, joka kutsuu DLS:ää
      *
-     * @param loppuTilanne
      * @return lopputilanne
      */
     public int[] iterativeDeepeningSearch() {
-        int syvyys = 0;
-        int[] tulos;
 
-        while (true) {
-            tulos = depthLimitedSearch(ALKUTILANNE, syvyys);
-            if (vertaaTilanteita(tulos, LOPPUTILANNE)) {
-                return tulos;
-            }
-            syvyys++;
+        //int syvyys = 0;
+        int costLimit = +m.laskeH(ALKUTILANNE, peli.getPelilauta().getLeveys(), false);
+
+        while (costLimit > 0) {
+
+            costLimit = depthLimitedSearch(0, ALKUTILANNE, costLimit);
         }
-
-    }
-    
-
-    /**
-     *
-     * @return
-     */
-    public int[] getTilanne() {
-        return tilanne;
+        return null;
     }
 
-    /**
-     *
-     * @return
-     */
-    public int[] getLoppuTilanne() {
-        return LOPPUTILANNE;
-    }
 
     /**
+     * palauttaa pelitapahtuman jossa haku tehdään
      *
-     * @return
+     * @return this.peli
      */
     public Pelitapahtuma getPeli() {
         return peli;
     }
 
     /**
+     * palauttaa pelitaulukon pituuden
      *
-     * @return
+     * @return this.taulukonPituus
      */
     public int getTaulukonPituus() {
         return taulukonPituus;

@@ -2,20 +2,21 @@
 package tietorakenteet;
 
 /**
- * teen tämän ensin luonnosmaisesti int-luvuille ja laajennan sitten
+ * 
  * 
  */
 public class Pino {
     
-    private int[] taulukko;
+    private Object[] taulukko;
     private int top;
     
     /**
      * 
      */
-    public Pino() {
-        this.taulukko = new int[10];
+    public Pino(Class tyyppi) {
+        this.taulukko = new Object[10];
         this.top = 0;
+        
     }
     
     /**
@@ -23,7 +24,7 @@ public class Pino {
      * @param koko 
      */
     public Pino(int koko) {
-        this.taulukko = new int[koko];
+        this.taulukko = new Object[koko];
         this.top = 0;
     }
     
@@ -31,7 +32,7 @@ public class Pino {
      * 
      * @param uusi 
      */
-    public void push(int uusi) {
+    public void push(Object uusi) {
         taulukko[top] = uusi;
         if (top >= taulukko.length-1) {
             kasvataTaulukkoa();
@@ -51,9 +52,9 @@ public class Pino {
      * 
      * @return 
      */
-    public int pop() {
-        int palautettava = taulukko[top];
-        taulukko[top] = 0;
+    public Object pop() {
+        Object palautettava = taulukko[top-1];
+        taulukko[top-1] = null;
         top--;
         return palautettava;
         
@@ -63,7 +64,7 @@ public class Pino {
      * 
      */
     private void kasvataTaulukkoa() {
-        int[] uusi = new int[taulukko.length*2];
+        Object[] uusi = new Object[taulukko.length*2];
         for (int i = 0; i < taulukko.length; i++) {
             uusi[i] = taulukko[i];
         }

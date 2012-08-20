@@ -35,6 +35,26 @@ public class PinoTest {
     @After
     public void tearDown() {
     }
+    
+    @Test
+    public void pinoonVoiLisataIntLukuja() {
+//        pino = new Pino();
+//        pino.push(3);
+//        pino.push(-100);
+//        assertEquals(pino.pop(), -100);
+    }
+    
+    
+    
+    @Test 
+    public void pinoonVoiLisataIntTaulukoita() {
+        pino = new Pino(5);
+        int[] a = {1, 2, 3};
+        int[] b ={-1000, 0};
+        pino.push(a);
+        pino.push(b);
+
+    }
 
 //    @Test
 //    public void pushLisaaOikeaanKohtaan() {
@@ -43,11 +63,11 @@ public class PinoTest {
     
     @Test
     public void topOnPushinJalkeenOikeassaKohdassa() {
-        pino = new Pino();
-        for (int i = 0; i < 4; i++) {
-            pino.push(i);
-        }
-        assertEquals(4, pino.getTop());
+//        pino = new Pino();
+//        for (int i = 0; i < 4; i++) {
+//            pino.push(i);
+//        }
+//        assertEquals(4, pino.getTop());
     }
     
 //    @Test

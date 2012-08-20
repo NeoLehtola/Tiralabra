@@ -1,51 +1,24 @@
 package idaStar;
 
-import sovelluslogiikka.Pelitapahtuma;
-
 /**
- * 
+ * Ehkä lisään tähän luokkaan myös Linear Conflict -tilanteen
  *
  */
 public class Manhattan {
 
-    private int[] tilanne;
-    private int laudanLeveys;
-    
-    public Manhattan(int[] tilanne, int laudanLeveys) {
-        this.tilanne = tilanne;
-        this.laudanLeveys = laudanLeveys;
-    }
-
-    
     /**
-     * haetun napin x-koordinaatti
-     * @param i
+     * Tämä laskee Manhattan Distancen, ja etsii sitä varten jokaisen luvun
+     * koordinaatit nykyisessä tilanteessa sekä maalitilanteessa
+     *
+     * @param tilanne
      * @param laudanLeveys
-     * @return 
+     * @param laskeKonflikti jos true, otetaan Linear Conflict -tilanne
+     * huomioon.
+     *
+     * @return summa eli haluttu h-arvo
      */
-    private int xKoord(int i) {
-        return i%laudanLeveys;
-    }
-    
-    /**
-     * haetun napin y-koordinaatti
-     * @param i
-     * @param laudanLeveys
-     * @return 
-     */
-    private int yKoord(int i) {
-        return i/laudanLeveys;
-    }
+    public int laskeH(int[] tilanne, int laudanLeveys, boolean laskeKonflikti) {
 
-
-
-    /**
-     * manhattan
-     * tästä tullee private
-
-     */
-    public int laskeH(int[] lopputilanne) {
-        
         int summa = 0;
 
         for (int i = 0; i < tilanne.length; i++) {
@@ -53,48 +26,28 @@ public class Manhattan {
                 continue;
             }
             int vuorossa = tilanne[i];
-            int vuorossaXKoord = xKoord(i);
-            int vuorossaYKoord = yKoord(i);
-            
-            int goalXKoord = xKoord(haeGoalIndeksi(vuorossa, lopputilanne));
-            int goalYKoord = yKoord(haeGoalIndeksi(vuorossa, lopputilanne)); 
-            
-            summa += absValue(vuorossaXKoord - goalXKoord) + absValue(vuorossaYKoord - goalYKoord);  
+
+            int vuorossaXKoord = i % laudanLeveys;
+            int vuorossaYKoord = i / laudanLeveys;
+
+            int maaliXKoord = (vuorossa - 1) % laudanLeveys;
+            int maaliYKoord = (vuorossa - 1) / laudanLeveys;
+
+            /* linear conflict
+             * toistaiseksi ottaa huomioon vain vierekkäiset napit leveyssuunnassa,
+             * seuraavaksi muutan niin ettei tarvitse olla vierekkäin
+             */
+            if (laskeKonflikti && i > 0) {
+
+                //ensin tarkistetaan onko kaksi nappia "väärinpäin" ja sitten ovatko ne samalla rivillä
+                if (vuorossaYKoord == maaliYKoord && tilanne[i] == tilanne[i - 1] - 1 && i % laudanLeveys != 0) {
+                    summa += 2;
+                }
+            }
+
+            // h-arvon laskeminen
+            summa += Math.abs(vuorossaXKoord - maaliXKoord) + Math.abs(vuorossaYKoord - maaliYKoord);
         }
         return summa;
-
-        
-
     }
-    /**
-     * 
-     * @param haettava
-     * @return 
-     */
-    private int haeGoalIndeksi(int haettava, int[] lopputilanne) {
-        for (int i = 0; i < lopputilanne.length; i++) {
-            if (lopputilanne[i] == haettava) {
-                return i;
-            }
-        }
-       
-        // tänne ei pitäisi ikinä joutua
-        return -100;
-    }
-    
-
-
-    /**
-     * apumetodi itseisarvon laskemiseksi (korvaa Math.abs:n)
-     * @param k luku jonka itseisarvo halutaan
-     * @return Jos luku negatiivinen, se kerrotaan -1:llä, muuten luku palautetaan sellaisenaan
-     */
-    private int absValue(int k) {
-        if (k < 0) {
-            return k * (-1);
-        } else {
-            return k;
-        }
-    }
-
 }
