@@ -1,5 +1,6 @@
 package tietorakenteet;
 
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
@@ -87,5 +88,8 @@ public class LinkitettyPino<Item> {
     }
     
 
+    public Iterator<Item> iterator() {
+        return null;
+    }
     
 }

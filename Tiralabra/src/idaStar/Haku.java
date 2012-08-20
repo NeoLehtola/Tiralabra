@@ -186,74 +186,60 @@ public class Haku {
 
         return true;
     }
-
-
-    /**
-     * haku on tällä hetkellä täysin rikki ja palasina, sitä ei kannata katsoa
-     * koska sen ei ole tarkoituskaan jäädä tuollaiseksi. rajattu syvyyshaku,
-     * apumetodi iteratiiviselle syvyyshaulle
-     *
-     * @param gArvo (startcost)
-     * @param
-     * @param costLimit 0+laskeH(alkutilanne)
-     * @return
-     */
-    public int depthLimitedSearch(int gArvo, int[] tilanne, int costLimit) {
-        int leveys = peli.getPelilauta().getLeveys();
     
-        int fArvo = gArvo + m.laskeH(tilanne, leveys, false);
+        /**
+*
+* rajattu syvyyshaku, apumetodi iteratiiviselle syvyyshaulle
+*
+* @param tilanneNyt
+* @param loppuTilanne
+* @param syvyys haun suurin syvyys, sitä pidemmälle ei jatketa
+* @return
+*/
+    public int[] depthLimitedSearch(int[] tilanneNyt, int syvyys) {
+ 
+        if (syvyys >= 0 && onMaali(tilanneNyt)) {
+            return tilanneNyt;
+        } else if (syvyys > 0) {
 
-        if (fArvo > costLimit) {
+            Stack<int[]> lapsiPino = lapsetPinoon(tilanneNyt);
 
-            return fArvo;
-        }
-
-        if (onMaali(tilanne)) {
-            // return pathSoFar
-            return costLimit;
-        }
-
-        int nextCostLimit = Integer.MAX_VALUE;
-
-        Stack<int[]> lapsiPino = lapsetPinoon(tilanne);
-
-        while (!lapsiPino.isEmpty()) {
-
-            int[] seurTilanne = lapsiPino.pop();
-            int uusiG = gArvo + 1;
-            int newCostLimit = depthLimitedSearch(uusiG, seurTilanne, costLimit);
-
-            // tää ehto on ny huono koska tilanne ei mee nulliksi
-            if (tilanne != null) {
-                return newCostLimit;
+            int[] tulos = null;
+            while (!lapsiPino.isEmpty()) {                        
+                tulos = depthLimitedSearch(lapsiPino.pop(), syvyys - 1);
+                if (onMaali(tulos)) {
+                    break;
+                }
             }
-
-            nextCostLimit = Math.min(nextCostLimit, newCostLimit);
-
+            return tulos;
+        } else {
+            return null;
         }
-        return nextCostLimit;
 
     }
-
-
-
-    /**
-     * Totaalisen kesken. ei mitää järkeä just ny
-     * Iteratiivinen syvyyshaku, joka kutsuu DLS:ää
-     *
-     * @return lopputilanne
-     */
+    
+        /**
+* Iteratiivinen syvyyshaku, joka kutsuu DLS:ää
+*
+* @param loppuTilanne
+* @return lopputilanne
+*/
     public int[] iterativeDeepeningSearch() {
+        int syvyys = 0;
+        int[] tulos;
 
-        //int syvyys = 0;
-        int costLimit = +m.laskeH(ALKUTILANNE, peli.getPelilauta().getLeveys(), false);
-
-        while (costLimit > 0) {
-
-            costLimit = depthLimitedSearch(0, ALKUTILANNE, costLimit);
+        while (true) {
+            tulos = depthLimitedSearch(ALKUTILANNE, syvyys);
+            if (onMaali(tulos)) {
+                return tulos;
+            }
+            syvyys++;
         }
-        return null;
+
     }
+    
+
+
 
 
     /**
@@ -272,5 +258,9 @@ public class Haku {
      */
     public int getTaulukonPituus() {
         return taulukonPituus;
+    }
+    
+    public int[] getAlkutilanne() {
+        return ALKUTILANNE;
     }
 }

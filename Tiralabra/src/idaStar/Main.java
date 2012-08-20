@@ -15,6 +15,11 @@ public class Main {
         
         Haku haku = new Haku(new Pelitapahtuma(3, 3, 100));
 
+        for (int i = 0; i < haku.getTaulukonPituus(); i++) {
+            System.out.print(haku.getAlkutilanne()[i]);
+        }
+        System.out.println("");
+        
         int[] tulos = haku.iterativeDeepeningSearch();
         
         for (int i = 0; i < tulos.length; i++) {
