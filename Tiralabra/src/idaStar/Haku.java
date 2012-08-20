@@ -198,7 +198,7 @@ public class Haku {
 * @param syvyys haun suurin syvyys, sitä pidemmälle ei jatketa
 * @return
 */
-    //(heuristiikkaversiossa siis syvyys = costLimit?)
+
     public boolean depthLimitedSearch(int[] tilanne, int syvyys) {
         if (onMaali(tilanne)) {
             return true;
