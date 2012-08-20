@@ -14,6 +14,7 @@ public class Haku {
     private Pelitapahtuma peli;
     private int taulukonPituus;
     private final int[] ALKUTILANNE;
+    
     private Manhattan m;
 
     /**
@@ -88,7 +89,7 @@ public class Haku {
         }
         return pino;
     }
-    
+
     /**
      * graafista sovellusta varten tarvitaan tieto siitä, mikä oli lyhin reitti
      * maalitilanteeseen
@@ -186,61 +187,52 @@ public class Haku {
 
         return true;
     }
-    
-        /**
+
+    /**
 *
 * rajattu syvyyshaku, apumetodi iteratiiviselle syvyyshaulle
 *
+* @param alkuarvo heuristiikkafunktion g-arvo käsittääkseni
 * @param tilanneNyt
 * @param loppuTilanne
 * @param syvyys haun suurin syvyys, sitä pidemmälle ei jatketa
 * @return
 */
-    public int[] depthLimitedSearch(int[] tilanneNyt, int syvyys) {
- 
-        if (syvyys >= 0 && onMaali(tilanneNyt)) {
-            return tilanneNyt;
-        } else if (syvyys > 0) {
-
-            Stack<int[]> lapsiPino = lapsetPinoon(tilanneNyt);
-
-            int[] tulos = null;
-            while (!lapsiPino.isEmpty()) {                        
-                tulos = depthLimitedSearch(lapsiPino.pop(), syvyys - 1);
-                if (onMaali(tulos)) {
-                    break;
-                }
-            }
-            return tulos;
-        } else {
-            return null;
+    //(heuristiikkaversiossa siis syvyys = costLimit?)
+    public boolean depthLimitedSearch(int[] tilanne, int syvyys) {
+        if (onMaali(tilanne)) {
+            return true;
         }
-
+        
+        if (syvyys == 0) {
+            return false;
+        }
+        
+        Stack<int[]> lapsiPino = lapsetPinoon(tilanne);
+        
+        boolean onko = false;
+        while(!onko) {
+            onko = depthLimitedSearch(lapsiPino.pop(), syvyys--);
+        }
+        
+    return onko;
     }
-    
-        /**
+
+    /**
 * Iteratiivinen syvyyshaku, joka kutsuu DLS:ää
-*
-* @param loppuTilanne
 * @return lopputilanne
 */
-    public int[] iterativeDeepeningSearch() {
+    public boolean iterativeDeepeningSearch() {
         int syvyys = 0;
-        int[] tulos;
+        
 
-        while (true) {
-            tulos = depthLimitedSearch(ALKUTILANNE, syvyys);
-            if (onMaali(tulos)) {
-                return tulos;
-            }
+        boolean onkoMaali = false;
+        while (!onkoMaali) {
+            onkoMaali = depthLimitedSearch(ALKUTILANNE, syvyys);
             syvyys++;
         }
-
+        return onkoMaali;
     }
-    
-
-
-
 
     /**
      * palauttaa pelitapahtuman jossa haku tehdään
@@ -259,7 +251,7 @@ public class Haku {
     public int getTaulukonPituus() {
         return taulukonPituus;
     }
-    
+
     public int[] getAlkutilanne() {
         return ALKUTILANNE;
     }
