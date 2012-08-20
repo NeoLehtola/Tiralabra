@@ -6,17 +6,17 @@ package tietorakenteetTest;
 
 import org.junit.*;
 import static org.junit.Assert.*;
-import tietorakenteet.Pino;
+import tietorakenteet.LinkitettyPino;
 
 /**
  *
  * @author neom
  */
-public class PinoTest {
+public class LinkitettyPinoTest {
     
-    private Pino pino;
+    private LinkitettyPino pino;
     
-    public PinoTest() {
+    public LinkitettyPinoTest() {
     }
 
     @BeforeClass
@@ -38,7 +38,7 @@ public class PinoTest {
     
     @Test
     public void pinoonVoiLisataIntLukuja() {
-//        pino = new Pino();
+//        pino = new LinkitettyPino();
 //        pino.push(3);
 //        pino.push(-100);
 //        assertEquals(pino.pop(), -100);
@@ -48,11 +48,11 @@ public class PinoTest {
     
     @Test 
     public void pinoonVoiLisataIntTaulukoita() {
-        pino = new Pino(5);
-        int[] a = {1, 2, 3};
-        int[] b ={-1000, 0};
-        pino.push(a);
-        pino.push(b);
+//        pino = new LinkitettyPino(5);
+//        int[] a = {1, 2, 3};
+//        int[] b ={-1000, 0};
+//        pino.push(a);
+//        pino.push(b);
 
     }
 
@@ -63,7 +63,7 @@ public class PinoTest {
     
     @Test
     public void topOnPushinJalkeenOikeassaKohdassa() {
-//        pino = new Pino();
+//        pino = new LinkitettyPino();
 //        for (int i = 0; i < 4; i++) {
 //            pino.push(i);
 //        }

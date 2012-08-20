@@ -2,7 +2,7 @@ package idaStar;
 
 import java.util.Stack;
 import sovelluslogiikka.Pelitapahtuma;
-import tietorakenteet.Pino;
+import tietorakenteet.LinkitettyPino;
 
 /**
  * IDDFS-haku. (Aika kamala megaluokka toistaiseksi.)
