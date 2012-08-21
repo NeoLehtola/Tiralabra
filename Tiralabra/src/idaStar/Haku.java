@@ -196,6 +196,8 @@ public class Haku {
 * @return
 */
 
+    // syvyys = g?
+    // f = syvyys + laskeH
     public boolean depthLimitedSearch(int[] tilanne, int syvyys) {
 //        System.out.println("*");
         if (onMaali(tilanne)) {
@@ -226,7 +228,8 @@ public class Haku {
 */
     public void iterativeDeepeningSearch() {
         int syvyys = 0;
-                              
+                            
+        
         while(!depthLimitedSearch(ALKUTILANNE, syvyys)) {           
             syvyys++;
         }
