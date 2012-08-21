@@ -28,10 +28,6 @@ public class Haku {
         
         this.m = new Manhattan();
 
-
-
-
-
     }
 
     /**
@@ -76,26 +72,26 @@ public class Haku {
         int tyhjanIndeksi = perakkaisHaku(tilanne);
 
         // indeksit: oikealle, vasemmalle, ylös, alas
+//        int[] siirtoIndeksit = {tyhjanIndeksi + 1, tyhjanIndeksi - 1, tyhjanIndeksi - laudanLeveys, tyhjanIndeksi + laudanLeveys};
+        
         int[] siirtoIndeksit = {tyhjanIndeksi + 1, tyhjanIndeksi - 1, tyhjanIndeksi - laudanLeveys, tyhjanIndeksi + laudanLeveys};
-
+        
+        
+        
         for (int i : siirtoIndeksit) {
             // ei voida siirtää sellaiseen suuntaan, joka ei ole pelilaudalla
             if (i < 0) {
                 continue;
             }
             if (!laitonSiirto(i, laudanLeveys, tyhjanIndeksi)) {
-                pino.push(teeUusiSiirtotilanne(tilanne, i, tyhjanIndeksi));
+                 pino.push(teeUusiSiirtotilanne(tilanne, i, tyhjanIndeksi));
             }
         }
         return pino;
     }
+    
 
-    /**
-     * graafista sovellusta varten tarvitaan tieto siitä, mikä oli lyhin reitti
-     * maalitilanteeseen
-     */
-    public void tallennaSiirtoindeksit() {
-    }
+
 
     /**
      * metodi testaa, voiko kysyttyä siirtoa tehdä.
@@ -127,7 +123,9 @@ public class Haku {
     /**
      * apumetodi joka muodostaa seuraavan siirron
      *
-     * @param taulukko jossa pelitilanteen vaihto tehdään
+     * @param tilanne
+     * @param i
+     * @param tyhjanIndeksi
      * @return muutettu taulukko
      */
     private int[] teeUusiSiirtotilanne(int[] tilanne, int i, int tyhjanIndeksi) {
@@ -192,14 +190,14 @@ public class Haku {
 *
 * rajattu syvyyshaku, apumetodi iteratiiviselle syvyyshaulle
 *
-* @param alkuarvo heuristiikkafunktion g-arvo käsittääkseni
+*
 * @param tilanneNyt
-* @param loppuTilanne
 * @param syvyys haun suurin syvyys, sitä pidemmälle ei jatketa
 * @return
 */
 
     public boolean depthLimitedSearch(int[] tilanne, int syvyys) {
+//        System.out.println("*");
         if (onMaali(tilanne)) {
             return true;
         }
@@ -209,11 +207,15 @@ public class Haku {
         }
         
         Stack<int[]> lapsiPino = lapsetPinoon(tilanne);
-        
+        //Stack<Integer> reittiPino = new Stack<Integer>();
+            
         boolean onko = false;
-        while(!onko) {
-            onko = depthLimitedSearch(lapsiPino.pop(), syvyys--);
-        }
+        while (!lapsiPino.isEmpty()){
+             onko = depthLimitedSearch(lapsiPino.pop(), syvyys-1);
+             if (onko) {
+                 break;
+             }
+        } 
         
     return onko;
     }
@@ -222,16 +224,12 @@ public class Haku {
 * Iteratiivinen syvyyshaku, joka kutsuu DLS:ää
 * @return lopputilanne
 */
-    public boolean iterativeDeepeningSearch() {
+    public void iterativeDeepeningSearch() {
         int syvyys = 0;
-        
-
-        boolean onkoMaali = false;
-        while (!onkoMaali) {
-            onkoMaali = depthLimitedSearch(ALKUTILANNE, syvyys);
+                              
+        while(!depthLimitedSearch(ALKUTILANNE, syvyys)) {           
             syvyys++;
         }
-        return onkoMaali;
     }
 
     /**
