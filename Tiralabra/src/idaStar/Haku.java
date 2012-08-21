@@ -16,6 +16,7 @@ public class Haku {
     private final int[] ALKUTILANNE;
     
     private Manhattan m;
+    private int costLimit;
 
     /**
      *
@@ -27,6 +28,7 @@ public class Haku {
         this.ALKUTILANNE = alkuArvotPelilaudalta();
         
         this.m = new Manhattan();
+        
 
     }
 
