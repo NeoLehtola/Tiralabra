@@ -29,7 +29,7 @@ public class LinkitettyPino<Item> {
     }
 
     public boolean isEmpty() {
-        return eka == null;
+        return top == 0;
     }
 
     public int size() {

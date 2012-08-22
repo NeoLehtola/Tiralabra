@@ -1,6 +1,5 @@
 package idaStar;
 
-import java.util.Stack;
 import sovelluslogiikka.Pelitapahtuma;
 import tietorakenteet.LinkitettyPino;
 
@@ -14,9 +13,8 @@ public class Haku {
     private Pelitapahtuma peli;
     private int taulukonPituus;
     private final int[] ALKUTILANNE;
-    
     private Manhattan m;
-    private int costLimit;
+    private boolean ratkaisuLoytynyt;
 
     /**
      *
@@ -26,9 +24,10 @@ public class Haku {
         this.peli = peli;
         this.taulukonPituus = taulukonPituus();
         this.ALKUTILANNE = alkuArvotPelilaudalta();
-        
+
         this.m = new Manhattan();
-        
+        this.ratkaisuLoytynyt = false;
+
 
     }
 
@@ -70,31 +69,28 @@ public class Haku {
     public LinkitettyPino<int[]> lapsetPinoon(int[] tilanne) {
 
 //        Stack<int[]> pino = new Stack<int[]>();
-        LinkitettyPino<int[]> pino = new LinkitettyPino<int[]>(); 
+        LinkitettyPino<int[]> pino = new LinkitettyPino<int[]>();
         int laudanLeveys = peli.getPelilauta().getLeveys();
         int tyhjanIndeksi = perakkaisHaku(tilanne);
 
         // indeksit: oikealle, vasemmalle, ylös, alas
 //        int[] siirtoIndeksit = {tyhjanIndeksi + 1, tyhjanIndeksi - 1, tyhjanIndeksi - laudanLeveys, tyhjanIndeksi + laudanLeveys};
-        
+
         int[] siirtoIndeksit = {tyhjanIndeksi + 1, tyhjanIndeksi - 1, tyhjanIndeksi - laudanLeveys, tyhjanIndeksi + laudanLeveys};
-        
-        
-        
+
+
+
         for (int i : siirtoIndeksit) {
             // ei voida siirtää sellaiseen suuntaan, joka ei ole pelilaudalla
             if (i < 0) {
                 continue;
             }
             if (!laitonSiirto(i, laudanLeveys, tyhjanIndeksi)) {
-                 pino.push(teeUusiSiirtotilanne(tilanne, i, tyhjanIndeksi));
+                pino.push(teeUusiSiirtotilanne(tilanne, i, tyhjanIndeksi));
             }
         }
         return pino;
     }
-    
-
-
 
     /**
      * metodi testaa, voiko kysyttyä siirtoa tehdä.
@@ -190,52 +186,93 @@ public class Haku {
     }
 
     /**
+     *
+     * rajattu syvyyshaku, apumetodi iteratiiviselle syvyyshaulle
+     *     
 *
-* rajattu syvyyshaku, apumetodi iteratiiviselle syvyyshaulle
-*
-*
-* @param tilanneNyt
-* @param syvyys haun suurin syvyys, sitä pidemmälle ei jatketa
-* @return
-*/
-
+     * @param tilanneNyt
+     * @param syvyys haun suurin syvyys, sitä pidemmälle ei jatketa
+     * @return
+     */
     // syvyys = g?
     // f = syvyys + laskeH
     public boolean depthLimitedSearch(int[] tilanne, int syvyys) {
-//        System.out.println("*");
+
         if (onMaali(tilanne)) {
             return true;
         }
-        
+
         if (syvyys == 0) {
             return false;
         }
-        
+
         LinkitettyPino<int[]> lapsiPino = lapsetPinoon(tilanne);
         //Stack<Integer> reittiPino = new Stack<Integer>();
-            
+
         boolean onko = false;
-        while (!lapsiPino.isEmpty()){
-             onko = depthLimitedSearch(lapsiPino.pop(), syvyys-1);
-             if (onko) {
-                 break;
-             }
-        } 
-        
-    return onko;
+        while (!lapsiPino.isEmpty()) {
+
+            onko = depthLimitedSearch(lapsiPino.pop(), syvyys - 1);
+            if (onko) {
+                break;
+            }
+        }
+
+        return onko;
     }
 
     /**
-* Iteratiivinen syvyyshaku, joka kutsuu DLS:ää
-* @return lopputilanne
-*/
-    public void iterativeDeepeningSearch() {
+     * Iteratiivinen syvyyshaku, joka kutsuu DLS:ää
+     *
+     * @return lopputilanne
+     */
+    public void iterativeDeepeningSearch(boolean heuristiikkaOn) {
         int syvyys = 0;
-                            
-        
-        while(!depthLimitedSearch(ALKUTILANNE, syvyys)) {           
-            syvyys++;
+
+        if (!heuristiikkaOn) {
+            while (!ratkaisuLoytynyt) {
+                ratkaisuLoytynyt = depthLimitedSearch(ALKUTILANNE, syvyys);
+                syvyys++;
+            }
+        } else {
+            int h = m.laskeH(ALKUTILANNE, peli.getPelilauta().getLeveys(), false);
+            while (!ratkaisuLoytynyt) {
+                ratkaisuLoytynyt = idaStarSearch(ALKUTILANNE, syvyys, h);
+            }
         }
+    }
+
+    /**
+     *
+     * @param tilanne
+     * @param syvyys
+     * @param raja
+     * @return
+     */
+    public boolean idaStarSearch(int[] tilanne, int syvyys, int raja) {
+
+        if (onMaali(tilanne)) {
+            return true;
+        }
+
+        if (syvyys > raja) {
+            return false;
+        }
+
+        LinkitettyPino<int[]> lapsiPino = lapsetPinoon(tilanne);
+        //Stack<Integer> reittiPino = new Stack<Integer>();
+
+        boolean onko = false;
+        while (!lapsiPino.isEmpty()) {
+
+            onko = idaStarSearch(lapsiPino.pop(), syvyys+1, raja);
+            if (onko) {
+                break;
+            }
+        }
+
+        return onko;
+
     }
 
     /**
@@ -258,5 +295,9 @@ public class Haku {
 
     public int[] getAlkutilanne() {
         return ALKUTILANNE;
+    }
+
+    public boolean isRatkaisuLoytynyt() {
+        return ratkaisuLoytynyt;
     }
 }

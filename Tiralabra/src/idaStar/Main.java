@@ -14,14 +14,12 @@ public class Main {
         
 
         
-        Haku haku = new Haku(new Pelitapahtuma(3, 3, 10));
+        Haku haku = new Haku(new Pelitapahtuma(3, 3, 100));
 
-        haku.iterativeDeepeningSearch();
+
+        haku.iterativeDeepeningSearch(true);
         
-        
-   
-        
-//        haku.kaynnista();
+
         
 
         

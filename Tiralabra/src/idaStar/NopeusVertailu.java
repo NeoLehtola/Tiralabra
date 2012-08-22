@@ -10,4 +10,12 @@ package idaStar;
  */
 public class NopeusVertailu {
     
+    public NopeusVertailu() {
+        
+        
+        
+    }
+    
+
+    
 }

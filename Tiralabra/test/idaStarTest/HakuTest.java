@@ -5,9 +5,8 @@
 package idaStarTest;
 
 import idaStar.Haku;
-import java.util.Stack;
+import static org.junit.Assert.assertEquals;
 import org.junit.*;
-import static org.junit.Assert.*;
 import sovelluslogiikka.Pelitapahtuma;
 import tietorakenteet.LinkitettyPino;
 
@@ -82,7 +81,9 @@ public class HakuTest {
     public void hakuLoytaaLopputuloksenPienellaSekoitusmaarallaIlmanHeuristiikkaa() {
         peli = new Pelitapahtuma(3, 3, 100);
         haku = new Haku(peli);
-//        haku.iterativeDeepeningSearch();
+        haku.iterativeDeepeningSearch(false);
+        assertEquals(haku.isRatkaisuLoytynyt(), true);
         
     }
+    
 }
