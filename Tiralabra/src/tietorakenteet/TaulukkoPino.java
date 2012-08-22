@@ -1,79 +1,92 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package tietorakenteet;
 
 /**
- *
+ * Tähän pinoon voi tallettaa vain int-taulukoita. 
  * @author pklehtol
  */
 public class TaulukkoPino {
     
-//      private Item[] taulukko;
-//    private int top;
-//    
-//    /**
-//     * 
-//     */
-//    public LinkitettyPino(Class tyyppi) {
-//        this.taulukko = new [10];
-//        this.top = 0;
-//        
-//    }
-//    
-//    /**
-//     * 
-//     * @param koko 
-//     */
-//    public LinkitettyPino(int koko) {
-//        this.taulukko = new Object[koko];
-//        this.top = 0;
-//    }
-//    
-//    /**
-//     * 
-//     * @param uusi 
-//     */
-//    public void push(Object uusi) {
-//        taulukko[top] = uusi;
-//        if (top >= taulukko.length-1) {
-//            kasvataTaulukkoa();
-//        } 
-//        top++;
-//    }
-//
-//    /**
-//     * 
-//     * @return 
-//     */
-//    public int getTop() {
-//        return top;
-//    }
-//    
-//    /**
-//     * 
-//     * @return 
-//     */
-//    public Item pop() {
-//        Item palautettava = taulukko[top-1];
-//        taulukko[top-1] = null;
-//        top--;
-//        return palautettava;
-//        
-//    }
-//    
-//    /**
-//     * 
-//     */
-//    private void kasvataTaulukkoa() {
-//        Item[] uusi = new Item[taulukko.length*2];
-//        for (int i = 0; i < taulukko.length; i++) {
-//            uusi[i] = taulukko[i];
-//        }
-//        taulukko = uusi;
-//        
-//        
-//    }
+    private int[][] taulukko;
+    private int top;
+    
+    /**
+     * 
+     */
+    public TaulukkoPino() {
+        this.taulukko = new int[10][];
+        this.top = 0;
+    }
+    
+    /**
+     * @param koko
+     */
+    public TaulukkoPino(int koko) {
+        this.taulukko = new int[koko][];
+        this.top = 0;
+        
+    }
+    
+    /**
+     * 
+     */
+    public boolean isEmpty() {
+        return top == 0;
+    }
+
+    /**
+     * 
+     * @return 
+     */
+    public int size() {
+        return top;
+    }
+    
+    /**
+     * 
+     * @param uusi 
+     */
+    public void push(int[] uusi) {
+        taulukko[top] = uusi;
+        if (top >= taulukko.length-1) {
+            kasvataTaulukkoa();
+        } 
+        top++;
+    }
+
+
+    
+    /**
+     * 
+     * @return palautettava
+     */
+    public int[] pop() {
+        int[] palautettava = taulukko[top-1];
+        taulukko[top-1] = null;
+        top--;
+        return palautettava;
+        
+    }
+    
+    /**
+     * 
+     * @return 
+     */
+    public int[] peek() {
+        return taulukko[top-1];
+    }
+    
+    /**
+     * 
+     */
+    private void kasvataTaulukkoa() {
+        int[][] uusi = new int[taulukko.length*2][];
+        for (int i = 0; i < taulukko.length; i++) {
+            uusi[i] = taulukko[i];
+        }
+        taulukko = uusi;
+        
+        
+    }
     
 }

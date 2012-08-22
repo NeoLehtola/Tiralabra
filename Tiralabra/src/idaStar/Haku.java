@@ -207,7 +207,7 @@ public class Haku {
         }
 
         LinkitettyPino<int[]> lapsiPino = lapsetPinoon(tilanne);
-        //Stack<Integer> reittiPino = new Stack<Integer>();
+        //LinkitettyPino<Integer> reittiPino = new LinkitettyPino<Integer>();
 
         boolean onko = false;
         while (!lapsiPino.isEmpty()) {
