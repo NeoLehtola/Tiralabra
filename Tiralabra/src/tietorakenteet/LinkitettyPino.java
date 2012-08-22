@@ -46,7 +46,9 @@ public class LinkitettyPino<Item> {
         eka = new Node();
         eka.item = uusi;
         eka.prev = edellinenEka;
-        edellinenEka.next = eka;
+        if (edellinenEka != null) {
+            edellinenEka.next = eka;
+        }
 
         top++;
     }
@@ -68,7 +70,10 @@ public class LinkitettyPino<Item> {
             throw new NoSuchElementException("Pino on tyhjä!");
         }
         Item palautettava = eka.item;
-        eka = eka.prev;
+        // jos ao. ehtoa ei ole niin tulee NullPointerException
+        if (eka.prev != null) {
+            eka = eka.prev;
+        }
         eka.next = null;
         top--;
         

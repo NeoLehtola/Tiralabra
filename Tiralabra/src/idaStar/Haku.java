@@ -67,9 +67,10 @@ public class Haku {
      * @param tilanne
      * @return pino jossa seuraavat siirrot
      */
-    public Stack<int[]> lapsetPinoon(int[] tilanne) {
+    public LinkitettyPino<int[]> lapsetPinoon(int[] tilanne) {
 
-        Stack<int[]> pino = new Stack<int[]>();
+//        Stack<int[]> pino = new Stack<int[]>();
+        LinkitettyPino<int[]> pino = new LinkitettyPino<int[]>(); 
         int laudanLeveys = peli.getPelilauta().getLeveys();
         int tyhjanIndeksi = perakkaisHaku(tilanne);
 
@@ -210,7 +211,7 @@ public class Haku {
             return false;
         }
         
-        Stack<int[]> lapsiPino = lapsetPinoon(tilanne);
+        LinkitettyPino<int[]> lapsiPino = lapsetPinoon(tilanne);
         //Stack<Integer> reittiPino = new Stack<Integer>();
             
         boolean onko = false;

@@ -14,7 +14,7 @@ import tietorakenteet.LinkitettyPino;
  */
 public class LinkitettyPinoTest {
     
-    private LinkitettyPino pino;
+    private LinkitettyPino<int[]> pino;
     
     public LinkitettyPinoTest() {
     }
@@ -29,13 +29,37 @@ public class LinkitettyPinoTest {
     
     @Before
     public void setUp() {
-        
+        pino = new LinkitettyPino<int[]>();
     }
     
     @After
     public void tearDown() {
     }
     
-
+    @Test
+    public void isEmptyPalauttaaOikeinKunPinoTyhja() {
+        assertTrue(pino.isEmpty());
+    }
+    
+    @Test
+    public void tyhjaanPinoonLisataanEnsimmainenSolmu() {
+        int[] test = {1, 2, 3, -1};
+        pino.push(test);
+        assertFalse(pino.isEmpty());
+    }
+    
+    @Test
+    public void palauttaaEkanSolmunSisallonPoistamatta() {
+        int[] test = {1, 2, 3, -1};
+        pino.push(test);
+        assertArrayEquals(pino.peek(), test);   
+    }
+    
+    @Test
+    public void palauttaaJaPoistaaEkanSolmunSisallon() {
+        int[] test = {1, 2, 3, -1};
+        pino.push(test);
+        assertArrayEquals(pino.pop(), test);
+    }
             
 }

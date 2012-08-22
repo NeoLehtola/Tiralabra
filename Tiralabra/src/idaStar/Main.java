@@ -2,6 +2,7 @@ package idaStar;
 
 import java.util.Stack;
 import sovelluslogiikka.Pelitapahtuma;
+import tietorakenteet.LinkitettyPino;
 
 /**
  *
@@ -16,6 +17,9 @@ public class Main {
         Haku haku = new Haku(new Pelitapahtuma(3, 3, 10));
 
         haku.iterativeDeepeningSearch();
+        
+        
+   
         
 //        haku.kaynnista();
         
