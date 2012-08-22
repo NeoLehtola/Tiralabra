@@ -238,6 +238,7 @@ public class Haku {
             int h = m.laskeH(ALKUTILANNE, peli.getPelilauta().getLeveys(), false);
             while (!ratkaisuLoytynyt) {
                 ratkaisuLoytynyt = idaStarSearch(ALKUTILANNE, syvyys, h);
+                
             }
         }
     }
@@ -250,12 +251,13 @@ public class Haku {
      * @return
      */
     public boolean idaStarSearch(int[] tilanne, int syvyys, int raja) {
-
+        
         if (onMaali(tilanne)) {
             return true;
         }
 
-        if (syvyys > raja) {
+        int f = syvyys+m.laskeH(tilanne, peli.getPelilauta().getLeveys(), false);
+        if (f > raja) {
             return false;
         }
 
@@ -265,10 +267,11 @@ public class Haku {
         boolean onko = false;
         while (!lapsiPino.isEmpty()) {
 
-            onko = idaStarSearch(lapsiPino.pop(), syvyys+1, raja);
+            onko = idaStarSearch(lapsiPino.pop(), syvyys+1, f);
             if (onko) {
                 break;
-            }
+            }   
+            
         }
 
         return onko;

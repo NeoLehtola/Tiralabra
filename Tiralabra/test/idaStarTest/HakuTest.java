@@ -13,6 +13,7 @@ import tietorakenteet.LinkitettyPino;
 /**
  *
  * Hakumetodien toimivuutta on testattu mainissa.
+ *
  * @author pklehtol
  */
 public class HakuTest {
@@ -36,8 +37,8 @@ public class HakuTest {
     public void setUp() {
         peli = new Pelitapahtuma(3, 3, 1000);
         haku = new Haku(peli);
-        
-        
+
+
 //
 //        this.syote = new int[9];
 //        int syoteIndeksi = 0;
@@ -53,8 +54,6 @@ public class HakuTest {
     @After
     public void tearDown() {
     }
-    
-
 
     @Test
     public void lapsiaPinossaKaksiKunOllaanNurkassa() {
@@ -62,28 +61,47 @@ public class HakuTest {
         LinkitettyPino<int[]> pino = haku.lapsetPinoon(testi);
         assertEquals(2, pino.size());
     }
-    
+
     @Test
     public void lapsiaJonossaKolmeKunOllaanReunassa() {
         int[] testi = {3, 2, 1, -1, 4, 6, 5, 8, 7};
         LinkitettyPino<int[]> pino = haku.lapsetPinoon(testi);
         assertEquals(3, pino.size());
     }
-   
+
     @Test
     public void lapsiaPinossaNeljaKunOllaanKeskella() {
         int[] testi = {4, 3, 2, 1, -1, 8, 7, 6, 5};
         LinkitettyPino<int[]> pino = haku.lapsetPinoon(testi);
         assertEquals(4, pino.size());
     }
-    
+
     @Test
     public void hakuLoytaaLopputuloksenPienellaSekoitusmaarallaIlmanHeuristiikkaa() {
         peli = new Pelitapahtuma(3, 3, 100);
         haku = new Haku(peli);
         haku.iterativeDeepeningSearch(false);
         assertEquals(haku.isRatkaisuLoytynyt(), true);
-        
+
     }
-    
+
+    @Test
+    public void hakuLoytaaTuloksenPienellaSekoitusmaarallaManhattanilla() {
+        peli = new Pelitapahtuma(3, 3, 100);
+        haku = new Haku(peli);
+        haku.iterativeDeepeningSearch(true);
+        
+        assertEquals(haku.isRatkaisuLoytynyt(), true);
+
+    }
+
+//    @Test
+//    public void hakuLoytaaTuloksenSuurellaSekoitusmaarallaManhattanilla() {
+//        peli = new Pelitapahtuma(4, 4, 10000);
+//        haku = new Haku(peli);
+//        haku.iterativeDeepeningSearch(true);
+//        assertEquals(haku.isRatkaisuLoytynyt(), true);
+//
+//
+//    }
 }
