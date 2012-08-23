@@ -4,7 +4,7 @@ import sovelluslogiikka.Pelitapahtuma;
 import tietorakenteet.LinkitettyPino;
 
 /**
- * IDDFS-haku. (Aika kamala megaluokka toistaiseksi.)
+ * IDDFS-haku ilman heuristiikkaa sekä IDA*-haku jossa on heuristiikka
  *
  * @author pklehtol
  */
@@ -17,8 +17,8 @@ public class Haku {
     private boolean ratkaisuLoytynyt;
 
     /**
-     *
-     * @param peli
+     * konstruktori
+     * @param peli uusi Pelitapahtuma-olio, joka sekoittaa pelilaudan
      */
     public Haku(Pelitapahtuma peli) {
         this.peli = peli;
@@ -32,9 +32,10 @@ public class Haku {
     }
 
     /**
-     * peli tuntee laudan matriisina, minä haluan sen taulukkona.
+     * peli tuntee laudan matriisina, mutta tässä ohjelmassa sitä käsitellään taulukkona.
+     * Tätä apumetodia voi käyttää for-silmukoissa yms.
      *
-     * @return taulukon pituus
+     * @return taulukon pituus 
      */
     private int taulukonPituus() {
         return peli.getPelilauta().getKorkeus() * peli.getPelilauta().getLeveys();
@@ -43,7 +44,7 @@ public class Haku {
     /**
      * apumetodi konstruktorille alkutilannetaulukon luomista varten
      *
-     * @return taulukko jossa pelitilanne numeroina alkusekoituksen jälkeen
+     * @return arvot taulukko jossa pelitilanne numeroina alkusekoituksen jälkeen
      */
     private int[] alkuArvotPelilaudalta() {
         int[] arvot = new int[taulukonPituus];
@@ -167,9 +168,9 @@ public class Haku {
     }
 
     /**
-     *
+     * apumetodi joka tarkistaa, onko nykyinen pelitilanne pelin maalitilanne
      * @param tilanne
-     * @return
+     * @return true jos pelilauta on järjestyksessä
      */
     private boolean onMaali(int[] tilanne) {
         if (tilanne == null) {
@@ -181,7 +182,6 @@ public class Haku {
                 return false;
             }
         }
-
         return true;
     }
 
