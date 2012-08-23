@@ -62,4 +62,26 @@ public class TaulukkoPinoTest {
         pino.push(test);
         assertArrayEquals(pino.pop(), test);
     }
+    
+    @Test
+    public void pinoonLisataanUseitaSolmuja() {
+        int[] a = {1, 2, 3};
+        int[] b = {4, 5, 6};
+        int[] c = {7, 8, 9};
+        pino.push(a);
+        pino.push(b);
+        pino.push(c);
+        assertEquals(3, pino.size());
+        pino.pop();
+        assertArrayEquals(pino.peek(), b);
+    }
+    
+    @Test
+    public void taulukkoKasvaaTarvittaessa() {
+        int[] a = {1, 2, 3};
+        for (int i = 0; i < 15; i++) {
+            pino.push(a);
+        }
+        assertEquals(15, pino.size());
+    }
 }

@@ -61,5 +61,18 @@ public class LinkitettyPinoTest {
         pino.push(test);
         assertArrayEquals(pino.pop(), test);
     }
+    
+    @Test
+    public void pinoonLisataanUseitaSolmuja() {
+        int[] a = {1, 2, 3};
+        int[] b = {4, 5, 6};
+        int[] c = {7, 8, 9};
+        pino.push(a);
+        pino.push(b);
+        pino.push(c);
+        assertEquals(3, pino.size());
+        pino.pop();
+        assertArrayEquals(pino.peek(), b);
+    }
             
 }

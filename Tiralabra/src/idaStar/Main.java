@@ -17,7 +17,7 @@ public class Main {
         Haku haku = new Haku(new Pelitapahtuma(3, 3, 100));
 
 
-        haku.iterativeDeepeningSearch(true);
+        haku.iterativeDeepeningSearch(true, false);
         
 
         

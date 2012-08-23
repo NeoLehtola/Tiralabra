@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- *
+ * Pino joka on toteutettu linkkien avulla ja on yleiskäyttöinen
  *
  */
 public class LinkitettyPino<Item> {
@@ -14,7 +14,8 @@ public class LinkitettyPino<Item> {
     private int top;
 
     /**
-     *
+     * luokka Linkitetyn pinon sisäiseen käyttöön:
+     * sisältö ja linkit edeltävään ja seuraavaan
      */
     private class Node {
 
@@ -23,21 +24,32 @@ public class LinkitettyPino<Item> {
         private Node next;
     }
 
+    /**
+     * luodaan tyhjä pino
+     */
     public LinkitettyPino() {
         this.eka = null;
         this.top = 0;
     }
 
+    /**
+     * tarkistetaan onko pinossa jotain
+     * @return true jos top osoittaa nollaa eli pino tyhjä
+     */
     public boolean isEmpty() {
         return top == 0;
     }
 
+    /**
+     * palauttaa pinon koon
+     * @return top
+     */
     public int size() {
         return this.top;
     }
 
     /**
-     *
+     * lisätään pinoon uusi elementti ja laitetaan linkit kuntoon
      * @param uusi
      */
     public void push(Item uusi) {
@@ -49,13 +61,12 @@ public class LinkitettyPino<Item> {
         if (edellinenEka != null) {
             edellinenEka.next = eka;
         }
-
         top++;
     }
 
 
     /**
-     *
+     * pop-operaatio palauttaa ja poistaa pinon päällimmäisen elementin
      * @return pinon päällimmäinen, poistetaan
      */
     public Item pop() {
@@ -75,7 +86,7 @@ public class LinkitettyPino<Item> {
     }
 
     /**
-     * 
+     * peek-operaatio palauttaa päällimmäisen, mutta ei poista sitä
      * @return pinon päällimmäinen, ei poisteta
      */
     public Item peek() {
@@ -86,8 +97,12 @@ public class LinkitettyPino<Item> {
     }
     
 
-    public Iterator<Item> iterator() {
-        return null;
-    }
+//    /**
+//     * 
+//     * @return 
+//     */
+//    public Iterator<Item> iterator() {
+//        return null;
+//    }
     
 }

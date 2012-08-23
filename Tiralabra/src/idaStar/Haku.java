@@ -221,36 +221,38 @@ public class Haku {
         return onko;
     }
 
-    /**
-     * Iteratiivinen syvyyshaku, joka kutsuu DLS:ää
-     *
-     * @return lopputilanne
-     */
-    public void iterativeDeepeningSearch(boolean heuristiikkaOn) {
+/**
+ * iteratiivinen syvyyshaku
+ * @param manhattanOn true jos manhattan distance otetaan käyttöön
+ * @param linearOn true jos linear conflict otetaan käyttöön
+ */
+    public void iterativeDeepeningSearch(boolean manhattanOn, boolean linearOn) {
         int syvyys = 0;
 
-        if (!heuristiikkaOn) {
+        // linear ei voi olla päällä ilman manhattania
+        if (!manhattanOn) {
             while (!ratkaisuLoytynyt) {
                 ratkaisuLoytynyt = depthLimitedSearch(ALKUTILANNE, syvyys);
                 syvyys++;
             }
         } else {
-            int h = m.laskeH(ALKUTILANNE, peli.getPelilauta().getLeveys(), false);
+            int h = m.laskeH(ALKUTILANNE, peli.getPelilauta().getLeveys(), linearOn);
             while (!ratkaisuLoytynyt) {
-                ratkaisuLoytynyt = idaStarSearch(ALKUTILANNE, syvyys, h);
+                ratkaisuLoytynyt = idaStarSearch(ALKUTILANNE, syvyys, h, linearOn);
                 
             }
         }
     }
 
     /**
-     *
+     * 
      * @param tilanne
      * @param syvyys
      * @param raja
+     * @param linearOn 
      * @return
      */
-    public boolean idaStarSearch(int[] tilanne, int syvyys, int raja) {
+    public boolean idaStarSearch(int[] tilanne, int syvyys, int raja, boolean linearOn) {
         
         if (onMaali(tilanne)) {
             return true;
@@ -267,7 +269,7 @@ public class Haku {
         boolean onko = false;
         while (!lapsiPino.isEmpty()) {
 
-            onko = idaStarSearch(lapsiPino.pop(), syvyys+1, f);
+            onko = idaStarSearch(lapsiPino.pop(), syvyys+1, f, linearOn);
             if (onko) {
                 break;
             }   

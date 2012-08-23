@@ -1,9 +1,5 @@
 package idaStar;
 
-/**
- * Ehkä lisään tähän luokkaan myös Linear Conflict -tilanteen
- *
- */
 public class Manhattan {
 
     /**

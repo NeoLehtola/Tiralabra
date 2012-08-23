@@ -80,7 +80,7 @@ public class HakuTest {
     public void hakuLoytaaLopputuloksenPienellaSekoitusmaaralla3x3IlmanHeuristiikkaa() {
         peli = new Pelitapahtuma(3, 3, 100);
         haku = new Haku(peli);
-        haku.iterativeDeepeningSearch(false);
+        haku.iterativeDeepeningSearch(false, false);
         assertEquals(haku.isRatkaisuLoytynyt(), true);
 
     }
@@ -89,17 +89,17 @@ public class HakuTest {
     public void hakuLoytaaTuloksenPienellaSekoitusmaaralla3x3Manhattanilla() {
         peli = new Pelitapahtuma(3, 3, 100);
         haku = new Haku(peli);
-        haku.iterativeDeepeningSearch(true);
+        haku.iterativeDeepeningSearch(true, false);
         
         assertEquals(haku.isRatkaisuLoytynyt(), true);
 
     }
 
-    @Test(timeout=100)
+    @Test(timeout=1000)
     public void hakuLoytaaTuloksenSuurellaSekoitusmaaralla3x3Manhattanilla() {
         peli = new Pelitapahtuma(3, 3, 2000);
         haku = new Haku(peli);
-        haku.iterativeDeepeningSearch(true);
+        haku.iterativeDeepeningSearch(true, false);
         assertEquals(haku.isRatkaisuLoytynyt(), true);
     }
     
@@ -107,7 +107,7 @@ public class HakuTest {
     public void hakuLoytaaTuloksenPienellaSekoitusmaaralla4x4IlmanHeuristiikkaa() {
         peli = new Pelitapahtuma(4, 4, 100);
         haku = new Haku(peli);
-        haku.iterativeDeepeningSearch(false);
+        haku.iterativeDeepeningSearch(false, false);
         assertEquals(haku.isRatkaisuLoytynyt(), true);
         
     }
@@ -116,16 +116,16 @@ public class HakuTest {
     public void hakuLoytaaTuloksenPienellaSekoitusmaaralla4x4Manhattanilla() {
         peli = new Pelitapahtuma(4, 4, 100);
         haku = new Haku(peli);
-        haku.iterativeDeepeningSearch(true);
+        haku.iterativeDeepeningSearch(true, false);
         assertEquals(haku.isRatkaisuLoytynyt(), true);
         
     }
     
-    @Test(timeout=100) 
+    @Test(timeout=1000) 
     public void hakuLoytaaTuloksenKeskikokoisellaSekoitusmaaralla4x4Manhattanilla() {
         peli = new Pelitapahtuma(4, 4, 1000);
         haku = new Haku(peli);
-        haku.iterativeDeepeningSearch(true);
+        haku.iterativeDeepeningSearch(true, false);
         assertEquals(haku.isRatkaisuLoytynyt(), true);
     }
 }
