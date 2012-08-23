@@ -53,13 +53,6 @@ public class LinkitettyPino<Item> {
         top++;
     }
 
-    /**
-     *
-     * @return
-     */
-    public int getTop() {
-        return top;
-    }
 
     /**
      *
