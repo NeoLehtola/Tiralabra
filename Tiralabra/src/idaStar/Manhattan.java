@@ -6,7 +6,7 @@ public class Manhattan {
      * Tämä laskee Manhattan Distancen, ja etsii sitä varten jokaisen luvun
      * koordinaatit nykyisessä tilanteessa sekä maalitilanteessa
      *
-     * @param tilanne
+     * @param tilanne pelitilanne
      * @param laudanLeveys
      * @param laskeKonflikti jos true, otetaan Linear Conflict -tilanne
      * huomioon.

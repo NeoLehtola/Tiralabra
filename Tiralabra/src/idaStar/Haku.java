@@ -69,17 +69,12 @@ public class Haku {
      */
     public LinkitettyPino<int[]> lapsetPinoon(int[] tilanne) {
 
-//        Stack<int[]> pino = new Stack<int[]>();
         LinkitettyPino<int[]> pino = new LinkitettyPino<int[]>();
         int laudanLeveys = peli.getPelilauta().getLeveys();
         int tyhjanIndeksi = perakkaisHaku(tilanne);
 
         // indeksit: oikealle, vasemmalle, ylös, alas
-//        int[] siirtoIndeksit = {tyhjanIndeksi + 1, tyhjanIndeksi - 1, tyhjanIndeksi - laudanLeveys, tyhjanIndeksi + laudanLeveys};
-
         int[] siirtoIndeksit = {tyhjanIndeksi + 1, tyhjanIndeksi - 1, tyhjanIndeksi - laudanLeveys, tyhjanIndeksi + laudanLeveys};
-
-
 
         for (int i : siirtoIndeksit) {
             // ei voida siirtää sellaiseen suuntaan, joka ei ole pelilaudalla
@@ -189,13 +184,11 @@ public class Haku {
      *
      * rajattu syvyyshaku, apumetodi iteratiiviselle syvyyshaulle
      *     
-*
-     * @param tilanneNyt
+     * @param tilanne pelin tilanne
      * @param syvyys haun suurin syvyys, sitä pidemmälle ei jatketa
-     * @return
+     * @return true jos ollaan maalitilanteessa, muuten false
      */
-    // syvyys = g?
-    // f = syvyys + laskeH
+
     public boolean depthLimitedSearch(int[] tilanne, int syvyys) {
 
         if (onMaali(tilanne)) {
@@ -245,12 +238,12 @@ public class Haku {
     }
 
     /**
-     * 
-     * @param tilanne
-     * @param syvyys
-     * @param raja
-     * @param linearOn 
-     * @return
+     * syvyyshaku heuristiikalla
+     * @param tilanne pelin tilanne
+     * @param syvyys haun syvyys (heuristiikkafunktion g-arvo)
+     * @param raja arvioitu etäisyys maaliin
+     * @param linearOn true, jos linearconflict käytössä
+     * @return true jos ollaan maalitilanteessa, muuten false
      */
     public boolean idaStarSearch(int[] tilanne, int syvyys, int raja, boolean linearOn) {
         
@@ -288,20 +281,19 @@ public class Haku {
     public Pelitapahtuma getPeli() {
         return peli;
     }
-
+ 
     /**
-     * palauttaa pelitaulukon pituuden
-     *
-     * @return this.taulukonPituus
+     * palauttaa pelin aloitustilanteen
+     * @return ALKUTILANNE
      */
-    public int getTaulukonPituus() {
-        return taulukonPituus;
-    }
-
     public int[] getAlkutilanne() {
         return ALKUTILANNE;
     }
 
+    /**
+     * palauttaa tiedon siitä ollaanko maalissa
+     * @return ratkaisuLoytynyt
+     */
     public boolean isRatkaisuLoytynyt() {
         return ratkaisuLoytynyt;
     }

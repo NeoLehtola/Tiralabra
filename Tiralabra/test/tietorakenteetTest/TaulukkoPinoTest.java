@@ -42,8 +42,10 @@ public class TaulukkoPinoTest {
         assertTrue(pino.isEmpty());
     }
     
+    
     @Test
     public void tyhjaanPinoonLisataanEnsimmainenSolmu() {
+        pino = new TaulukkoPino(3);
         int[] test = {1, 2, 3, -1};
         pino.push(test);
         assertFalse(pino.isEmpty());
