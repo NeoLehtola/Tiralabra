@@ -2,6 +2,7 @@ package idaStar;
 
 import sovelluslogiikka.Pelitapahtuma;
 import tietorakenteet.LinkitettyPino;
+import tietorakenteet.TaulukkoPino;
 
 /**
  * IDDFS-haku ilman heuristiikkaa sekä IDA*-haku jossa on heuristiikka
@@ -13,6 +14,7 @@ public class Haku {
     private Pelitapahtuma peli;
     private int taulukonPituus;
     private final int[] ALKUTILANNE;
+    private int laudanLeveys;
     private Manhattan m;
     private boolean ratkaisuLoytynyt;
 
@@ -24,7 +26,7 @@ public class Haku {
         this.peli = peli;
         this.taulukonPituus = taulukonPituus();
         this.ALKUTILANNE = alkuArvotPelilaudalta();
-
+        this.laudanLeveys = peli.getPelilauta().getLeveys();
         this.m = new Manhattan();
         this.ratkaisuLoytynyt = false;
 
@@ -52,7 +54,7 @@ public class Haku {
 
         for (int i = 0; i < peli.getPelilauta().getKorkeus(); i++) {
             for (int j = 0; j < peli.getPelilauta().getLeveys(); j++) {
-                arvot[taulIndeksi] = peli.getPelilauta().getNappula(i, j).getTunniste();
+                arvot[taulIndeksi] = peli.getPelilauta().getArvo(i, j);
                 taulIndeksi++;
             }
         }
@@ -67,10 +69,9 @@ public class Haku {
      * @param tilanne
      * @return pino jossa seuraavat siirrot
      */
-    public LinkitettyPino<int[]> lapsetPinoon(int[] tilanne) {
+    public TaulukkoPino lapsetPinoon(int[] tilanne) {
 
-        LinkitettyPino<int[]> pino = new LinkitettyPino<int[]>();
-        int laudanLeveys = peli.getPelilauta().getLeveys();
+        TaulukkoPino pino = new TaulukkoPino();
         int tyhjanIndeksi = perakkaisHaku(tilanne);
 
         // indeksit: oikealle, vasemmalle, ylös, alas
@@ -81,7 +82,7 @@ public class Haku {
             if (i < 0) {
                 continue;
             }
-            if (!laitonSiirto(i, laudanLeveys, tyhjanIndeksi)) {
+            if (!laitonSiirto(i, tyhjanIndeksi)) {
                 pino.push(teeUusiSiirtotilanne(tilanne, i, tyhjanIndeksi));
             }
         }
@@ -92,12 +93,12 @@ public class Haku {
      * metodi testaa, voiko kysyttyä siirtoa tehdä.
      *
      * @param vaihdettava vaihdettavan pelinappulan indeksi taulukossa
-     * @param laudanLeveys
+ 
      * @param tyhjanIndeksi tyhjän napin indeksi
      * @return true jos siirto on laiton eli ei voida suorittaa, ja false jos
      * voidaan siirtää
      */
-    private boolean laitonSiirto(int vaihdettava, int laudanLeveys, int tyhjanIndeksi) {
+    private boolean laitonSiirto(int vaihdettava, int tyhjanIndeksi) {
 
         // tarkistettu jo aiemmin, ettei nollaindeksillä voi tehdä vääriä siirtoja
         if (tyhjanIndeksi == 0) {
@@ -190,6 +191,10 @@ public class Haku {
      */
 
     public boolean depthLimitedSearch(int[] tilanne, int syvyys) {
+        
+//        for (int i = 0; i < tilanne.length; i++) {
+//            System.out.print(tilanne[i]);
+//        } System.out.println("");
 
         if (onMaali(tilanne)) {
             return true;
@@ -199,7 +204,7 @@ public class Haku {
             return false;
         }
 
-        LinkitettyPino<int[]> lapsiPino = lapsetPinoon(tilanne);
+        TaulukkoPino lapsiPino = lapsetPinoon(tilanne);
         //LinkitettyPino<Integer> reittiPino = new LinkitettyPino<Integer>();
 
         boolean onko = false;
@@ -229,7 +234,7 @@ public class Haku {
                 syvyys++;
             }
         } else {
-            int h = m.laskeH(ALKUTILANNE, peli.getPelilauta().getLeveys(), linearOn);
+            int h = m.laskeH(ALKUTILANNE, laudanLeveys, linearOn);
             while (!ratkaisuLoytynyt) {
                 ratkaisuLoytynyt = idaStarSearch(ALKUTILANNE, syvyys, h, linearOn);
                 
@@ -247,16 +252,18 @@ public class Haku {
      */
     public boolean idaStarSearch(int[] tilanne, int syvyys, int raja, boolean linearOn) {
         
+//        System.out.println("*");
+                
         if (onMaali(tilanne)) {
             return true;
         }
 
-        int f = syvyys+m.laskeH(tilanne, peli.getPelilauta().getLeveys(), false);
+        int f = syvyys+m.laskeH(tilanne, laudanLeveys, false);
         if (f > raja) {
             return false;
         }
-
-        LinkitettyPino<int[]> lapsiPino = lapsetPinoon(tilanne);
+        
+        TaulukkoPino lapsiPino = lapsetPinoon(tilanne);
         //Stack<Integer> reittiPino = new Stack<Integer>();
 
         boolean onko = false;

@@ -42,13 +42,13 @@ public class GUIPelilauta extends JPanel {
 
         for (int i = 0; i < pelilauta.getKorkeus(); i++) {
             for (int j = 0; j < pelilauta.getLeveys(); j++) {
-                if (pelilauta.getNappula(i, j).getTunniste() == -1) {
+                if (pelilauta.getArvo(i, j) == -1) {
                     tyhja = new JLabel("");
                     this.add(tyhja);
                 } else {
                     nappi = new JButton();                  
                     nappi.addActionListener(new NapinKuuntelija());
-                    nappi.setText(pelilauta.getNappula(i, j).getTunniste() + "");
+                    nappi.setText(pelilauta.getArvo(i, j) + "");
                     this.add(nappi);
                 }
             }

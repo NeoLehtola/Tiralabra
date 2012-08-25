@@ -9,6 +9,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.*;
 import sovelluslogiikka.Pelitapahtuma;
 import tietorakenteet.LinkitettyPino;
+import tietorakenteet.TaulukkoPino;
 
 /**
  *
@@ -58,21 +59,21 @@ public class HakuTest {
     @Test
     public void lapsiaPinossaKaksiKunOllaanNurkassa() {
         int[] testi = {-1, 3, 4, 8, 2, 6, 7, 5, 1};
-        LinkitettyPino<int[]> pino = haku.lapsetPinoon(testi);
+        TaulukkoPino pino = haku.lapsetPinoon(testi);
         assertEquals(2, pino.size());
     }
 
     @Test
     public void lapsiaJonossaKolmeKunOllaanReunassa() {
         int[] testi = {3, 2, 1, -1, 4, 6, 5, 8, 7};
-        LinkitettyPino<int[]> pino = haku.lapsetPinoon(testi);
+        TaulukkoPino pino = haku.lapsetPinoon(testi);
         assertEquals(3, pino.size());
     }
 
     @Test
     public void lapsiaPinossaNeljaKunOllaanKeskella() {
         int[] testi = {4, 3, 2, 1, -1, 8, 7, 6, 5};
-        LinkitettyPino<int[]> pino = haku.lapsetPinoon(testi);
+        TaulukkoPino pino = haku.lapsetPinoon(testi);
         assertEquals(4, pino.size());
     }
 
@@ -95,13 +96,13 @@ public class HakuTest {
 
     }
 
-//    @Test(timeout=1000)
-//    public void hakuLoytaaTuloksenSuurellaSekoitusmaaralla3x3Manhattanilla() {
-//        peli = new Pelitapahtuma(3, 3, 400);
-//        haku = new Haku(peli);
-//        haku.iterativeDeepeningSearch(true, false);
-//        assertEquals(haku.isRatkaisuLoytynyt(), true);
-//    }
+    @Test(timeout=5000)
+    public void hakuLoytaaTuloksenSuurellaSekoitusmaaralla3x3Manhattanilla() {
+        peli = new Pelitapahtuma(3, 3, 400);
+        haku = new Haku(peli);
+        haku.iterativeDeepeningSearch(true, false);
+        assertEquals(haku.isRatkaisuLoytynyt(), true);
+    }
     
     @Test(timeout=100)
     public void hakuLoytaaTuloksenPienellaSekoitusmaaralla4x4IlmanHeuristiikkaa() {
@@ -111,21 +112,21 @@ public class HakuTest {
         assertEquals(haku.isRatkaisuLoytynyt(), true);
         
     }
-//    
-//    @Test(timeout=100)
-//    public void hakuLoytaaTuloksenPienellaSekoitusmaaralla4x4Manhattanilla() {
-//        peli = new Pelitapahtuma(4, 4, 100);
-//        haku = new Haku(peli);
-//        haku.iterativeDeepeningSearch(true, false);
-//        assertEquals(haku.isRatkaisuLoytynyt(), true);
-//        
-//    }
-//    
-//    @Test(timeout=1000) 
-//    public void hakuLoytaaTuloksenKeskikokoisellaSekoitusmaaralla4x4Manhattanilla() {
-//        peli = new Pelitapahtuma(4, 4, 1000);
-//        haku = new Haku(peli);
-//        haku.iterativeDeepeningSearch(true, false);
-//        assertEquals(haku.isRatkaisuLoytynyt(), true);
-//    }
+    
+    @Test(timeout=1000)
+    public void hakuLoytaaTuloksenPienellaSekoitusmaaralla4x4Manhattanilla() {
+        peli = new Pelitapahtuma(4, 4, 100);
+        haku = new Haku(peli);
+        haku.iterativeDeepeningSearch(true, false);
+        assertEquals(haku.isRatkaisuLoytynyt(), true);
+        
+    }
+    
+    @Test(timeout=1000) 
+    public void hakuLoytaaTuloksenKeskikokoisellaSekoitusmaaralla4x4Manhattanilla() {
+        peli = new Pelitapahtuma(4, 4, 1000);
+        haku = new Haku(peli);
+        haku.iterativeDeepeningSearch(true, false);
+        assertEquals(haku.isRatkaisuLoytynyt(), true);
+    }
 }

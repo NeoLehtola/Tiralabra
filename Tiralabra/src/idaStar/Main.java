@@ -13,14 +13,14 @@ public class Main {
 
 
 
-        for (int i = 0; i < 50; i++) {
-            Haku haku = new Haku(new Pelitapahtuma(3, 3, 50));
-            long aloitusAika = System.nanoTime();
+//        for (int i = 0; i < 50; i++) {
+            Haku haku = new Haku(new Pelitapahtuma(3, 3, 100));
+//            long aloitusAika = System.nanoTime();
             haku.iterativeDeepeningSearch(true, false);
-            long lopetusAika = System.nanoTime();
-            double aika = (lopetusAika - aloitusAika) / 1000000;
-            System.out.println(aika + " ms");
-        }
+//            long lopetusAika = System.nanoTime();
+//            double aika = (lopetusAika - aloitusAika) / 1000000;
+//            System.out.println(aika + " ms");
+//        }
 
 
 

@@ -16,7 +16,7 @@ public class Tekstikayttoliittyma {
     private void tulostaPelilauta() {
         for (int i = 0; i < peli.getPelilauta().getKorkeus(); i++) {
             for (int j = 0; j < peli.getPelilauta().getLeveys(); j++) {
-                int nro = peli.getPelilauta().getNappula(i, j).getTunniste();
+                int nro = peli.getPelilauta().getArvo(i, j);
                 if (nro == -1) {
                     System.out.print("   ");
                     continue;

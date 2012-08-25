@@ -47,7 +47,7 @@ public class PelinLataaja {
         int vuorojenMaara = lukija.nextInt();
         lukija.close();
       
-        int[] tunnisteet = keraaTunnisteet(laudanKorkeus, laudanLeveys);
+        int[] tunnisteet = keraaNumerot(laudanKorkeus, laudanLeveys);
         SiirtavaPelilauta uusiPelilauta = luoUusiPelilauta(laudanKorkeus, laudanLeveys, tunnisteet);
         
         return new Pelitapahtuma(uusiPelilauta, vuorojenMaara);
@@ -63,15 +63,15 @@ public class PelinLataaja {
      * @return tunnisteet int-taulukkona
      *  
      */
-    private int[] keraaTunnisteet(int laudanKorkeus, int laudanLeveys) {
+    private int[] keraaNumerot(int laudanKorkeus, int laudanLeveys) {
         try {
         Scanner lukija = new Scanner(file);
         lukija.nextLine();
-        int[] tunnisteet = new int[laudanKorkeus*laudanLeveys];
-        for (int i = 0; i < tunnisteet.length; i++) {
-            tunnisteet[i] = lukija.nextInt();
+        int[] numerot = new int[laudanKorkeus*laudanLeveys];
+        for (int i = 0; i < numerot.length; i++) {
+            numerot[i] = lukija.nextInt();
         }
-        return tunnisteet;
+        return numerot;
         } catch (FileNotFoundException e) {
             return null;
         }
@@ -87,14 +87,14 @@ public class PelinLataaja {
      * @return 
      */
     
-    private Nappula[][] luoLauta(int laudanKorkeus, int laudanLeveys, int[] tunnisteet) {
-        Nappula[][] lauta = new Nappula[laudanKorkeus][laudanLeveys];
-        int seuraavaTunniste = 0; 
+    private int[][] luoLauta(int laudanKorkeus, int laudanLeveys, int[] numerot) {
+        int[][] lauta = new int[laudanKorkeus][laudanLeveys];
+        int seuraavaNumero = 0; 
         
         for (int i = 0; i < lauta.length; i++) {
             for (int j = 0; j < lauta[i].length; j++) {
-                lauta[i][j] = new Nappula(tunnisteet[seuraavaTunniste]);
-                seuraavaTunniste++;
+                lauta[i][j] = numerot[seuraavaNumero];
+                seuraavaNumero++;
             }
         }
         return lauta;
@@ -107,8 +107,8 @@ public class PelinLataaja {
      * @param tunnisteet
      * @return 
      */
-    private SiirtavaPelilauta luoUusiPelilauta(int laudanKorkeus, int laudanLeveys, int[] tunnisteet) {
-        SiirtavaPelilauta uusiPelilauta = new SiirtavaPelilauta(luoLauta(laudanKorkeus, laudanLeveys, tunnisteet));
+    private SiirtavaPelilauta luoUusiPelilauta(int laudanKorkeus, int laudanLeveys, int[] numerot) {
+        SiirtavaPelilauta uusiPelilauta = new SiirtavaPelilauta(luoLauta(laudanKorkeus, laudanLeveys, numerot));
         uusiPelilauta.setKorkeus(laudanKorkeus);
         uusiPelilauta.setLeveys(laudanLeveys);
         return uusiPelilauta;

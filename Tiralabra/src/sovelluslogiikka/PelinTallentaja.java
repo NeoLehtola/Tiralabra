@@ -35,7 +35,7 @@ public class PelinTallentaja {
         pw.println(peli.getVuorojenMaara());
         for (int i = 0; i < peli.getPelilauta().getKorkeus(); i++) {
             for (int j = 0; j < peli.getPelilauta().getLeveys(); j++) {
-                pw.print(peli.getPelilauta().getNappula(i, j).getTunniste() + " ");
+                pw.print(peli.getPelilauta().getArvo(i, j) + " ");
             }
             pw.println();
         }

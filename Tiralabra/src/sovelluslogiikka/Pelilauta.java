@@ -7,7 +7,7 @@ public class Pelilauta {
      * mutta ei tiedä sekoituksista ja siirroista mitään. Aliluokka hoitaa nämä.
      */
 
-    private Nappula[][] lauta;
+    private int[][] lauta;
     private int leveys;
     private int korkeus;
 
@@ -19,8 +19,8 @@ public class Pelilauta {
     public Pelilauta(int korkeus, int leveys) {
         this.korkeus = korkeus;
         this.leveys = leveys;
-        lauta = new Nappula[korkeus][leveys];
-        asetaNappulatJarjestykseenJaJataViimeinenTyhjaksi();
+        lauta = new int[korkeus][leveys];
+        asetaNumerotJarjestykseenJaJataViimeinenTyhjaksi();
     }
     
     /**
@@ -28,56 +28,84 @@ public class Pelilauta {
      * @param lauta 
      */
     
-    // muokkaa tämä niin, että saakin parametrina int-taulukollisen tunnisteita?
-    public Pelilauta(Nappula[][] lauta) {
+    public Pelilauta(int[][] lauta) {
         this.lauta = lauta;
-//        this.korkeus = lauta.length;
-//        this.leveys = lauta[korkeus].length;
     }
 
 
 
     /**
-     * konstruktorin apumetodi, joka laittaa alussa nappulat numerotunnisteen mukaiseen järjestykseen
-     * ja jättää viimeisen nappulan tyhjäksi (eli tunnisteen arvoksi -1)
+     * konstruktorin apumetodi
      */
-    private void asetaNappulatJarjestykseenJaJataViimeinenTyhjaksi() {
+    private void asetaNumerotJarjestykseenJaJataViimeinenTyhjaksi() {
         int nro = 1;
         for (int i = 0; i < korkeus; i++) {
             for (int j = 0; j < leveys; j++) {
-                lauta[i][j] = new Nappula(nro);
+                lauta[i][j] = nro;
                 nro++;
                 if (i == korkeus - 1 && j == leveys - 1) {
-                    lauta[i][j] = new Nappula(-1);
+                    lauta[i][j] = -1;
                 }
             }
         }
     }
 
-    public Nappula getNappula(int korkeus, int leveys) {
+    /**
+     * 
+     * @param korkeus
+     * @param leveys
+     * @return 
+     */
+    public int getArvo(int korkeus, int leveys) {
         return lauta[korkeus][leveys];
     }
     
-    public void setNappula(int korkeus, int leveys, int tunniste) {
-        lauta[korkeus][leveys] = new Nappula(tunniste);
+    /**
+     * 
+     * @param korkeus
+     * @param leveys
+     * @param nro 
+     */
+    public void setArvo(int korkeus, int leveys, int nro) {
+        lauta[korkeus][leveys] = nro;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public int getLeveys() {
         return leveys;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public int getKorkeus() {
         return korkeus;
     }
 
-    public Nappula[][] getLauta() {
+    /**
+     * 
+     * @return 
+     */
+    public int[][] getLauta() {
         return lauta;
     }
 
+    /**
+     * 
+     * @param korkeus 
+     */
     public void setKorkeus(int korkeus) {
         this.korkeus = korkeus;
     }
 
+    /**
+     * 
+     * @param leveys 
+     */
     public void setLeveys(int leveys) {
         this.leveys = leveys;
     }
