@@ -14,7 +14,7 @@ public class Main {
 
 
 //        for (int i = 0; i < 50; i++) {
-            Haku haku = new Haku(new Pelitapahtuma(3, 3, 100));
+            Haku haku = new Haku(new Pelitapahtuma(3, 3, 10));
 //            long aloitusAika = System.nanoTime();
             haku.iterativeDeepeningSearch(true, false);
 //            long lopetusAika = System.nanoTime();

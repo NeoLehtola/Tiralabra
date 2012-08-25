@@ -251,8 +251,6 @@ public class Haku {
      * @return true jos ollaan maalitilanteessa, muuten false
      */
     public boolean idaStarSearch(int[] tilanne, int syvyys, int raja, boolean linearOn) {
-        
-//        System.out.println("*");
                 
         if (onMaali(tilanne)) {
             return true;
@@ -269,6 +267,7 @@ public class Haku {
         boolean onko = false;
         while (!lapsiPino.isEmpty()) {
 
+            
             onko = idaStarSearch(lapsiPino.pop(), syvyys+1, f, linearOn);
             if (onko) {
                 break;
