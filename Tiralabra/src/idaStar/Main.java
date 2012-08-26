@@ -14,21 +14,21 @@ public class Main {
 
 
 //        for (int i = 0; i < 50; i++) {
-            Haku haku = new Haku(new Pelitapahtuma(3, 3, 10));
-//            long aloitusAika = System.nanoTime();
+            Haku haku = new Haku(new Pelitapahtuma(3, 3, 200));
+            long aloitusAika = System.nanoTime();
             haku.iterativeDeepeningSearch(true, false);
-//            long lopetusAika = System.nanoTime();
-//            double aika = (lopetusAika - aloitusAika) / 1000000;
-//            System.out.println(aika + " ms");
+            long lopetusAika = System.nanoTime();
+            double aika = (lopetusAika - aloitusAika) / 1000000;
+            System.out.println(aika + " ms");
 //        }
 
 
 
 
-//        if (haku.isRatkaisuLoytynyt()) {
-//            System.out.println("Löytyi!");
-//            
-//        }
+        if (haku.isRatkaisuLoytynyt()) {
+            System.out.println("Löytyi!");
+            
+        }
 
 
 

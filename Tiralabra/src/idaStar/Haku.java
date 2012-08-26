@@ -16,10 +16,12 @@ public class Haku {
     private final int[] ALKUTILANNE;
     private int laudanLeveys;
     private Manhattan m;
+//    private int costLimit = Integer.MAX_VALUE;
     private boolean ratkaisuLoytynyt;
 
     /**
      * konstruktori
+     *
      * @param peli uusi Pelitapahtuma-olio, joka sekoittaa pelilaudan
      */
     public Haku(Pelitapahtuma peli) {
@@ -34,10 +36,10 @@ public class Haku {
     }
 
     /**
-     * peli tuntee laudan matriisina, mutta tässä ohjelmassa sitä käsitellään taulukkona.
-     * Tätä apumetodia voi käyttää for-silmukoissa yms.
+     * peli tuntee laudan matriisina, mutta tässä ohjelmassa sitä käsitellään
+     * taulukkona. Tätä apumetodia voi käyttää for-silmukoissa yms.
      *
-     * @return taulukon pituus 
+     * @return taulukon pituus
      */
     private int taulukonPituus() {
         return peli.getPelilauta().getKorkeus() * peli.getPelilauta().getLeveys();
@@ -46,7 +48,8 @@ public class Haku {
     /**
      * apumetodi konstruktorille alkutilannetaulukon luomista varten
      *
-     * @return arvot taulukko jossa pelitilanne numeroina alkusekoituksen jälkeen
+     * @return arvot taulukko jossa pelitilanne numeroina alkusekoituksen
+     * jälkeen
      */
     private int[] alkuArvotPelilaudalta() {
         int[] arvot = new int[taulukonPituus];
@@ -83,7 +86,11 @@ public class Haku {
                 continue;
             }
             if (!laitonSiirto(i, tyhjanIndeksi)) {
-                pino.push(teeUusiSiirtotilanne(tilanne, i, tyhjanIndeksi));
+                int[] seuraavaSiirto = kopioiTaulukko(tilanne);
+                int apu = seuraavaSiirto[i];
+                seuraavaSiirto[i] = seuraavaSiirto[tyhjanIndeksi];
+                seuraavaSiirto[tyhjanIndeksi] = apu;
+                pino.push(seuraavaSiirto);
             }
         }
         return pino;
@@ -93,7 +100,7 @@ public class Haku {
      * metodi testaa, voiko kysyttyä siirtoa tehdä.
      *
      * @param vaihdettava vaihdettavan pelinappulan indeksi taulukossa
- 
+     *
      * @param tyhjanIndeksi tyhjän napin indeksi
      * @return true jos siirto on laiton eli ei voida suorittaa, ja false jos
      * voidaan siirtää
@@ -116,21 +123,21 @@ public class Haku {
         }
     }
 
-    /**
-     * apumetodi joka muodostaa seuraavan siirron
-     *
-     * @param tilanne
-     * @param i
-     * @param tyhjanIndeksi
-     * @return muutettu taulukko
-     */
-    private int[] teeUusiSiirtotilanne(int[] tilanne, int i, int tyhjanIndeksi) {
-        int[] seuraavaSiirto = kopioiTaulukko(tilanne);
-        int apu = seuraavaSiirto[i];
-        seuraavaSiirto[i] = seuraavaSiirto[tyhjanIndeksi];
-        seuraavaSiirto[tyhjanIndeksi] = apu;
-        return seuraavaSiirto;
-    }
+//    /**
+//     * apumetodi joka muodostaa seuraavan siirron
+//     *
+//     * @param tilanne
+//     * @param i
+//     * @param tyhjanIndeksi
+//     * @return muutettu taulukko
+//     */
+//    private int[] teeUusiSiirtotilanne(int[] tilanne, int i, int tyhjanIndeksi) {
+//        int[] seuraavaSiirto = kopioiTaulukko(tilanne);
+//        int apu = seuraavaSiirto[i];
+//        seuraavaSiirto[i] = seuraavaSiirto[tyhjanIndeksi];
+//        seuraavaSiirto[tyhjanIndeksi] = apu;
+//        return seuraavaSiirto;
+//    }
 
     /**
      * kopion muodostaminen taulukosta (manuaalinen System.arraycopy)
@@ -165,6 +172,7 @@ public class Haku {
 
     /**
      * apumetodi joka tarkistaa, onko nykyinen pelitilanne pelin maalitilanne
+     *
      * @param tilanne
      * @return true jos pelilauta on järjestyksessä
      */
@@ -184,17 +192,13 @@ public class Haku {
     /**
      *
      * rajattu syvyyshaku, apumetodi iteratiiviselle syvyyshaulle
-     *     
+     *
      * @param tilanne pelin tilanne
      * @param syvyys haun suurin syvyys, sitä pidemmälle ei jatketa
      * @return true jos ollaan maalitilanteessa, muuten false
      */
-
     public boolean depthLimitedSearch(int[] tilanne, int syvyys) {
-        
-//        for (int i = 0; i < tilanne.length; i++) {
-//            System.out.print(tilanne[i]);
-//        } System.out.println("");
+                
 
         if (onMaali(tilanne)) {
             return true;
@@ -219,11 +223,12 @@ public class Haku {
         return onko;
     }
 
-/**
- * iteratiivinen syvyyshaku
- * @param manhattanOn true jos manhattan distance otetaan käyttöön
- * @param linearOn true jos linear conflict otetaan käyttöön
- */
+    /**
+     * iteratiivinen syvyyshaku
+     *
+     * @param manhattanOn true jos manhattan distance otetaan käyttöön
+     * @param linearOn true jos linear conflict otetaan käyttöön
+     */
     public void iterativeDeepeningSearch(boolean manhattanOn, boolean linearOn) {
         int syvyys = 0;
 
@@ -237,13 +242,14 @@ public class Haku {
             int h = m.laskeH(ALKUTILANNE, laudanLeveys, linearOn);
             while (!ratkaisuLoytynyt) {
                 ratkaisuLoytynyt = idaStarSearch(ALKUTILANNE, syvyys, h, linearOn);
-                
+
             }
         }
     }
 
     /**
      * syvyyshaku heuristiikalla
+     *
      * @param tilanne pelin tilanne
      * @param syvyys haun syvyys (heuristiikkafunktion g-arvo)
      * @param raja arvioitu etäisyys maaliin
@@ -251,32 +257,47 @@ public class Haku {
      * @return true jos ollaan maalitilanteessa, muuten false
      */
     public boolean idaStarSearch(int[] tilanne, int syvyys, int raja, boolean linearOn) {
-                
-        if (onMaali(tilanne)) {
-            return true;
-        }
-
+        
         int f = syvyys+m.laskeH(tilanne, laudanLeveys, false);
         if (f > raja) {
             return false;
         }
         
+        if (onMaali(tilanne)) {
+            return true;
+        }
+   
         TaulukkoPino lapsiPino = lapsetPinoon(tilanne);
-        //Stack<Integer> reittiPino = new Stack<Integer>();
 
         boolean onko = false;
         while (!lapsiPino.isEmpty()) {
-
+                  
             
             onko = idaStarSearch(lapsiPino.pop(), syvyys+1, f, linearOn);
             if (onko) {
                 break;
-            }   
-            
+            }
+
+            /* tähän pitää laittaa rajan muutos; suurilla sekoitusmäärillä
+             * voi käydä niin että kaikki vaihtoehdot ovat rajaa suurempia
+             * jolloin valittava niistä pienin
+             */
         }
 
         return onko;
 
+    }
+
+    /**
+     * @param tilanne
+     * @return reittiPino
+     */
+    private LinkitettyPino<Character> tallennaReitti(int[] tilanne) {
+        LinkitettyPino<Character> reittiPino = new LinkitettyPino<Character>();
+        int tyhjanIndeksi = perakkaisHaku(tilanne);
+
+
+        return reittiPino;
     }
 
     /**
@@ -287,9 +308,10 @@ public class Haku {
     public Pelitapahtuma getPeli() {
         return peli;
     }
- 
+
     /**
      * palauttaa pelin aloitustilanteen
+     *
      * @return ALKUTILANNE
      */
     public int[] getAlkutilanne() {
@@ -298,6 +320,7 @@ public class Haku {
 
     /**
      * palauttaa tiedon siitä ollaanko maalissa
+     *
      * @return ratkaisuLoytynyt
      */
     public boolean isRatkaisuLoytynyt() {
