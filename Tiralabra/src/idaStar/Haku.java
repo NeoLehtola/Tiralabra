@@ -15,6 +15,7 @@ public class Haku {
     private int taulukonPituus;
     private final int[] ALKUTILANNE;
     private int laudanLeveys;
+    private int edellinenTyhjanIndeksi;
     private Manhattan m;
 //    private int costLimit = Integer.MAX_VALUE;
     private boolean ratkaisuLoytynyt;
@@ -29,6 +30,7 @@ public class Haku {
         this.taulukonPituus = taulukonPituus();
         this.ALKUTILANNE = alkuArvotPelilaudalta();
         this.laudanLeveys = peli.getPelilauta().getLeveys();
+        this.edellinenTyhjanIndeksi = perakkaisHaku(ALKUTILANNE);
         this.m = new Manhattan();
         this.ratkaisuLoytynyt = false;
 
@@ -73,7 +75,7 @@ public class Haku {
      * @return pino jossa seuraavat siirrot
      */
     public TaulukkoPino lapsetPinoon(int[] tilanne) {
-
+        
         TaulukkoPino pino = new TaulukkoPino();
         int tyhjanIndeksi = perakkaisHaku(tilanne);
 
@@ -85,7 +87,7 @@ public class Haku {
             if (i < 0) {
                 continue;
             }
-            if (!laitonSiirto(i, tyhjanIndeksi)) {
+            if (!laitonSiirto(i, tyhjanIndeksi) && i != edellinenTyhjanIndeksi) {
                 int[] seuraavaSiirto = kopioiTaulukko(tilanne);
                 int apu = seuraavaSiirto[i];
                 seuraavaSiirto[i] = seuraavaSiirto[tyhjanIndeksi];
@@ -93,8 +95,11 @@ public class Haku {
                 pino.push(seuraavaSiirto);
             }
         }
+        edellinenTyhjanIndeksi = tyhjanIndeksi;
+        
         return pino;
     }
+    
 
     /**
      * metodi testaa, voiko kysyttyä siirtoa tehdä.

@@ -25,10 +25,10 @@ public class Main {
 
 
 
-        if (haku.isRatkaisuLoytynyt()) {
-            System.out.println("Löytyi!");
-            
-        }
+//        if (haku.isRatkaisuLoytynyt()) {
+//            System.out.println("Löytyi!");
+//            
+//        }
 
 
 
