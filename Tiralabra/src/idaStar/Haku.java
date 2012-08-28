@@ -15,9 +15,9 @@ public class Haku {
     private int taulukonPituus;
     private final int[] ALKUTILANNE;
     private int laudanLeveys;
-    private int edellinenTyhjanIndeksi;
+    private int edellinenTyhjanIndeksi; 
     private Manhattan m;
-//    private int costLimit = Integer.MAX_VALUE;
+//    private int costLimit;
     private boolean ratkaisuLoytynyt;
 
     /**
@@ -32,6 +32,7 @@ public class Haku {
         this.laudanLeveys = peli.getPelilauta().getLeveys();
         this.edellinenTyhjanIndeksi = perakkaisHaku(ALKUTILANNE);
         this.m = new Manhattan();
+//        this.costLimit = m.laskeH(ALKUTILANNE, laudanLeveys, false);
         this.ratkaisuLoytynyt = false;
 
 
