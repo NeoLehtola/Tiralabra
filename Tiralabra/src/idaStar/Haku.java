@@ -17,8 +17,8 @@ public class Haku {
     private int laudanLeveys;
     private int edellinenTyhjanIndeksi; 
     private Manhattan m;
-//    private int costLimit;
     private boolean ratkaisuLoytynyt;
+    private int siirtoja;
 
     /**
      * konstruktori
@@ -32,8 +32,8 @@ public class Haku {
         this.laudanLeveys = peli.getPelilauta().getLeveys();
         this.edellinenTyhjanIndeksi = perakkaisHaku(ALKUTILANNE);
         this.m = new Manhattan();
-//        this.costLimit = m.laskeH(ALKUTILANNE, laudanLeveys, false);
         this.ratkaisuLoytynyt = false;
+        this.siirtoja = 0;
 
 
     }
@@ -245,10 +245,10 @@ public class Haku {
                 syvyys++;
             }
         } else {
-            int h = m.laskeH(ALKUTILANNE, laudanLeveys, linearOn);
+            int raja = m.laskeH(ALKUTILANNE, laudanLeveys, linearOn);
             while (!ratkaisuLoytynyt) {
-                ratkaisuLoytynyt = idaStarSearch(ALKUTILANNE, syvyys, h, linearOn);
-
+                ratkaisuLoytynyt = idaStarSearch(ALKUTILANNE, syvyys, raja, linearOn);
+                raja++;
             }
         }
     }
@@ -257,37 +257,35 @@ public class Haku {
      * syvyyshaku heuristiikalla
      *
      * @param tilanne pelin tilanne
-     * @param syvyys haun syvyys (heuristiikkafunktion g-arvo)
+     * @param g haun syvyys (heuristiikkafunktion g-arvo)
      * @param raja arvioitu etäisyys maaliin
      * @param linearOn true, jos linearconflict käytössä
      * @return true jos ollaan maalitilanteessa, muuten false
      */
-    public boolean idaStarSearch(int[] tilanne, int syvyys, int raja, boolean linearOn) {
+    public boolean idaStarSearch(int[] tilanne, int g, int raja, boolean linearOn) {
         
-        int f = syvyys+m.laskeH(tilanne, laudanLeveys, false);
+        int h = m.laskeH(tilanne, laudanLeveys, false);
+        if (h == 0) {
+            return true;
+        }
+        
+        int f = g + h;
         if (f > raja) {
             return false;
         }
+           
         
-        if (onMaali(tilanne)) {
-            return true;
-        }
-   
         TaulukkoPino lapsiPino = lapsetPinoon(tilanne);
 
         boolean onko = false;
         while (!lapsiPino.isEmpty()) {
                   
             
-            onko = idaStarSearch(lapsiPino.pop(), syvyys+1, f, linearOn);
+            onko = idaStarSearch(lapsiPino.pop(), g+1, raja, linearOn);
             if (onko) {
+                siirtoja++;
                 break;
             }
-
-            /* tähän pitää laittaa rajan muutos; suurilla sekoitusmäärillä
-             * voi käydä niin että kaikki vaihtoehdot ovat rajaa suurempia
-             * jolloin valittava niistä pienin
-             */
         }
 
         return onko;
@@ -331,5 +329,13 @@ public class Haku {
      */
     public boolean isRatkaisuLoytynyt() {
         return ratkaisuLoytynyt;
+    }
+    
+    /**
+     * palauttaa tiedon siitä, monellako siirrolla ratkaisu löytyi
+     * @return siirtojen määrä
+     */
+    public int getSiirtojenMaara() {
+        return siirtoja;
     }
 }

@@ -56,26 +56,26 @@ public class HakuTest {
     public void tearDown() {
     }
 
-    @Test
-    public void lapsiaPinossaKaksiKunOllaanNurkassa() {
-        int[] testi = {-1, 3, 4, 8, 2, 6, 7, 5, 1};
-        TaulukkoPino pino = haku.lapsetPinoon(testi);
-        assertEquals(2, pino.size());
-    }
-
-    @Test
-    public void lapsiaJonossaKolmeKunOllaanReunassa() {
-        int[] testi = {3, 2, 1, -1, 4, 6, 5, 8, 7};
-        TaulukkoPino pino = haku.lapsetPinoon(testi);
-        assertEquals(3, pino.size());
-    }
-
-    @Test
-    public void lapsiaPinossaNeljaKunOllaanKeskella() {
-        int[] testi = {4, 3, 2, 1, -1, 8, 7, 6, 5};
-        TaulukkoPino pino = haku.lapsetPinoon(testi);
-        assertEquals(4, pino.size());
-    }
+//    @Test
+//    public void lapsiaPinossaKaksiKunOllaanNurkassa() {
+//        int[] testi = {-1, 3, 4, 8, 2, 6, 7, 5, 1};
+//        TaulukkoPino pino = haku.lapsetPinoon(testi);
+//        assertEquals(2, pino.size());
+//    }
+//
+//    @Test
+//    public void lapsiaJonossaKolmeKunOllaanReunassa() {
+//        int[] testi = {3, 2, 1, -1, 4, 6, 5, 8, 7};
+//        TaulukkoPino pino = haku.lapsetPinoon(testi);
+//        assertEquals(3, pino.size());
+//    }
+//
+//    @Test
+//    public void lapsiaPinossaNeljaKunOllaanKeskella() {
+//        int[] testi = {4, 3, 2, 1, -1, 8, 7, 6, 5};
+//        TaulukkoPino pino = haku.lapsetPinoon(testi);
+//        assertEquals(4, pino.size());
+//    }
 
     @Test
     public void hakuLoytaaLopputuloksenPienellaSekoitusmaaralla3x3IlmanHeuristiikkaa() {
@@ -122,9 +122,17 @@ public class HakuTest {
         
     }
     
-    @Test(timeout=1000) 
+    @Test(timeout=1500) 
     public void hakuLoytaaTuloksenKeskikokoisellaSekoitusmaaralla4x4Manhattanilla() {
         peli = new Pelitapahtuma(4, 4, 1000);
+        haku = new Haku(peli);
+        haku.iterativeDeepeningSearch(true, false);
+        assertEquals(haku.isRatkaisuLoytynyt(), true);
+    }
+    
+    @Test(timeout=5000)
+    public void hakuLoytaaTuloksenSuurellaSekoitusmaaralla4x4Manhattanilla() {
+        peli = new Pelitapahtuma(4, 4, 10000);
         haku = new Haku(peli);
         haku.iterativeDeepeningSearch(true, false);
         assertEquals(haku.isRatkaisuLoytynyt(), true);
