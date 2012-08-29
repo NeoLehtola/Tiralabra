@@ -1,5 +1,6 @@
 package kayttoliittyma;
 
+import idaStar.Haku;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -10,6 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import sovelluslogiikka.Pelitapahtuma;
 import sovelluslogiikka.SiirtavaPelilauta;
+import tietorakenteet.TaulukkoPino;
 
 public class GUIPelilauta extends JPanel {
 
@@ -18,7 +20,12 @@ public class GUIPelilauta extends JPanel {
     private JLabel vuorot;
     private Pelitapahtuma peli;
     private SiirtavaPelilauta pelilauta;
+    private Haku haku;
 
+    /**
+     * 
+     * @param peli 
+     */
     public GUIPelilauta(Pelitapahtuma peli) {
         this.peli = peli;
         this.pelilauta = peli.getPelilauta();
@@ -26,8 +33,20 @@ public class GUIPelilauta extends JPanel {
         luoKomponentit();
     }
 
+    /**
+     * tekoälyä varten
+     * @param peli
+     * @param haku 
+     */
+    public GUIPelilauta(Pelitapahtuma peli, Haku haku) {
+        this(peli);
+        this.haku = haku;
+    }
 
 
+    /**
+     * 
+     */
     private void luoKomponentit() {
         GridLayout layout = new GridLayout(pelilauta.getKorkeus(), pelilauta.getLeveys());
         setLayout(layout);
@@ -35,11 +54,14 @@ public class GUIPelilauta extends JPanel {
         
         
     }
-
+    
+    /**
+     * 
+     */
     private void piirraNappulat() {
 
         this.removeAll();
-
+        
         for (int i = 0; i < pelilauta.getKorkeus(); i++) {
             for (int j = 0; j < pelilauta.getLeveys(); j++) {
                 if (pelilauta.getArvo(i, j) == -1) {
@@ -54,7 +76,15 @@ public class GUIPelilauta extends JPanel {
             }
         }
     }
+    
+    private void piirraNappulat(TaulukkoPino reitti) {
+        
+    }
 
+    /**
+     * 
+     * @return 
+     */
     public JLabel getVuorot() {
         return vuorot;
     }

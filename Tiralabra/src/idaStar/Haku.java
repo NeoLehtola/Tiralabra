@@ -19,6 +19,7 @@ public class Haku {
     private Manhattan m;
     private boolean ratkaisuLoytynyt;
     private int siirtoja;
+    private TaulukkoPino reittiPino;
 
     /**
      * konstruktori
@@ -34,6 +35,7 @@ public class Haku {
         this.m = new Manhattan();
         this.ratkaisuLoytynyt = false;
         this.siirtoja = 0;
+        this.reittiPino = new TaulukkoPino();
 
 
     }
@@ -249,6 +251,7 @@ public class Haku {
             while (!ratkaisuLoytynyt) {
                 ratkaisuLoytynyt = idaStarSearch(ALKUTILANNE, syvyys, raja, linearOn);
                 raja++;
+                System.out.println(raja);
             }
         }
     }
@@ -273,16 +276,16 @@ public class Haku {
         if (f > raja) {
             return false;
         }
-           
-        
+                   
         TaulukkoPino lapsiPino = lapsetPinoon(tilanne);
-
+        
         boolean onko = false;
         while (!lapsiPino.isEmpty()) {
                   
-            
-            onko = idaStarSearch(lapsiPino.pop(), g+1, raja, linearOn);
+            int[] lapsi = lapsiPino.pop();
+            onko = idaStarSearch(lapsi, g+1, raja, linearOn);
             if (onko) {
+                reittiPino.push(lapsi);            
                 siirtoja++;
                 break;
             }
@@ -293,16 +296,13 @@ public class Haku {
     }
 
     /**
-     * @param tilanne
+     * 
      * @return reittiPino
      */
-    private LinkitettyPino<Character> tallennaReitti(int[] tilanne) {
-        LinkitettyPino<Character> reittiPino = new LinkitettyPino<Character>();
-        int tyhjanIndeksi = perakkaisHaku(tilanne);
-
-
+    public TaulukkoPino getReittiPino() {
         return reittiPino;
     }
+   
 
     /**
      * palauttaa pelitapahtuman jossa haku tehdään
