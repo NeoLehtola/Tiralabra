@@ -251,7 +251,7 @@ public class Haku {
             while (!ratkaisuLoytynyt) {
                 ratkaisuLoytynyt = idaStarSearch(ALKUTILANNE, syvyys, raja, linearOn);
                 raja++;
-                System.out.println(raja);
+//                System.out.println(raja);
             }
         }
     }
