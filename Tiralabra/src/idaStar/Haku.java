@@ -13,7 +13,7 @@ public class Haku {
 
     private Pelitapahtuma peli;
     private int taulukonPituus;
-    private final int[] ALKUTILANNE;
+    private int[] alkutilanne;
     private int laudanLeveys;
     private int edellinenTyhjanIndeksi; 
     private Manhattan m;
@@ -29,14 +29,13 @@ public class Haku {
     public Haku(Pelitapahtuma peli) {
         this.peli = peli;
         this.taulukonPituus = taulukonPituus();
-        this.ALKUTILANNE = alkuArvotPelilaudalta();
+        this.alkutilanne = alkuArvotPelilaudalta();
         this.laudanLeveys = peli.getPelilauta().getLeveys();
-        this.edellinenTyhjanIndeksi = perakkaisHaku(ALKUTILANNE);
+        this.edellinenTyhjanIndeksi = perakkaisHaku(alkutilanne);
         this.m = new Manhattan();
         this.ratkaisuLoytynyt = false;
         this.siirtoja = 0;
         this.reittiPino = new TaulukkoPino();
-
 
     }
 
@@ -131,21 +130,6 @@ public class Haku {
         }
     }
 
-//    /**
-//     * apumetodi joka muodostaa seuraavan siirron
-//     *
-//     * @param tilanne
-//     * @param i
-//     * @param tyhjanIndeksi
-//     * @return muutettu taulukko
-//     */
-//    private int[] teeUusiSiirtotilanne(int[] tilanne, int i, int tyhjanIndeksi) {
-//        int[] seuraavaSiirto = kopioiTaulukko(tilanne);
-//        int apu = seuraavaSiirto[i];
-//        seuraavaSiirto[i] = seuraavaSiirto[tyhjanIndeksi];
-//        seuraavaSiirto[tyhjanIndeksi] = apu;
-//        return seuraavaSiirto;
-//    }
 
     /**
      * kopion muodostaminen taulukosta (manuaalinen System.arraycopy)
@@ -217,7 +201,6 @@ public class Haku {
         }
 
         TaulukkoPino lapsiPino = lapsetPinoon(tilanne);
-        //LinkitettyPino<Integer> reittiPino = new LinkitettyPino<Integer>();
 
         boolean onko = false;
         while (!lapsiPino.isEmpty()) {
@@ -243,13 +226,13 @@ public class Haku {
         // linear ei voi olla päällä ilman manhattania
         if (!manhattanOn) {
             while (!ratkaisuLoytynyt) {
-                ratkaisuLoytynyt = depthLimitedSearch(ALKUTILANNE, syvyys);
+                ratkaisuLoytynyt = depthLimitedSearch(alkutilanne, syvyys);
                 syvyys++;
             }
         } else {
-            int raja = m.laskeH(ALKUTILANNE, laudanLeveys, linearOn);
+            int raja = m.laskeH(alkutilanne, laudanLeveys, linearOn);
             while (!ratkaisuLoytynyt) {
-                ratkaisuLoytynyt = idaStarSearch(ALKUTILANNE, syvyys, raja, linearOn);
+                ratkaisuLoytynyt = idaStarSearch(alkutilanne, syvyys, raja, linearOn);
                 raja++;
 //                System.out.println(raja);
             }
@@ -287,6 +270,8 @@ public class Haku {
             if (onko) {
                 reittiPino.push(lapsi);            
                 siirtoja++;
+
+                
                 break;
             }
         }
@@ -319,7 +304,7 @@ public class Haku {
      * @return ALKUTILANNE
      */
     public int[] getAlkutilanne() {
-        return ALKUTILANNE;
+        return alkutilanne;
     }
 
     /**
@@ -337,5 +322,9 @@ public class Haku {
      */
     public int getSiirtojenMaara() {
         return siirtoja;
+    }
+    
+    public void setAlkutilanne(int[] tilanne) {
+        this.alkutilanne = tilanne;
     }
 }
