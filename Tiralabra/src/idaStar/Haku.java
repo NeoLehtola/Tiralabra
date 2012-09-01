@@ -1,7 +1,6 @@
 package idaStar;
 
 import sovelluslogiikka.Pelitapahtuma;
-import tietorakenteet.LinkitettyPino;
 import tietorakenteet.TaulukkoPino;
 
 /**
@@ -16,7 +15,6 @@ public class Haku {
     private int[] alkutilanne;
     private int laudanLeveys;
     private int edellinenTyhjanIndeksi; 
-    private Manhattan m;
     private boolean ratkaisuLoytynyt;
     private int siirtoja;
     private TaulukkoPino reittiPino;
@@ -32,7 +30,6 @@ public class Haku {
         this.alkutilanne = alkuArvotPelilaudalta();
         this.laudanLeveys = peli.getPelilauta().getLeveys();
         this.edellinenTyhjanIndeksi = perakkaisHaku(alkutilanne);
-        this.m = new Manhattan();
         this.ratkaisuLoytynyt = false;
         this.siirtoja = 0;
         this.reittiPino = new TaulukkoPino();
@@ -230,7 +227,7 @@ public class Haku {
                 syvyys++;
             }
         } else {
-            int raja = m.laskeH(alkutilanne, laudanLeveys, linearOn);
+            int raja = laskeH(alkutilanne, linearOn);
             while (!ratkaisuLoytynyt) {
                 ratkaisuLoytynyt = idaStarSearch(alkutilanne, syvyys, raja, linearOn);
                 raja++;
@@ -250,7 +247,7 @@ public class Haku {
      */
     public boolean idaStarSearch(int[] tilanne, int g, int raja, boolean linearOn) {
         
-        int h = m.laskeH(tilanne, laudanLeveys, false);
+        int h = laskeH(tilanne, false);
         if (h == 0) {
             return true;
         }
@@ -278,6 +275,51 @@ public class Haku {
 
         return onko;
 
+    }
+    
+        /**
+     * Tämä laskee Manhattan Distancen, ja etsii sitä varten jokaisen luvun
+     * koordinaatit nykyisessä tilanteessa sekä maalitilanteessa
+     *
+     * @param tilanne pelitilanne
+     * @param laudanLeveys
+     * @param laskeKonflikti jos true, otetaan Linear Conflict -tilanne
+     * huomioon.
+     *
+     * @return summa eli haluttu h-arvo
+     */
+    public int laskeH(int[] tilanne, boolean laskeKonflikti) {
+
+        int summa = 0;
+
+        for (int i = 0; i < tilanne.length; i++) {
+            if (tilanne[i] == -1) {
+                continue;
+            }
+            int vuorossa = tilanne[i];
+
+            int vuorossaXKoord = i % laudanLeveys;
+            int vuorossaYKoord = i / laudanLeveys;
+
+            int maaliXKoord = (vuorossa - 1) % laudanLeveys;
+            int maaliYKoord = (vuorossa - 1) / laudanLeveys;
+
+            /* linear conflict
+             * toistaiseksi ottaa huomioon vain vierekkäiset napit leveyssuunnassa,
+             * seuraavaksi muutan niin ettei tarvitse olla vierekkäin
+             */
+            if (laskeKonflikti && i > 0) {
+
+                //ensin tarkistetaan onko kaksi nappia "väärinpäin" ja sitten ovatko ne samalla rivillä
+                if (vuorossaYKoord == maaliYKoord && tilanne[i] == tilanne[i - 1] - 1 && i % laudanLeveys != 0) {
+                    summa += 2;
+                }
+            }
+
+            // h-arvon laskeminen
+            summa += Math.abs(vuorossaXKoord - maaliXKoord) + Math.abs(vuorossaYKoord - maaliYKoord);
+        }
+        return summa;
     }
 
     /**
