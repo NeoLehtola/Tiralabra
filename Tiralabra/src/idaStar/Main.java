@@ -36,7 +36,7 @@ public class Main {
         Haku haku = new Haku(new Pelitapahtuma(3, 3, 1000));
 //        haku.setAlkutilanne(test);
             long aloitusAika = System.nanoTime();
-        haku.iterativeDeepeningSearch(false, false);
+        haku.iterativeDeepeningSearch(true, true);
             long lopetusAika = System.nanoTime();
             double aika = (lopetusAika - aloitusAika) / 1000000;
             System.out.println(aika + " ms, siirtoja " + haku.getSiirtojenMaara());

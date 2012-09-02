@@ -304,39 +304,16 @@ public class Haku {
             int maaliYKoord = (vuorossa - 1) / laudanLeveys;
 
             /* linear conflict
-             * toistaiseksi ottaa huomioon vain vierekkäiset napit leveyssuunnassa,
-             * seuraavaksi muutan niin ettei tarvitse olla vierekkäin
+             * ottaa huomioon vain vierekkäiset napit leveyssuunnassa,
+             * 
              */
-            if (laskeKonflikti) {
-
-                if (vuorossaYKoord == maaliYKoord) {
-                    int seuraavaXKoord = vuorossaXKoord+1;
-                    int seuraavaYKoord = vuorossaYKoord;
-                    
-                    while (seuraavaXKoord % laudanLeveys != 0) {
-                        
-                        if (i + seuraavaXKoord >= tilanne.length) {
-                            break;
-                        }
-                        
-                        int seuraava = tilanne[i + seuraavaXKoord];
-                        
-                        if (seuraava == -1) {
-                            continue;
-                        }
-                        
-                        if (seuraavaYKoord == maaliYKoord) {
-                            if (seuraava < vuorossa) {
-                                summa += 2;
-                            }
-                            seuraavaXKoord += 1;
-                        }
-                        
-                        
-                    }
+            if (laskeKonflikti && i > 0) {
+              
+                //ensin tarkistetaan onko kaksi nappia "väärinpäin" ja sitten ovatko ne samalla rivillä
+                if (vuorossaYKoord == maaliYKoord && tilanne[i] == tilanne[i - 1] - 1 && i % laudanLeveys != 0) {
+                    summa += 2;
                 }
-                
-                
+           
             }
 
             // h-arvon laskeminen
