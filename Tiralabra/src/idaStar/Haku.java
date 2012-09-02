@@ -203,6 +203,7 @@ public class Haku {
 
             onko = depthLimitedSearch(lapsiPino.pop(), syvyys - 1);
             if (onko) {
+                siirtoja++;
                 break;
             }
         }
@@ -230,7 +231,7 @@ public class Haku {
             while (!ratkaisuLoytynyt) {
                 ratkaisuLoytynyt = idaStarSearch(alkutilanne, syvyys, raja, linearOn);
                 raja++;
-                System.out.println(raja);
+//                System.out.println(raja);
             }
         }
     }
@@ -319,6 +320,10 @@ public class Haku {
                         }
                         
                         int seuraava = tilanne[i + seuraavaXKoord];
+                        
+                        if (seuraava == -1) {
+                            continue;
+                        }
                         
                         if (seuraavaYKoord == maaliYKoord) {
                             if (seuraava < vuorossa) {
