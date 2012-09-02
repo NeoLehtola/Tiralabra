@@ -188,7 +188,6 @@ public class Haku {
      */
     public boolean depthLimitedSearch(int[] tilanne, int syvyys) {
                 
-
         if (onMaali(tilanne)) {
             return true;
         }
@@ -231,7 +230,7 @@ public class Haku {
             while (!ratkaisuLoytynyt) {
                 ratkaisuLoytynyt = idaStarSearch(alkutilanne, syvyys, raja, linearOn);
                 raja++;
-//                System.out.println(raja);
+                System.out.println(raja);
             }
         }
     }
@@ -247,7 +246,7 @@ public class Haku {
      */
     public boolean idaStarSearch(int[] tilanne, int g, int raja, boolean linearOn) {
         
-        int h = laskeH(tilanne, false);
+        int h = laskeH(tilanne, linearOn);
         if (h == 0) {
             return true;
         }
@@ -267,8 +266,7 @@ public class Haku {
             if (onko) {
                 reittiPino.push(lapsi);            
                 siirtoja++;
-
-                
+           
                 break;
             }
         }
@@ -277,7 +275,7 @@ public class Haku {
 
     }
     
-        /**
+    /**
      * Tämä laskee Manhattan Distancen, ja etsii sitä varten jokaisen luvun
      * koordinaatit nykyisessä tilanteessa sekä maalitilanteessa
      *
@@ -308,12 +306,32 @@ public class Haku {
              * toistaiseksi ottaa huomioon vain vierekkäiset napit leveyssuunnassa,
              * seuraavaksi muutan niin ettei tarvitse olla vierekkäin
              */
-            if (laskeKonflikti && i > 0) {
+            if (laskeKonflikti) {
 
-                //ensin tarkistetaan onko kaksi nappia "väärinpäin" ja sitten ovatko ne samalla rivillä
-                if (vuorossaYKoord == maaliYKoord && tilanne[i] == tilanne[i - 1] - 1 && i % laudanLeveys != 0) {
-                    summa += 2;
+                if (vuorossaYKoord == maaliYKoord) {
+                    int seuraavaXKoord = vuorossaXKoord+1;
+                    int seuraavaYKoord = vuorossaYKoord;
+                    
+                    while (seuraavaXKoord % laudanLeveys != 0) {
+                        
+                        if (i + seuraavaXKoord >= tilanne.length) {
+                            break;
+                        }
+                        
+                        int seuraava = tilanne[i + seuraavaXKoord];
+                        
+                        if (seuraavaYKoord == maaliYKoord) {
+                            if (seuraava < vuorossa) {
+                                summa += 2;
+                            }
+                            seuraavaXKoord += 1;
+                        }
+                        
+                        
+                    }
                 }
+                
+                
             }
 
             // h-arvon laskeminen
@@ -365,6 +383,7 @@ public class Haku {
     public int getSiirtojenMaara() {
         return siirtoja;
     }
+    
     
     public void setAlkutilanne(int[] tilanne) {
         this.alkutilanne = tilanne;
