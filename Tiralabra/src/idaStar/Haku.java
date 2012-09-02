@@ -201,8 +201,10 @@ public class Haku {
         boolean onko = false;
         while (!lapsiPino.isEmpty()) {
 
-            onko = depthLimitedSearch(lapsiPino.pop(), syvyys - 1);
+            int[] lapsi = lapsiPino.pop();
+            onko = depthLimitedSearch(lapsi, syvyys - 1);
             if (onko) {
+                reittiPino.push(lapsi);
                 siirtoja++;
                 break;
             }
